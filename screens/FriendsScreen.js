@@ -2,6 +2,7 @@ import React from 'react';
 import {
   ScrollView,
   StyleSheet,
+  Text,
 } from 'react-native';
 import {
   ExponentLinksView,
@@ -10,7 +11,7 @@ import {
 export default class FriendsScreen extends React.Component {
   static route = {
     navigationBar: {
-      title: 'Links',
+      title: 'Friends',
     },
   }
 
@@ -19,11 +20,7 @@ export default class FriendsScreen extends React.Component {
       <ScrollView
         style={styles.container}
         contentContainerStyle={this.props.route.getContentContainerStyle()}>
-
-        { /* Go ahead and delete ExponentLinksView and replace it with your
-           * content, we just wanted to provide you with some helpful links */ }
-        <ExponentLinksView />
-
+        <Text>This is where the friends screen will live</Text>
       </ScrollView>
     );
   }
