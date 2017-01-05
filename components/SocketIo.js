@@ -1,4 +1,5 @@
 import io from 'socket.io-client';
-const socket = io.connect(' http://652f4185.ngrok.io');
+import { ngrokURL } from '../lib/localvars.js';
+const socket = io.connect(ngrokURL);
 
 module.exports = socket;
