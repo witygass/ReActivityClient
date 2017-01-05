@@ -9,7 +9,7 @@ import {
 } from '@exponent/samples';
 
 import socket from '../components/SocketIo';
-import { ngrokURL } from '../lib/localvars.js';
+import { serverURL } from '../lib/localvars.js';
 
 export default class ProfileScreen extends React.Component {
   static route = {
@@ -39,7 +39,7 @@ export default class ProfileScreen extends React.Component {
       this.setState(data: data);
     });
 
-    fetch(ngrokURL + '/api/test').then(function(response){
+    fetch(serverURL + '/api/test').then(function(response){
       console.log('normal GET request answer: ', response._bodyText);
     })
 
