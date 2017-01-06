@@ -20,7 +20,12 @@ export default class CreateEventScreen extends React.Component {
       numPlayers: '',
       summary: ''
     }
+
+    // Bind this to functions
+    this.submit = this.submit.bind(this);
   }
+
+
 
   render() {
     return (
@@ -85,19 +90,16 @@ export default class CreateEventScreen extends React.Component {
 
 
   submit() {
-    console.log('THIS IS BEING CALLED');
-    var that = this;
-    console.log('state is:' + that.state);
-    // var event = {
-    //   where: this.state.where,
-    //   when: this.state.when,
-    //   numPlayers: this.state.numPlayers,
-    //   summary: this.state.summary
-    // }
-    // store.dispatch({
-    //   type: 'ADD_EVENT',
-    //   event: event
-    // });
+    var event = {
+      where: this.state.where,
+      when: this.state.when,
+      numPlayers: this.state.numPlayers,
+      summary: this.state.summary
+    }
+    store.dispatch({
+      type: 'ADD_EVENT',
+      event: event
+    });
   }
 
 }
