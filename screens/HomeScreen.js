@@ -9,8 +9,10 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-
+import EventListEntry from '../components/EventListEntry';
+import EventTypeFilterBar from '../components/EventTypeFilterBar';
 import { MonoText } from '../components/StyledText';
+import dummyEventData from './dummyData/dummyEventData';
 
 export default class HomeScreen extends React.Component {
   static route = {
@@ -20,97 +22,117 @@ export default class HomeScreen extends React.Component {
   }
 
   render() {
+    console.log(dummyEventData);
     return (
       <View style={styles.container}>
-        <ScrollView
-          style={styles.container}
-          contentContainerStyle={styles.contentContainer}>
-
-          <View style={styles.welcomeContainer}>
-            <Image
-              source={require('../assets/images/exponent-wordmark.png')}
-              style={styles.welcomeImage}
-            />
-          </View>
-
-
-          <View style={styles.getStartedContainer}>
-            {this._maybeRenderDevelopmentModeWarning()}
-
-            <Text style={styles.getStartedText}>
-              Get started by opening
-            </Text>
-
-            <View style={[styles.codeHighlightContainer, styles.homeScreenFilename]}>
-              <MonoText style={styles.codeHighlightText}>
-                screens/HomeScreen.js
-              </MonoText>
-            </View>
-
-            <Text style={styles.getStartedText}>
-              Change this text and your app will automatically reload.
-            </Text>
-          </View>
-
-          <View style={styles.helpContainer}>
-            <TouchableOpacity onPress={this._handleHelpPress} style={styles.helpLink}>
-              <Text style={styles.helpLinkText}>
-                Help, it didn’t automatically reload!
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </ScrollView>
-
-        <View style={styles.tabBarInfoContainer}>
-          <Text style={styles.tabBarInfoText}>
-            This is a tab bar. You can edit it in:
-          </Text>
-
-          <View style={[styles.codeHighlightContainer, styles.navigationFilename]}>
-            <MonoText style={styles.codeHighlightText}>
-              navigation/RootNavigation.js
-            </MonoText>
-          </View>
+        <View style={{height: 40}}>
+          <EventTypeFilterBar/>
+        </View>
+        <View style={{}}>
+          <ScrollView>
+            {dummyEventData.map((event)=> <EventListEntry event={event} key={event.key}/>)}
+          </ScrollView>
         </View>
       </View>
-    );
+    )
   }
 
-  _maybeRenderDevelopmentModeWarning() {
-    if (__DEV__) {
-      const learnMoreButton = (
-        <Text onPress={this._handleLearnMorePress} style={styles.helpLinkText}>
-          Learn more
-        </Text>
-      );
+  // render() {
+  //   return (
+  //     <View style={styles.container}>
+  //       <ScrollView
+  //         style={styles.container}
+  //         contentContainerStyle={styles.contentContainer}>
+  //
+  //         <View style={styles.welcomeContainer}>
+  //           <Image
+  //             source={require('../assets/images/exponent-wordmark.png')}
+  //             style={styles.welcomeImage}
+  //           />
+  //         </View>
+  //
+  //
+  //         <View style={styles.getStartedContainer}>
+  //           {this._maybeRenderDevelopmentModeWarning()}
+  //
+  //           <Text style={styles.getStartedText}>
+  //             Get started by opening
+  //           </Text>
+  //
+  //           <View style={[styles.codeHighlightContainer, styles.homeScreenFilename]}>
+  //             <MonoText style={styles.codeHighlightText}>
+  //               screens/HomeScreen.js
+  //             </MonoText>
+  //           </View>
+  //
+  //           <Text style={styles.getStartedText}>
+  //             Change this text and your app will automatically reload.
+  //           </Text>
+  //         </View>
+  //
+  //         <View style={styles.helpContainer}>
+  //           <TouchableOpacity onPress={this._handleHelpPress} style={styles.helpLink}>
+  //             <Text style={styles.helpLinkText}>
+  //               Help, it didn’t automatically reload!
+  //             </Text>
+  //           </TouchableOpacity>
+  //         </View>
+  //       </ScrollView>
+  //
+  //       <View style={styles.tabBarInfoContainer}>
+  //         <Text style={styles.tabBarInfoText}>
+  //           This is a tab bar. You can edit it in:
+  //         </Text>
+  //
+  //         <View style={[styles.codeHighlightContainer, styles.navigationFilename]}>
+  //           <MonoText style={styles.codeHighlightText}>
+  //             navigation/RootNavigation.js
+  //           </MonoText>
+  //         </View>
+  //       </View>
+  //     </View>
+  //   );
+  // }
 
-      return (
-        <Text style={styles.developmentModeText}>
-          Development mode is enabled, your app will run slightly slower but
-          you have access to useful development tools. {learnMoreButton}.
-        </Text>
-      );
-    } else {
-      return (
-        <Text style={styles.developmentModeText}>
-          You are not in development mode, your app will run at full speed.
-        </Text>
-      );
-    }
-  }
-
-  _handleLearnMorePress = () => {
-    Linking.openURL('https://docs.getexponent.com/versions/latest/guides/development-mode');
-  }
-
-  _handleHelpPress = () => {
-    Linking.openURL('https://docs.getexponent.com/versions/latest/guides/up-and-running.html#can-t-see-your-changes');
-  }
+  // _maybeRenderDevelopmentModeWarning() {
+  //   if (__DEV__) {
+  //     const learnMoreButton = (
+  //       <Text onPress={this._handleLearnMorePress} style={styles.helpLinkText}>
+  //         Learn more
+  //       </Text>
+  //     );
+  //
+  //     return (
+  //       <Text style={styles.developmentModeText}>
+  //         Development mode is enabled, your app will run slightly slower but
+  //         you have access to useful development tools. {learnMoreButton}.
+  //       </Text>
+  //     );
+  //   } else {
+  //     return (
+  //       <Text style={styles.developmentModeText}>
+  //         You are not in development mode, your app will run at full speed.
+  //       </Text>
+  //     );
+  //   }
+  // }
+  //
+  // _handleLearnMorePress = () => {
+  //   Linking.openURL('https://docs.getexponent.com/versions/latest/guides/development-mode');
+  // }
+  //
+  // _handleHelpPress = () => {
+  //   Linking.openURL('https://docs.getexponent.com/versions/latest/guides/up-and-running.html#can-t-see-your-changes');
+  // }
 }
 
 const styles = StyleSheet.create({
   container: {
+    marginTop: 40,
     flex: 1,
+    flexDirection: 'column',
+    alignItems: 'stretch',
+    justifyContent: 'center',
     backgroundColor: '#fff',
   },
   developmentModeText: {
@@ -120,7 +142,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   contentContainer: {
-    paddingTop: 80,
+    paddingTop: 20,
   },
   welcomeContainer: {
     alignItems: 'center',
