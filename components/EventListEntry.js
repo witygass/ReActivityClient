@@ -86,6 +86,7 @@ const styles = StyleSheet.create({
     fontSize: 17
   },
   description: {
+    color: 'darkslategray',
     marginTop: 5,
     marginRight: 3,
     fontSize: 13,

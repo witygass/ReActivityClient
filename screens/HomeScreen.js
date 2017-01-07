@@ -1,18 +1,29 @@
 import React from 'react';
 import {
+  Button,
   Image,
   Linking,
   Platform,
+  RefreshControl,
   ScrollView,
   StyleSheet,
   Text,
+  TouchableHighlight,
   TouchableOpacity,
   View,
 } from 'react-native';
+import {
+  createRouter,
+  NavigationProvider,
+  StackNavigation,
+} from '@exponent/ex-navigation';
+import Router from '../navigation/Router'
 import EventListEntry from '../components/EventListEntry';
 import EventTypeFilterBar from '../components/EventTypeFilterBar';
+import HomeScreenHeader from '../components/HomeScreenHeader';
 import { MonoText } from '../components/StyledText';
 import dummyEventData from './dummyData/dummyEventData';
+
 
 export default class HomeScreen extends React.Component {
   static route = {
@@ -21,22 +32,55 @@ export default class HomeScreen extends React.Component {
     },
   }
 
+  constructor() {
+    super()
+    this.state = {
+      isRefreshing: false,
+      loaded: 0,
+      rowData: Array.from(new Array(20)).map(
+        (val, i) => ({text: 'Initial row ' + i, clicks: 0})),
+    };
+    this._onRefresh = this._onRefresh.bind(this);
+  }
+
+  _onRefresh() {
+     this.setState({refreshing: true});
+    //  fetchData().then(() => {
+    //    this.setState({refreshing: false});
+    //  });
+   }
+
   render() {
-    console.log(dummyEventData);
     return (
       <View style={styles.container}>
-        <View style={{height: 40}}>
-          <EventTypeFilterBar/>
-        </View>
-        <View style={{}}>
-          <ScrollView>
-            {dummyEventData.map((event)=> <EventListEntry event={event} key={event.key}/>)}
-          </ScrollView>
+        <View style={styles.contentContainer}>
+          <View style={{flex: 0, height: 30, flexDirection: 'column', justifyContent: 'center', alignItems: 'stretch', backgroundColor: 'paleturquoise'}}>
+            <HomeScreenHeader/>
+          </View>
+            <View style={{height: 40}}>
+              <EventTypeFilterBar/>
+            </View>
+          <View>
+            <ScrollView
+              style={styles.scrollview}
+              refreshControl={
+                <RefreshControl
+                  refreshing={this.state.isRefreshing}
+                  onRefresh={this._onRefresh}
+                  tintColor="silver"
+                  title="Loading..."
+                  titleColor="silver"
+                />
+              }>
+              {dummyEventData.map((event)=> <EventListEntry event={event} key={event.key}/>)}
+            </ScrollView>
+          </View>
         </View>
       </View>
     )
   }
 
+  ////////////////////////////////////////////////////////////////////////////////////////////////
   // render() {
   //   return (
   //     <View style={styles.container}>
@@ -128,7 +172,7 @@ export default class HomeScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 40,
+    // marginTop: 40,
     flex: 1,
     flexDirection: 'column',
     alignItems: 'stretch',
