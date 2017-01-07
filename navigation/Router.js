@@ -10,6 +10,8 @@ import FriendsScreen from '../screens/FriendsScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import RootNavigation from './RootNavigation';
 import CreateEventScreen from '../screens/CreateEventScreen';
+import RealProfileScreen from '../screens/RealProfileScreen';
+import EventViewScreen from '../screens/EventViewScreen';
 
 export default createRouter(() => ({
   home: () => HomeScreen,
@@ -19,5 +21,7 @@ export default createRouter(() => ({
   links: () => LinksScreen,
   settings: () => SettingsScreen,
   rootNavigation: () => RootNavigation,
-  createEvent: () => CreateEventScreen
+  createEvent: () => CreateEventScreen,
+  realProfile: () => RealProfileScreen,
+  eventView: () => EventViewScreen
 }));
