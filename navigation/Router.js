@@ -5,7 +5,7 @@ import {
 import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import MapScreen from '../screens/MapScreen';
-import ProfileScreen from '../screens/ProfileScreen';
+import SigninScreen from '../screens/SigninScreen';
 import FriendsScreen from '../screens/FriendsScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import RootNavigation from './RootNavigation';
@@ -16,7 +16,7 @@ import EventViewScreen from '../screens/EventViewScreen';
 export default createRouter(() => ({
   home: () => HomeScreen,
   map: () => MapScreen,
-  profile: () => ProfileScreen,
+  signin: () => SigninScreen,
   friends: () => FriendsScreen,
   links: () => LinksScreen,
   settings: () => SettingsScreen,
