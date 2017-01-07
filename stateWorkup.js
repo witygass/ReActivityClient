@@ -13,6 +13,16 @@ var state = {
       large: 'String'
     }
   },
+  userUpcomingEvents: [],
+  profileUrl: '',
+  interests: [],
+  locationDetails: {
+    town: '',
+    state: '',
+    country: '',
+    lat: 'num',
+    lon: 'num'
+  },
   userToken: ['String'],
   userFriends: ['Object[miniProfile]', 'Object[miniProfile]'],
   nearbyEvents: ['Object[event]', 'Object[event]'],
@@ -23,6 +33,18 @@ var state = {
   // The following are more variable in nature; they reflect structural state
   currentlyViewing: 'Object[event]'
 }
+
+/*
+
+upcoming
+profile url
+interests
+next 5 activites
+location details
+
+
+
+*/
 
 // These are object contracts. They describe the shape of various useful objects. Should an object
 // need a different shape, please reflect those changes here.
@@ -42,21 +64,15 @@ var event = {
   eventType: 'String(e.g., "Basketball")',
   minPlayers: 'Number or Null',
   maxPlayers: 'Number or Null',
-  eventPhoto: 'String'
+  eventPhoto: 'String',
+  attendees: []
 }
 
 
 
 var miniProfile = {
-  username: 'String',
-  name: 'String',
-  bio: 'String',
-  feed: ['String', 'String', 'String'],
-  photo: {
-    small: 'String',
-    medium: 'String',
-    large: 'String'
-  }
+  username: 'String'
+  // ajax for rest
 }
 
 

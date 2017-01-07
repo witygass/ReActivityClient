@@ -21,9 +21,10 @@ export default class ProfileScreen extends React.Component {
   }
   componentDidMount() {
     socket.on('news', function (data) {
-      console.log(data);
+      console.log('data', data);
       socket.emit('my other event', { my: 'data' });
-    });
+    })
+
   }
 
   state = {

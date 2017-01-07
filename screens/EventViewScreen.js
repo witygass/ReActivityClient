@@ -20,16 +20,39 @@ export default class EventViewScreen extends React.Component {
 
 
     // Bind this to functions
-    // this.renderFeed = this.renderFeed.bind(this);
+    this.renderAttendees = this.renderAttendees.bind(this);
   }
 
+  renderAttendees(att) {
+    var code = [];
+    for (var i = 0; i < att.length; i++) {
+      var snippet = (
+        <Text>
+          --{att[i]}
+        </Text>
+      )
+      code.push(snippet);
+    }
+    return code;
+  }
+
+
   render() {
+    var that = this;
     return (
 
       <View style={styles.container}>
         <ScrollView style={styles.container}
           contentContainer={styles.contentContainer}>
           <View style={styles.formImageContainer}>
+            <Text
+              onPress = {
+                function() {
+                  that.props.navigator.pop();
+                }
+              }>
+              Back 
+            </Text>
             <Image 
               style={styles.formImage}
               source={{uri: this.state.eventPhoto}}/>
@@ -57,6 +80,13 @@ export default class EventViewScreen extends React.Component {
             <Text>
               Player Range: Between {this.state.minPlayers} and {this.state.maxPlayers} players.
             </Text>
+            <Text>
+            ---------------------------
+            </Text>
+            <Text>
+              Coming:
+            </Text>
+            {this.renderAttendees(this.state.attendees)}
             
           </View>
         </ScrollView>
@@ -64,6 +94,7 @@ export default class EventViewScreen extends React.Component {
     
     )
   }
+
 }
 
 const styles = StyleSheet.create({
