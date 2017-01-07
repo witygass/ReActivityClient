@@ -22,6 +22,7 @@ import registerForPushNotificationsAsync from '../api/registerForPushNotificatio
 export default class RootNavigation extends React.Component {
   componentDidMount() {
     this._notificationSubscription = this._registerForPushNotifications();
+    console.log('Root navigation.js starting.')
   }
 
   componentWillUnmount() {
@@ -44,22 +45,20 @@ export default class RootNavigation extends React.Component {
           renderIcon={isSelected => this._renderIcon('map-marker', isSelected)}>
           <StackNavigation initialRoute="map" />
         </TabNavigationItem>
-
-        <TabNavigationItem
-          id="profile"
-          renderIcon={isSelected => this._renderIcon('user', isSelected)}>
-          <StackNavigation initialRoute="profile" />
-        </TabNavigationItem>
-
-        <TabNavigationItem
-          id="friends"
-          renderIcon={isSelected => this._renderIcon('group', isSelected)}>
-          <StackNavigation initialRoute="friends" />
-        </TabNavigationItem>
         <TabNavigationItem
           id="createEvent"
           renderIcon={isSelected => this._renderIcon('circle', isSelected)}>
           <StackNavigation initialRoute="createEvent" />
+        </TabNavigationItem>
+        <TabNavigationItem
+          id="realProfile"
+          renderIcon={isSelected => this._renderIcon('arrows', isSelected)}>
+          <StackNavigation initialRoute="realProfile" />
+        </TabNavigationItem>
+        <TabNavigationItem
+          id="eventView"
+          renderIcon={isSelected => this._renderIcon('bolt', isSelected)}>
+          <StackNavigation initialRoute="eventView" />
         </TabNavigationItem>
       </TabNavigation>
     );

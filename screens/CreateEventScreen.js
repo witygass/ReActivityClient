@@ -51,7 +51,7 @@ export default class CreateEventScreen extends React.Component {
               When:
             </Text>
             <TextInput 
-              onChangeText = {(text) => this.setState({when: text})} // Later, add redux command to update state
+              onChangeText = {(text) => this.setState({when: text})} // Later, add redux te state
               style = {styles.inputStyle}
             />
             <Text>

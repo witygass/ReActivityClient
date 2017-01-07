@@ -11,6 +11,8 @@ import {
 import socket from '../components/SocketIo';
 import { serverURL } from '../lib/localvars.js';
 
+import { store } from '../lib/reduxStore.js';
+
 export default class ProfileScreen extends React.Component {
   static route = {
     navigationBar: {
@@ -53,6 +55,13 @@ export default class ProfileScreen extends React.Component {
       })
     }).then(function(response){
       console.log('Token: ', JSON.parse(response._bodyText));
+      var token = JSON.parse(response._bodyText).token;
+      store.dispatch({
+        type: 'ADD_USER_TOKEN',
+        token: token
+      });
+      console.log('Current state:', store.getState());
+
     })
   }
   _sendGET = () => {
