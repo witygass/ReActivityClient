@@ -9,7 +9,7 @@ import {
 } from '@exponent/samples';
 
 import socket from '../components/SocketIo';
-import { ngrokURL } from '../lib/localvars.js';
+import { serverURL } from '../lib/localvars.js';
 
 export default class ProfileScreen extends React.Component {
   static route = {
@@ -38,11 +38,33 @@ export default class ProfileScreen extends React.Component {
     socket.on('ping', (data) => {
       this.setState(data: data);
     });
+  }
 
-    fetch(ngrokURL + '/api/test').then(function(response){
-      console.log('normal GET request answer: ', response._bodyText);
+  _getToken = () => {
+    fetch(serverURL + '/auth/login', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: "john@mail.com",
+        password: "john123",
+      })
+    }).then(function(response){
+      console.log('Token: ', JSON.parse(response._bodyText));
     })
-
+  }
+  _sendGET = () => {
+    fetch(serverURL + '/api/test', {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      }
+    }).then(function(response){
+      console.log('Answer: ', response._bodyText);
+    })
   }
 
   render() {
@@ -58,6 +80,9 @@ export default class ProfileScreen extends React.Component {
             socket connection: {this.state.data}
           </Text>
         )}
+
+        <Text onPress={this._getToken}>Click here to get a token!</Text>
+        <Text onPress={this._sendGET}>Click here to send GET request!</Text>
       </ScrollView>
     );
   }
