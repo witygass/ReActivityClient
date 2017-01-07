@@ -13,6 +13,7 @@ var state = {
       large: 'String'
     }
   },
+  userToken: ['String'],
   userFriends: ['Object[miniProfile]', 'Object[miniProfile]'],
   nearbyEvents: ['Object[event]', 'Object[event]'],
   friendsEvents: ['Object[event]', 'Object[event]'],
