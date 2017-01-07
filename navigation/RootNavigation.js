@@ -63,6 +63,11 @@ export default class RootNavigation extends React.Component {
       </TabNavigation>
     );
   }
+  // <TabNavigationItem
+  //   id="createEvent"
+  //   renderIcon={isSelected => this._renderIcon('circle', isSelected)}>
+  //   <StackNavigation initialRoute="createEvent" />
+  // </TabNavigationItem>
 
   _renderIcon(name, isSelected) {
     return (

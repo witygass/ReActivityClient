@@ -1,33 +1,40 @@
 import React from 'react';
 import {
-  Image,
+  Button,
   Linking,
   Platform,
-  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
   Dimensions,
 } from 'react-native';
+import Router from '../navigation/Router';
+import { withNavigation } from '@exponent/ex-navigation';
 
-export default class EventTypeFilterBar extends React.Component {
+@withNavigation
+export default class HomeScreenHeader extends React.Component {
   constructor(props) {
     super(props);
+    this.navigateToAddEvent = this.navigateToAddEvent.bind(this);
+  }
+
+  navigateToAddEvent() {
+    this.props.navigator.push(Router.getRoute('createEvent'));
   }
 
   render() {
     return (
-        <View style={styles.filterBar}>
-          <TouchableOpacity style={styles.filterOption}>
-            <Text style={styles.filterOptionText}>Mine</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.filterOption}>
-            <Text style={styles.filterOptionText}>Friends</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.filterOption}>
-            <Text style={styles.filterOptionText}>Nearby</Text>
-          </TouchableOpacity>
+      <View style={styles.filterBar}>
+        <View style={styles.filterOption}>
+          <Text style={styles.filterOptionText}>Activities</Text>
+        </View>
+        <Button
+          onPress={this.navigateToAddEvent}
+          title="⊕"
+          color="midnightblue"
+          accessibilityLabel="Add Event"
+          />
       </View>
     );
   }
@@ -59,15 +66,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     width: width * .33332,
-    backgroundColor: 'aliceblue',
-    borderStyle: 'solid',
-    borderColor: 'white',
-    borderWidth: 1,
-    // borderRadius: 5,
+    // borderStyle: 'solid',
+    // borderTopColor: 'silver',
+    // borderWidth: 1,
   },
   filterOptionText: {
-    color: 'darkslategray',
+    marginLeft: width * .07,
     textAlign: 'center',
     fontSize: 17,
+    color: 'midnightblue',
   }
 });

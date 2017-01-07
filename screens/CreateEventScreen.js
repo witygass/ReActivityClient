@@ -19,13 +19,16 @@ export default class CreateEventScreen extends React.Component {
       when: '',
       numPlayers: '',
       summary: ''
-    }
+    };
 
     // Bind this to functions
     this.submit = this.submit.bind(this);
+    this.goBack = this.goBack.bind(this);
   }
 
-
+  goBack() {
+    this.props.navigator.pop();
+  }
 
   render() {
     return (
@@ -34,15 +37,20 @@ export default class CreateEventScreen extends React.Component {
         <ScrollView style={styles.container}
           contentContainer={styles.contentContainer}>
           <View style={styles.formImageContainer}>
-            <Image 
+            <Image
               style={styles.formImage}
               source={{uri: 'https://upload.wikimedia.org/wikipedia/commons/3/3d/Grapes_%284737199646%29.jpg'}}/>
+              <Button
+                onPress={this.goBack}
+                title={'<= Go Back'}
+                style={{alignSelf: 'left'}}
+              />
           </View>
           <View style={styles.formContainer}>
             <Text>
               Where:
             </Text>
-            <TextInput 
+            <TextInput
               onChangeText = {(text) => this.setState({where: text})} // Later, add redux command to update state
               value = {this.state.where}
               style = {styles.inputStyle}
@@ -57,14 +65,14 @@ export default class CreateEventScreen extends React.Component {
             <Text>
               Number of Players:
             </Text>
-            <TextInput 
+            <TextInput
               onChangeText = {(text) => this.setState({numPlayers: text})} // Later, add redux command to update state
               style = {styles.inputStyle}
             />
             <Text>
               Summary:
             </Text>
-            <TextInput 
+            <TextInput
               onChangeText = {(text) => this.setState({summary: text})} // Later, add redux command to update state
               style = {styles.inputStyle}
             />
@@ -83,8 +91,7 @@ export default class CreateEventScreen extends React.Component {
           </View>
         </ScrollView>
       </View>
-    
-    )
+    );
   }
 
 
@@ -95,7 +102,7 @@ export default class CreateEventScreen extends React.Component {
       when: this.state.when,
       numPlayers: this.state.numPlayers,
       summary: this.state.summary
-    }
+    };
     store.dispatch({
       type: 'ADD_EVENT',
       event: event
@@ -105,44 +112,32 @@ export default class CreateEventScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#fff'
-    },
-    contentContainer: {
-      paddingTop: 80
-    },
-    formImageContainer: {
-      alignItems: 'center',
-      marginTop: 20,
-      marginBottom: 20
-    },
-    formContainer: {
-      marginTop: 10,
-      marginBottom: 20
-    },
-    formImage: {
-      width: 400,
-      height: 150,
-      marginTop: 3
-    },
-    inputStyle: {
-      height: 40
-    },
-    buttonContainer: {
-      marginTop: 10,
-      marginBottom: 20
-    }
-
-})
-
-
-
-
-
-
-
-
-
-
-
+  container: {
+    flex: 1,
+    backgroundColor: '#fff'
+  },
+  contentContainer: {
+    paddingTop: 80
+  },
+  formImageContainer: {
+    alignItems: 'center',
+    marginTop: 20,
+    marginBottom: 20
+  },
+  formContainer: {
+    marginTop: 10,
+    marginBottom: 20
+  },
+  formImage: {
+    width: 400,
+    height: 150,
+    marginTop: 3
+  },
+  inputStyle: {
+    height: 40
+  },
+  buttonContainer: {
+    marginTop: 10,
+    marginBottom: 20
+  }
+});
