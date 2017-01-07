@@ -19,28 +19,34 @@ export default class RealProfileScreen extends React.Component {
     // Bind this to functions
     this.updateProfile = this.updateProfile.bind(this);
     this.renderFeed = this.renderFeed.bind(this);
+
+    
   }
+  
 
   renderFeed(feed) {
     var that = this;
     var code = [];
     console.log('Feed is:', feed);
     for (var i = 0; i < feed.length; i++) {
+      var b = i;
       var a = (
         <View>
         <Text>
-        {feed[i]}
+        {feed[i].eventType} played.
         </Text>
         <Button
-        onPress = {
+          onPress = {
             function() {
+
               store.dispatch({
                 type: 'CHANGE_EVENT_VIEW',
-                event: feed[i]
+                event: this
               });
+              console.log('Store has been updated. state is:', store.getState().currentlyViewing)
               // Reroute
               that.props.navigator.push('eventView');
-            }
+            }.bind(feed[b])
           }
           title = 'View'
           color = '#208090'

@@ -32,6 +32,7 @@ export default class HomeScreen extends React.Component {
     },
   }
 
+
   constructor() {
     super()
     this.state = {
@@ -49,6 +50,7 @@ export default class HomeScreen extends React.Component {
     //    this.setState({refreshing: false});
     //  });
    }
+
 
   render() {
     return (
@@ -79,6 +81,7 @@ export default class HomeScreen extends React.Component {
       </View>
     )
   }
+}
 
   ////////////////////////////////////////////////////////////////////////////////////////////////
   // render() {
@@ -168,7 +171,7 @@ export default class HomeScreen extends React.Component {
   // _handleHelpPress = () => {
   //   Linking.openURL('https://docs.getexponent.com/versions/latest/guides/up-and-running.html#can-t-see-your-changes');
   // }
-}
+
 
 const styles = StyleSheet.create({
   container: {
