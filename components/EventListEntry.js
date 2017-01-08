@@ -16,6 +16,7 @@ export default class EventListEntry extends React.Component {
     super(props);
   }
   render() {
+    console.log('location:', this.props.event.location)
     return (
       <TouchableOpacity>
         <View style={styles.container}>
@@ -24,11 +25,11 @@ export default class EventListEntry extends React.Component {
               style={styles.creatorPhoto}
               source={{uri: 'https://facebook.github.io/react/img/logo_og.png'}}
               />
-            <Text style={styles.creatorName}>{this.props.event.creatorName}</Text>
+            <Text style={styles.creatorName}>{this.props.event.id}</Text>
           </View >
           <View style={styles.details}>
             <Text style={styles.title}>{this.props.event.title}</Text>
-            <Text style={styles.description}>{this.props.event.description}</Text>
+            <Text style={styles.description}>Place: {this.props.event.locationId}</Text>
           </View>
       </View>
     </TouchableOpacity>

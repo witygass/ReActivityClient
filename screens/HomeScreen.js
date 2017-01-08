@@ -23,6 +23,8 @@ import EventTypeFilterBar from '../components/EventTypeFilterBar';
 import HomeScreenHeader from '../components/HomeScreenHeader';
 import { MonoText } from '../components/StyledText';
 import dummyEventData from './dummyData/dummyEventData';
+import { api } from '../lib/ajaxCalls.js';
+import { store } from '../lib/reduxStore.js';
 
 
 export default class HomeScreen extends React.Component {
@@ -36,23 +38,35 @@ export default class HomeScreen extends React.Component {
   constructor() {
     super()
     this.state = {
-      isRefreshing: false,
+      refreshing: false,
       loaded: 0,
       rowData: Array.from(new Array(20)).map(
         (val, i) => ({text: 'Initial row ' + i, clicks: 0})),
+      nearbyEvents: store.getState().nearbyEvents
     };
     this._onRefresh = this._onRefresh.bind(this);
   }
 
   _onRefresh() {
-     this.setState({refreshing: true});
-    //  fetchData().then(() => {
-    //    this.setState({refreshing: false});
-    //  });
-   }
+    var that = this;
+    // this.setState({refreshing: true});
+    api.getNearbyEvents({}, function(events) {
+      store.dispatch({
+        type: 'UPDATE_NEARBY_EVENT_TABLE',
+        events: events
+      });
+      that.setState({nearbyEvents: events});
+      console.log('state is:', that.state.nearbyEvents);
+      // that.setState({refreshing: false});
+
+    })
+    
+  }
 
 
   render() {
+    var that = this;
+    console.log('RENDER STATE:', typeof that.state.nearbyEvents)
     return (
       <View style={styles.container}>
         <View style={styles.contentContainer}>
@@ -67,14 +81,17 @@ export default class HomeScreen extends React.Component {
               style={styles.scrollview}
               refreshControl={
                 <RefreshControl
-                  refreshing={this.state.isRefreshing}
+                  refreshing={this.state.refreshing}
                   onRefresh={this._onRefresh}
                   tintColor="silver"
                   title="Loading..."
                   titleColor="silver"
                 />
               }>
-              {dummyEventData.map((event)=> <EventListEntry event={event} key={event.key}/>)}
+              {
+
+
+                that.state.nearbyEvents.map((event)=> <EventListEntry event={event} key={event.id}/>)}
             </ScrollView>
           </View>
         </View>

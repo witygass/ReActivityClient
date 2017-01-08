@@ -31,7 +31,7 @@ export default class RealProfileScreen extends React.Component {
     for (var i = 0; i < feed.length; i++) {
       var b = i;
       var a = (
-        <View>
+        <View key = {i}>
         <Text>
         {feed[i].eventType} played.
         </Text>
