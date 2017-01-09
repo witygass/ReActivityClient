@@ -8,6 +8,8 @@ import {
 import {Location, Permissions} from 'exponent';
 import MapView from 'react-native-maps';
 
+import { store } from '../lib/reduxStore.js';
+
 var getLocationAsync = async function() {
   const { status } = await Permissions.askAsync(Permissions.LOCATION);
   if (status === 'granted') {
@@ -22,8 +24,8 @@ export default class MapScreen extends React.Component {
     super(props);
     this.state = {
       region: {
-        latitude: 37.78825,
-        longitude: -122.4324,
+        latitude: store.getState().locationDetails.lat,
+        longitude: store.getState().locationDetails.lon,
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
       }
