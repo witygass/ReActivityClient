@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   Button,
+  Dimensions,
   Image,
   Linking,
   Platform,
@@ -23,9 +24,8 @@ import EventTypeFilterBar from '../components/EventTypeFilterBar';
 import HomeScreenHeader from '../components/HomeScreenHeader';
 import { MonoText } from '../components/StyledText';
 import dummyEventData from './dummyData/dummyEventData';
-import { api } from '../lib/ajaxCalls.js';
-import { store } from '../lib/reduxStore.js';
-
+import {api} from '../lib/ajaxCalls'
+import {store} from '../lib/reduxStore'
 
 export default class HomeScreen extends React.Component {
   static route = {
@@ -60,8 +60,16 @@ export default class HomeScreen extends React.Component {
       // that.setState({refreshing: false});
 
     })
-    
+
   }
+
+   componentWillMount() {
+     api.getNearbyEvents({}, function(events) {
+       store.dispatch({type: 'UPDATE_NEARBY_EVENT_TABLE', events: events})
+       this.setState({refreshing: false});
+      //  console.log(events)
+     }.bind(this));
+   }
 
 
   render() {
@@ -78,7 +86,7 @@ export default class HomeScreen extends React.Component {
             </View>
           <View>
             <ScrollView
-              style={styles.scrollview}
+              style={styles.scrollView}
               refreshControl={
                 <RefreshControl
                   refreshing={this.state.refreshing}
@@ -189,15 +197,17 @@ export default class HomeScreen extends React.Component {
   //   Linking.openURL('https://docs.getexponent.com/versions/latest/guides/up-and-running.html#can-t-see-your-changes');
   // }
 
+var {height, width} = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   container: {
     // marginTop: 40,
     flex: 1,
-    flexDirection: 'column',
+    flexDirection: 'row',
     alignItems: 'stretch',
     justifyContent: 'center',
-    backgroundColor: '#fff',
+    // backgroundColor: '#fff',
+    // backgroundColor: 'pink',
   },
   developmentModeText: {
     marginBottom: 20,
@@ -207,6 +217,7 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     paddingTop: 20,
+    width: width,
   },
   welcomeContainer: {
     alignItems: 'center',
@@ -258,6 +269,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#fbfbfb',
     paddingVertical: 20,
+  },
+  scrollView: {
+    minHeight: height,
   },
   tabBarInfoText: {
     fontSize: 17,
