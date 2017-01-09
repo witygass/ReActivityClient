@@ -46,9 +46,10 @@ export default class HomeScreen extends React.Component {
       friendsEvents: store.getState().friendsEvents,
       watchedEvents: store.getState().watchedEvents,
       myEvents: store.getState().myEvents,
-      currentlyViewing: 'nearbyEvents'
+      currentlyViewing: store.getState().currentlyViewing
     };
     this._onRefresh = this._onRefresh.bind(this);
+    this.hotRefresh = this.hotRefresh.bind(this);
   }
 
   _onRefresh() {
@@ -64,21 +65,33 @@ export default class HomeScreen extends React.Component {
       // that.setState({refreshing: false});
 
     })
+  }
 
+  hotRefresh() {
+    this.setState({currentlyViewing: store.getState().currentlyViewing});
+    console.log('currentlyViewing has changed. It is now:', store.getState().currentlyViewing);
   }
 
    componentWillMount() {
-     api.getNearbyEvents({}, function(events) {
-       store.dispatch({type: 'UPDATE_NEARBY_EVENT_TABLE', events: events})
-       this.setState({refreshing: false});
-      //  console.log(events)
-     }.bind(this));
+     var that = this;
+    // this.setState({refreshing: true});
+    api.getNearbyEvents({}, function(events) {
+      store.dispatch({
+        type: 'UPDATE_NEARBY_EVENT_TABLE',
+        events: events
+      });
+      that.setState({nearbyEvents: events});
+      console.log('state is:', that.state.nearbyEvents);
+      // that.setState({refreshing: false});
+
+    })
    }
 
 
   render() {
     var that = this;
     var toRender = that.state[that.state.currentlyViewing];
+    console.log('ToRender is:', toRender)
     console.log('RENDER STATE:', typeof that.state.nearbyEvents)
     return (
       <View style={styles.container}>
@@ -87,7 +100,7 @@ export default class HomeScreen extends React.Component {
             <HomeScreenHeader/>
           </View>
             <View style={{height: 40}}>
-              <EventTypeFilterBar/>
+              <EventTypeFilterBar action = {this.hotRefresh}/>
             </View>
           <View>
             <ScrollView
