@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import {Location, Permissions} from 'exponent';
 import MapView from 'react-native-maps';
+import dummyEventData from './dummyData/dummyEventData';
 
 import { store } from '../lib/reduxStore.js';
 
@@ -26,18 +27,25 @@ export default class MapScreen extends React.Component {
       region: {
         latitude: store.getState().locationDetails.lat,
         longitude: store.getState().locationDetails.lon,
+        // latitude: 45,
+        // longitude: -70,
+        // latitudeDelta: 0.0922,
+        // longitudeDelta: 0.0421,
+        // latitude: 37.78825,
+        // longitude: -122.4324,
         latitudeDelta: 0.0922,
         longitudeDelta: 0.0421,
-      }
+      },
+      events: dummyEventData
     }
     this.onRegionChange = function(region) {
-      console.log(region);
+      console.log('region has changed!');
       this.setState({ region });
     }.bind(this)
-    getLocationAsync().then(function(res) {
-      console.log('something');
-      console.log(res);
-    })
+    // getLocationAsync().then(function(res) {
+    //   console.log('something');
+    //   console.log(res);
+    // })
   }
 
   static route = {
@@ -48,13 +56,22 @@ export default class MapScreen extends React.Component {
   }
 
   render() {
+    // onRegionChange is triggered when not desired.. not sure why this is happening. Removing for now.
+    console.log(this.state.events);
+    // onRegionChange={this.onRegionChange}
     return (
       <MapView
         style={{flex: 1}}
         region={this.state.region}
-        onRegionChange={this.onRegionChange}
-        >
-        <MapView.Marker coordinate={this.state.region}/>
+      >
+      {this.state.events.map(eventMarker => (
+        <MapView.Marker
+          coordinate={eventMarker.location.latlng}
+          title={eventMarker.title}
+          description={eventMarker.description}
+          key={eventMarker.key}
+        />
+      ))}
       </MapView>
     );
   }
