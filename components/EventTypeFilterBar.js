@@ -11,21 +11,54 @@ import {
   Dimensions,
 } from 'react-native';
 
+import { store } from '../lib/reduxStore.js';
+
 export default class EventTypeFilterBar extends React.Component {
   constructor(props) {
     super(props);
   }
 
   render() {
+    var that = this;
     return (
         <View style={styles.filterBar}>
-          <TouchableOpacity style={styles.filterOption}>
+          <TouchableOpacity style={styles.filterOption}
+            onPress={
+                function() {
+                  store.dispatch({
+                    type: 'UPDATE_CURRENTLY_VIEWING',
+                    viewing: 'myEvents'
+                  })
+                  that.props.action();
+                }
+              }
+          >
             <Text style={styles.filterOptionText}>Mine</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.filterOption}>
+          <TouchableOpacity style={styles.filterOption}
+            onPress={
+                function() {
+                  store.dispatch({
+                    type: 'UPDATE_CURRENTLY_VIEWING',
+                    viewing: 'friendsEvents'
+                  })
+                  that.props.action();
+                }
+              }
+          >
             <Text style={styles.filterOptionText}>Friends</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.filterOption}>
+          <TouchableOpacity style={styles.filterOption}
+            onPress={
+                function() {
+                  store.dispatch({
+                    type: 'UPDATE_CURRENTLY_VIEWING',
+                    viewing: 'nearbyEvents'
+                  })
+                  that.props.action();
+                }
+              }
+          >
             <Text style={styles.filterOptionText}>Nearby</Text>
           </TouchableOpacity>
       </View>
