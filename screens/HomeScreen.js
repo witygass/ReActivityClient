@@ -42,7 +42,11 @@ export default class HomeScreen extends React.Component {
       loaded: 0,
       rowData: Array.from(new Array(20)).map(
         (val, i) => ({text: 'Initial row ' + i, clicks: 0})),
-      nearbyEvents: store.getState().nearbyEvents
+      nearbyEvents: store.getState().nearbyEvents,
+      friendsEvents: store.getState().friendsEvents,
+      watchedEvents: store.getState().watchedEvents,
+      myEvents: store.getState().myEvents,
+      currentlyViewing: 'nearbyEvents'
     };
     this._onRefresh = this._onRefresh.bind(this);
   }
@@ -74,6 +78,7 @@ export default class HomeScreen extends React.Component {
 
   render() {
     var that = this;
+    var toRender = that.state[that.state.currentlyViewing];
     console.log('RENDER STATE:', typeof that.state.nearbyEvents)
     return (
       <View style={styles.container}>
@@ -99,7 +104,7 @@ export default class HomeScreen extends React.Component {
               {
 
 
-                that.state.nearbyEvents.map((event)=> <EventListEntry event={event} key={event.id}/>)}
+                toRender.map((event)=> <EventListEntry event={event} key={event.id}/>)}
             </ScrollView>
           </View>
         </View>
