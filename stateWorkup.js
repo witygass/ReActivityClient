@@ -59,13 +59,17 @@ var event = {
   },
   time: {
     created: 'Date',
-    playTime: 'Date'
+    startTime: 'Date',
+    endTime: 'Date'
   },
   eventType: 'String(e.g., "Basketball")',
   minPlayers: 'Number or Null',
   maxPlayers: 'Number or Null',
   eventPhoto: 'String',
-  attendees: []
+  attendees: [],
+  creatorUserName: '',
+  eventName: '',
+  eventDescription: ''
 }
 
 

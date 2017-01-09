@@ -80,13 +80,13 @@ export default class EventViewScreen extends React.Component {
             <Text>
               Player Range: Between {this.state.minPlayers} and {this.state.maxPlayers} players.
             </Text>
-            <Text>
-            ---------------------------
-            </Text>
-            <Text>
-              Coming:
-            </Text>
-            {this.renderAttendees(this.state.attendees)}
+           
+            <View style={styles.listContainer}>
+              <Text>
+                Coming:
+              </Text>
+              {this.renderAttendees(this.state.attendees)}
+            </View>
             
           </View>
         </ScrollView>
@@ -126,6 +126,9 @@ const styles = StyleSheet.create({
     buttonContainer: {
       marginTop: 10,
       marginBottom: 20
+    },
+    listContainer: {
+      borderTopWidth: 2
     }
 
 })
