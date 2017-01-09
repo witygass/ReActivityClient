@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+  AsyncStorage,
   Button,
   Dimensions,
   Image,
@@ -65,6 +66,12 @@ export default class HomeScreen extends React.Component {
       // that.setState({refreshing: false});
 
     })
+
+    AsyncStorage.getItem('JWTtoken').then((token) => {
+      if (!token) {
+        that.props.navigator.push(Router.getRoute('signin'));
+      }
+    });
   }
 
   hotRefresh() {
@@ -84,7 +91,13 @@ export default class HomeScreen extends React.Component {
       console.log('state is:', that.state.nearbyEvents);
       // that.setState({refreshing: false});
 
-    })
+    });
+
+        AsyncStorage.getItem('JWTtoken').then((token) => {
+          if (!token) {
+            that.props.navigator.push('signin');
+          }
+        });
    }
 
 
