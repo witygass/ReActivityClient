@@ -26,37 +26,6 @@ export default class RealProfileScreen extends React.Component {
   }
   
 
-  renderFeed(feed) {
-    var that = this;
-    var code = [];
-    console.log('Feed is:', feed);
-    for (var i = 0; i < feed.length; i++) {
-      var b = i;
-      var a = (
-        <View key = {i}>
-        <Text onPress = {
-          function() {
-
-              store.dispatch({
-                type: 'CHANGE_EVENT_VIEW',
-                event: this
-              });
-              console.log('Store has been updated. state is:', store.getState().currentlyViewing)
-              // Reroute
-              that.props.navigator.push('eventView');
-            }.bind(feed[b])
-        }
-        style={styles.feed}
-        >
-        {feed[i].eventType} played.
-        </Text>
-        </View>
-      )
-      code.push(a);
-    }
-    return code;
-  }
-
 
   render() {
     return (
@@ -175,6 +144,3 @@ const styles = StyleSheet.create({
     }
 
 })
-
-
-

@@ -14,22 +14,28 @@ import {
 export default class EventListEntry extends React.Component {
   constructor(props) {
     super(props);
+    this.randomImage = this.randomImage.bind(this);
   }
+
+  randomImage() {
+    return 'http://lorempixel.com/400/400/';
+  }
+
   render() {
-    console.log('location:', this.props.event.location)
+    console.log('location:', this.props.event.location.name)
     return (
       <TouchableOpacity>
         <View style={styles.container}>
           <View style={styles.creator}>
             <Image
               style={styles.creatorPhoto}
-              source={{uri: 'https://facebook.github.io/react/img/logo_og.png'}}
+              source={{uri: this.randomImage()}}
               />
-            <Text style={styles.creatorName}>{this.props.event.id}</Text>
+            <Text style={styles.creatorName}>{this.props.event.location.name}</Text>
           </View >
           <View style={styles.details}>
             <Text style={styles.title}>{this.props.event.title}</Text>
-            <Text style={styles.description}>Place: {this.props.event.locationId}</Text>
+            <Text style={styles.description}>Location: {this.props.event.location.streetAddress1}</Text>
           </View>
       </View>
     </TouchableOpacity>

@@ -12,6 +12,7 @@ import RootNavigation from './RootNavigation';
 import CreateEventScreen from '../screens/CreateEventScreen';
 import RealProfileScreen from '../screens/RealProfileScreen';
 import EventViewScreen from '../screens/EventViewScreen';
+import IntroScreen from '../screens/IntroScreen';
 
 export default createRouter(() => ({
   home: () => HomeScreen,
@@ -23,5 +24,6 @@ export default createRouter(() => ({
   rootNavigation: () => RootNavigation,
   createEvent: () => CreateEventScreen,
   realProfile: () => RealProfileScreen,
-  eventView: () => EventViewScreen
+  eventView: () => EventViewScreen,
+  intro: () => IntroScreen
 }));
