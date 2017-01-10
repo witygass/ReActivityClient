@@ -20,9 +20,7 @@ export default class RealProfileScreen extends React.Component {
 
     // Bind this to functions
     this.updateProfile = this.updateProfile.bind(this);
-    this.renderFeed = this.renderFeed.bind(this);
-
-    
+    this.renderFeed = this.renderFeed.bind(this);   
   }
   
 
@@ -63,14 +61,6 @@ export default class RealProfileScreen extends React.Component {
     
     )
   }
-
-
-
-  updateProfile() {
-    // This should redirect to a 'edit profile bio' page
-    console.log('UpdateProfile is happening.')
-  }
-
 }
 
 var {height, width} = Dimensions.get('window');

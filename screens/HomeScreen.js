@@ -27,6 +27,7 @@ import { MonoText } from '../components/StyledText';
 import dummyEventData from './dummyData/dummyEventData';
 import {api} from '../lib/ajaxCalls'
 import {store} from '../lib/reduxStore'
+import {generator} from '../lib/dataGeneration';
 
 export default class HomeScreen extends React.Component {
   static route = {
@@ -79,33 +80,29 @@ export default class HomeScreen extends React.Component {
     console.log('currentlyViewing has changed. It is now:', store.getState().currentlyViewing);
   }
 
-   componentWillMount() {
-     var that = this;
-    // this.setState({refreshing: true});
+  componentWillMount() {
+    generator();
+    var that = this;
     api.getNearbyEvents({}, function(events) {
-      store.dispatch({
-        type: 'UPDATE_NEARBY_EVENT_TABLE',
-        events: events
-      });
-      that.setState({nearbyEvents: events});
-      console.log('state is:', that.state.nearbyEvents);
-      // that.setState({refreshing: false});
-
+    store.dispatch({
+      type: 'UPDATE_NEARBY_EVENT_TABLE',
+      events: events
     });
+    that.setState({nearbyEvents: events});
+    console.log('state is:', that.state.nearbyEvents);
+  });
 
-        AsyncStorage.getItem('JWTtoken').then((token) => {
-          if (!token) {
-            that.props.navigator.push('signin');
-          }
-        });
-   }
+      AsyncStorage.getItem('JWTtoken').then((token) => {
+        if (!token) {
+          that.props.navigator.push('signin');
+        }
+      });
+  }
 
 
   render() {
     var that = this;
     var toRender = that.state[that.state.currentlyViewing];
-    console.log('ToRender is:', toRender)
-    console.log('RENDER STATE:', typeof that.state.nearbyEvents)
     return (
       <View style={styles.container}>
         <View style={styles.contentContainer}>
@@ -130,7 +127,7 @@ export default class HomeScreen extends React.Component {
               {
 
 
-                toRender.map((event)=> <EventListEntry event={event} key={event.id}/>)}
+                toRender.map((event) => <EventListEntry event={event} key={event.id}/>)}
             </ScrollView>
           </View>
         </View>

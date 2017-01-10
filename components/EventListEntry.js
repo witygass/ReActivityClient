@@ -22,7 +22,7 @@ export default class EventListEntry extends React.Component {
   }
 
   render() {
-    console.log('location:', this.props.event.location.name)
+    console.log('location:', this.props.event)
     return (
       <TouchableOpacity>
         <View style={styles.container}>
@@ -31,11 +31,11 @@ export default class EventListEntry extends React.Component {
               style={styles.creatorPhoto}
               source={{uri: this.randomImage()}}
               />
-            <Text style={styles.creatorName}>{this.props.event.location.name}</Text>
+            <Text style={styles.creatorName}>{this.props.event.creator.username}</Text>
           </View >
           <View style={styles.details}>
             <Text style={styles.title}>{this.props.event.title}</Text>
-            <Text style={styles.description}>Location: {this.props.event.location.streetAddress1}</Text>
+            <Text style={styles.description}>Location: {this.props.event.description}</Text>
           </View>
       </View>
     </TouchableOpacity>

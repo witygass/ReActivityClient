@@ -113,11 +113,13 @@ export default class SigninScreen extends React.Component {
         <TextInput
           onChangeText={(email) => this.setState({email})}
           value={this.state.text}
+          style={styles.inputBox}
         />
         <Text>Password:</Text>
         <TextInput
           onChangeText={(password) => this.setState({password})}
           value={this.state.text}
+          style={styles.inputBox}
         />
         <Button
           onPress={this.submit}
@@ -136,4 +138,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 15,
   },
+  inputBox: {
+    height: 40
+  }
 });
