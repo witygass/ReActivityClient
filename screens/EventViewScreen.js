@@ -27,8 +27,10 @@ export default class EventViewScreen extends React.Component {
     var code = [];
     for (var i = 0; i < att.length; i++) {
       var snippet = (
-        <Text>
-          --{att[i]}
+        <Text
+          style={styles.attendeeNameDisplay}
+        >
+          • {att[i]}
         </Text>
       )
       code.push(snippet);
@@ -59,11 +61,13 @@ export default class EventViewScreen extends React.Component {
           </View>
           <View style={styles.formContainer}>
 
-            <Text>
-              Id: {this.state.id}
+            <Text
+              style = {styles.eventTitle}
+            >
+              {this.state.location.name}
             </Text>
             <Text>
-              Location: {this.state.location.name}
+              Id: {this.state.id}
             </Text>
             <Text>
               Position: Lat - {this.state.location.latitude} : Lon - {this.state.location.longitude}
@@ -111,7 +115,7 @@ const styles = StyleSheet.create({
       marginBottom: 20
     },
     formContainer: {
-      marginTop: 10,
+      marginTop: 5,
       marginBottom: 20
     },
     formImage: {
@@ -128,7 +132,18 @@ const styles = StyleSheet.create({
       marginBottom: 20
     },
     listContainer: {
-      borderTopWidth: 2
+      borderTopWidth: 2,
+      marginTop: 10
+    },
+    attendeeNameDisplay: {
+      fontSize: 18
+    },
+    eventTitle: {
+      fontSize: 20,
+      textAlign: 'center',
+      textShadowOffset: {width: 2, height: 2},
+      textShadowRadius: 2,
+      textShadowColor: '#666'
     }
 
 })
