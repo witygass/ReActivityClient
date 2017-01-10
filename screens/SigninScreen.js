@@ -24,21 +24,14 @@ export default class SigninScreen extends React.Component {
   }
   state = {
     isConnected: false,
-    data: null,
+    data: '',
     email: '',
     password: ''
   }
 
-  componentDidMount() {
-    socket.on('connect', () => {
-      this.setState({isConnected: true});
-    });
-    socket.on('ping', (data) => {
-      this.setState(data: data);
-    });
-  }
 
   submit = () => {
+    var that =  this;
     fetch(serverURL + '/auth/login', {
       method: 'POST',
       headers: {
@@ -53,13 +46,28 @@ export default class SigninScreen extends React.Component {
       var token = JSON.parse(response._bodyText).token;
       AsyncStorage.setItem('JWTtoken', token).then(() => {
         console.log('token stored');
+        that.loginSuccess();
       })
       .catch((err) => {
         console.log(err);
       });
     })
   }
-// #Elements to test, remove once done
+
+  loginSuccess = () => {
+    console.log('logged in')
+    this.state.email = '';
+    this.state.password = '';
+    this.props.navigator.push('home');
+  }
+
+  logout = () => {
+    AsyncStorage.removeItem('JWTtoken').then(() => {
+      console.log('token deleted');
+    })
+  }
+
+// #Elements to test, remove once sockets are integrated
 // #in View
 // <Text onPress={this._sendGET}>After signing in, click here to test a protected route</Text>
 // { this.state.data && (
@@ -67,6 +75,16 @@ export default class SigninScreen extends React.Component {
 //     Sever time to test socket connection: {this.state.data}
 //   </Text>
 // )}
+//
+// componentDidMount() {
+//   socket.on('connect', () => {
+//     this.setState({isConnected: true});
+//   });
+//   socket.on('ping', (data) => {
+//     this.setState(data: data);
+//   });
+// }
+//
 // #function
 //   _sendGET = () => {
 //     AsyncStorage.getItem('JWTtoken').then((token) => {
@@ -95,19 +113,18 @@ export default class SigninScreen extends React.Component {
         <TextInput
           onChangeText={(email) => this.setState({email})}
           value={this.state.text}
-          style={styles.inputBox}
         />
         <Text>Password:</Text>
         <TextInput
           onChangeText={(password) => this.setState({password})}
           value={this.state.text}
-          style={styles.inputBox}
         />
         <Button
           onPress={this.submit}
           title="Submit"
           color="#841584"
         />
+      <Text onPress={this.logout}>Logout</Text>
 
       </ScrollView>
     );
@@ -119,7 +136,4 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 15,
   },
-  inputBox: {
-    height: 40
-  }
 });
