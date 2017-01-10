@@ -23,26 +23,26 @@ import Router from '../navigation/Router'
 import EventListEntry from '../components/EventListEntry';
 import EventTypeFilterBar from '../components/EventTypeFilterBar';
 import HomeScreenHeader from '../components/HomeScreenHeader';
-import { MonoText } from '../components/StyledText';
 import dummyEventData from './dummyData/dummyEventData';
-import {api} from '../lib/ajaxCalls'
+
+import { MonoText } from '../components/StyledText';
+import { api } from '../lib/ajaxCalls.js'
 import {store} from '../lib/reduxStore'
 
 export default class HomeScreen extends React.Component {
+
   static route = {
     navigationBar: {
-      visible: false,
-    },
+      visible: false
+    }
   }
 
-
   constructor() {
-    super()
+    super();
     this.state = {
       refreshing: false,
       loaded: 0,
-      rowData: Array.from(new Array(20)).map(
-        (val, i) => ({text: 'Initial row ' + i, clicks: 0})),
+      rowData: Array.from(new Array(20)).map((val, i) => ({text: 'Initial row ' + i, clicks: 0})),
       nearbyEvents: store.getState().nearbyEvents,
       friendsEvents: store.getState().friendsEvents,
       watchedEvents: store.getState().watchedEvents,
@@ -75,15 +75,16 @@ export default class HomeScreen extends React.Component {
   }
 
   componentWillMount() {
-    generator();
     var that = this;
+    console.log('Component will mount is running.')
     api.getNearbyEvents({}, function(events) {
-    store.dispatch({
-      type: 'UPDATE_NEARBY_EVENT_TABLE',
-      events: events
+      console.log('API is being called, this is the internal function.')
+      store.dispatch({
+        type: 'UPDATE_NEARBY_EVENT_TABLE',
+        events: events
+      });
+      that.setState({nearbyEvents: events});
     });
-    that.setState({nearbyEvents: events});
-  });
 
       AsyncStorage.getItem('JWTtoken').then((token) => {
         if (!token) {

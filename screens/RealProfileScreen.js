@@ -126,10 +126,7 @@ const styles = StyleSheet.create({
     profileImage: {
       width: width,
       height: 200,
-      marginTop: 3,
-      borderBottomColor: '#444',
-      borderWidth: 0,
-      borderBottomWidth: 10
+      marginTop: 3
 
     },
     inputStyle: {
