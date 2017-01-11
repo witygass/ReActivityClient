@@ -9,14 +9,25 @@ import {
   StyleSheet
 } from 'react-native';
 import { store } from '../lib/reduxStore.js';
+import { api } from '../lib/ajaxCalls.js';
 
 export default class EventViewScreen extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = store.getState().currentlyViewing;
+    var that = this;
+    this.state = {
+      event: store.getState().currentlyViewedEvent
+    }
 
-    console.log('Starting event view screen. currentlyViewing is:', this.state);
+    api.getEventById(that.state.event.id, function(event) {
+      store.dispatch({
+        type: 'UPDATE_CURRENTLY_VIEWING_EVENT',
+        event: event
+      });
+      console.log('Directly before setting state, store state is:', store.getState().currentlyViewedEvent)
+      that.setState({event: store.getState().currentlyViewedEvent});
+    })
 
 
     // Bind this to functions
@@ -24,13 +35,23 @@ export default class EventViewScreen extends React.Component {
   }
 
   renderAttendees(att) {
+    var that = this;
     var code = [];
-    for (var i = 0; i < att.length; i++) {
+    for (var i = 0; i < att && att.length; i++) {
       var snippet = (
         <Text
           style={styles.attendeeNameDisplay}
+          onPress={
+            function() {
+              store.dispatch({
+                type: 'UPDATE_USER_VIEWING_PROFILE',
+                viewing: this
+              });
+              that.props.navigator.push('otherUserProfile');
+            }.bind(att[i])
+          }
         >
-          • {att[i]}
+          • {att[i].firstName + ' ' + att[i].lastName}
         </Text>
       )
       code.push(snippet);
@@ -50,6 +71,7 @@ export default class EventViewScreen extends React.Component {
             <Text
               onPress = {
                 function() {
+                  console.log('This is being called!');
                   that.props.navigator.pop();
                 }
               }>
@@ -57,39 +79,42 @@ export default class EventViewScreen extends React.Component {
             </Text>
             <Image 
               style={styles.formImage}
-              source={{uri: this.state.eventPhoto}}/>
+              source={{uri: this.state.event.photoUrl}}/>
           </View>
           <View style={styles.formContainer}>
 
             <Text
               style = {styles.eventTitle}
             >
-              {this.state.location.name}
+              {this.state.event.locDetailsView.name}
             </Text>
             <Text>
-              Id: {this.state.id}
+              Creator Name: {this.state.event.creator.username}
             </Text>
             <Text>
-              Position: Lat - {this.state.location.latitude} : Lon - {this.state.location.longitude}
+              Id: {this.state.event.id}
             </Text>
             <Text>
-              Created At: {this.state.time.created}
+              Position: Lat - {this.state.event.locDetailsView.latitude} : Lon - {this.state.event.locDetailsView.longitude}
             </Text>
             <Text>
-              Starts At: {this.state.time.playTime}
+              Stars At: {this.state.event.startTime}
             </Text>
             <Text>
-              Event Type: {this.state.eventType}
+              Ends At: {this.state.event.endTime}
             </Text>
             <Text>
-              Player Range: Between {this.state.minPlayers} and {this.state.maxPlayers} players.
+              Event Type: {this.state.event.sport.sport}
+            </Text>
+            <Text>
+              Player Range: Between {this.state.event.minParticipants} and {this.state.event.maxParticipants} players.
             </Text>
            
             <View style={styles.listContainer}>
               <Text>
                 Coming:
               </Text>
-              {this.renderAttendees(this.state.attendees)}
+              {this.renderAttendees(this.state.event.users)}
             </View>
             
           </View>

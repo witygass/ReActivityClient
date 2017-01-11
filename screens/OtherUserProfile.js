@@ -41,11 +41,21 @@ export default class RealProfileScreen extends React.Component {
             <Image source = {{uri: this.state.user.profileUrl}} style={styles.profileImage}>
             </Image>
             <Text>
-              {this.state.user.firstName + ' ' + this.state.user.lastName}
+              Name: {this.state.user.firstName + ' ' + this.state.user.lastName}
+            </Text>
+            <Text>
+              Id: {this.state.user.id}
             </Text>
             <Text>
               @{this.state.user.username}
             </Text>
+            <Text>
+              Last Active: {this.state.user.lastActive}
+            </Text>
+            <Text>
+              Interests:
+            </Text>
+              {this.state.user.interests.map((interest) => (<Text>{interest.sport}</Text>))}
             <Text>
               Bio: {this.state.user.bioText}
             </Text>
