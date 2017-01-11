@@ -55,7 +55,7 @@ export default class HomeScreen extends React.Component {
 
   _onRefresh() {
     var that = this;
-    api.getNearbyEvents({}, function(events) {
+    api.getNearbyEvents(function(events) {
       store.dispatch({
         type: 'UPDATE_NEARBY_EVENT_TABLE',
         events: events
@@ -77,7 +77,7 @@ export default class HomeScreen extends React.Component {
   componentWillMount() {
     var that = this;
     console.log('Component will mount is running.')
-    api.getNearbyEvents({}, function(events) {
+    api.getNearbyEvents(function(events) {
       console.log('API is being called, this is the internal function.')
       store.dispatch({
         type: 'UPDATE_NEARBY_EVENT_TABLE',

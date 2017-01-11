@@ -11,89 +11,51 @@ import {
   Platform
 } from 'react-native';
 import { store } from '../lib/reduxStore.js';
+import { api } from '../lib/ajaxCalls.js';
 
 export default class RealProfileScreen extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = store.getState().userProfileInformation;
-
-    // Bind this to functions
-    this.updateProfile = this.updateProfile.bind(this);
-    this.renderFeed = this.renderFeed.bind(this);
-
-    
+    this.state = {
+      username: store.getState().userProfileCurrentlyViewing,
+      user: {firstName: 'test', interests: []}
+    }
+    api.getUserByUsername(this.state.username, function(user) {
+      this.setState({user: user});
+    }.bind(this));
   }
   
 
-  renderFeed(feed) {
-    var that = this;
-    var code = [];
-    console.log('Feed is:', feed);
-    for (var i = 0; i < feed.length; i++) {
-      var b = i;
-      var a = (
-        <View key = {i}>
-        <Text onPress = {
-          function() {
-
-              store.dispatch({
-                type: 'CHANGE_EVENT_VIEW',
-                event: this
-              });
-              console.log('Store has been updated. state is:', store.getState().currentlyViewing)
-              // Reroute
-              that.props.navigator.push('eventView');
-            }.bind(feed[b])
-        }
-        style={styles.feed}
-        >
-        {feed[i].eventType} played.
-        </Text>
-        </View>
-      )
-      code.push(a);
-    }
-    return code;
-  }
+  
 
 
   render() {
     return (
 
-      <View style={styles.mainContainer}>
+      <View style={styles.container}>
         <ScrollView style={styles.container}
           contentContainer={styles.contentContainer}>
-          <View style={styles.profileView}>
-            <Image style={styles.profileImage}>
-              <View style={styles.profileDetails}>
-                <Text style={styles.name}>
-                </Text>
-                <Text style={styles.username}>
-                </Text>
-                <Text style={styles.location}>
-                </Text>
-                <Text style={styles.bio}>
-                </Text>
-                <Text style={styles.sports}>
-                </Text>
-                
-              </View>
+          <View style={styles.formContainer}>
+
+            <Image source = {{uri: this.state.user.profileUrl}} style={styles.profileImage}>
             </Image>
+            <Text>
+              {this.state.user.firstName + ' ' + this.state.user.lastName}
+            </Text>
+            <Text>
+              @{this.state.user.username}
+            </Text>
+            <Text>
+              Bio: {this.state.user.bioText}
+            </Text>
+
           </View>
         </ScrollView>
       </View>
     
     )
   }
-
-
-
-  updateProfile() {
-    // This should redirect to a 'edit profile bio' page
-    console.log('UpdateProfile is happening.')
-  }
-
 }
 
 var {height, width} = Dimensions.get('window');
@@ -112,7 +74,7 @@ const styles = StyleSheet.create({
       marginBottom: 20
     },
     formContainer: {
-      marginTop: 10,
+      marginTop: 15,
       marginBottom: 20
     },
     profileImage: {
@@ -164,6 +126,5 @@ const styles = StyleSheet.create({
     }
 
 })
-
 
 
