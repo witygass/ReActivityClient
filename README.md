@@ -12,4 +12,4 @@ Or with your own subdomain:
 ./ngrok http -subdomain=ourowndomain8463 3000
 ```
 
- Then add your serverURL to localvars.js in /lib
+ Then add your baseUrl to localvars.js in /lib
