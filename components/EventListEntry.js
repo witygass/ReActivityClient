@@ -11,6 +11,8 @@ import {
   View,
 } from 'react-native';
 
+import { store } from '../lib/reduxStore';
+
 export default class EventListEntry extends React.Component {
   constructor(props) {
     super(props);
@@ -23,8 +25,21 @@ export default class EventListEntry extends React.Component {
 
   render() {
     console.log('location:', this.props.event)
+    var that = this;
+    var event = this.props.event;
     return (
-      <TouchableOpacity>
+      <TouchableOpacity
+        onPress={
+          function() {
+            store.dispatch({
+              type: 'UPDATE_CURRENTLY_VIEWING_EVENT',
+              event: event
+            });
+            console.log('The event being pushed is:', event);
+            that.props.navigator.push('eventView');
+          }
+        }
+      >
         <View style={styles.container}>
           <View style={styles.creator}>
             <Image
@@ -32,7 +47,7 @@ export default class EventListEntry extends React.Component {
               source={{uri: this.randomImage()}}
               />
             <Text style={styles.creatorName}>{this.props.event.creator.username}</Text>
-          </View >
+          </View>
           <View style={styles.details}>
             <Text style={styles.title}>{this.props.event.title}</Text>
             <Text style={styles.description}>Location: {this.props.event.description}</Text>

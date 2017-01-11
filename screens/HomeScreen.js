@@ -121,7 +121,7 @@ export default class HomeScreen extends React.Component {
               {
 
 
-                toRender.map((event) => <EventListEntry event={event} key={event.id}/>)}
+                toRender.map((event) => <EventListEntry event={event} key={event.id} navigator={that.props.navigator}/>)}
             </ScrollView>
           </View>
         </View>
