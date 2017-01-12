@@ -31,8 +31,8 @@ export default class FriendsScreen extends React.Component {
 
   componentWillMount() {
     var that = this;
-    api.getFriendListByTokenId(function(friendList) {
-      // console.log('API was called, got ', friendList);
+    api.getFriendListByTokenId(store.getState().userProfileInformation.username, function(friendList) {
+      console.log('API was called, got ', friendList);
       store.dispatch({
         type: 'UPDATE_USER_FRIEND_LIST',
         friendList: friendList
@@ -41,13 +41,19 @@ export default class FriendsScreen extends React.Component {
     });
   }
 
+  // NOTE TO SELF:
+  //
+  // Clicking on a friend won't display anythign because the retrieved object is just basic info. 
+  // You need to use it to get a more full profile object.
+
   render() {
+    var that = this;
     return (
       <View style={styles.container}>
         <View style={styles.contentContainer}>
           <View>
             <ScrollView style={styles.scrollView}>
-              {this.state.friendList.map((friend) => <FriendListEntry friend={friend} key={friend.id}/>)}
+              {this.state.friendList.map((friend) => <FriendListEntry friend={friend} key={friend.id} navigator={that.props.navigator}/>)}
             </ScrollView>
           </View>
         </View>

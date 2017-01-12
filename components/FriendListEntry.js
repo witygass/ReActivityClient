@@ -11,22 +11,41 @@ import {
   View,
 } from 'react-native';
 
+import { store } from '../lib/reduxStore';
+import { api } from '../lib/ajaxCalls';
+
 export default class FriendListEntry extends React.Component {
   constructor(props) {
     super(props);
     if (!this.props.friend.profileUrl) {
       this.props.friend.profileUrl = "https://s3.amazonaws.com/uifaces/faces/twitter/aaronkwhite/128.jpg";
     }
+
   }
 
   render() {
+    var that = this;
+    var user = this.props.friend;
     return (
-      <TouchableOpacity>
+      <TouchableOpacity
+        onPress = {
+          function() {
+            console.log('User id is:', user.id);
+            api.getUserByUsername(user.id, function(user) {
+              store.dispatch({
+                type: 'UPDATE_USER_VIEWING_PROFILE',
+                viewing: user.id
+              })
+              that.props.navigator.push('otherUserProfile');
+            })
+          }
+        }
+      >
         <View style={styles.container}>
           <View style={styles.creator}>
             <Image
               style={styles.creatorPhoto}
-              source={{uri: this.props.friend.profileUrl}}
+              source={{uri: this.props.friend.profileUrl || 'https://s3.amazonaws.com/uifaces/faces/twitter/aaronkwhite/128.jpg'}}
               />
           </View >
           <View style={styles.details}>

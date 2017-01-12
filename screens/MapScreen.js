@@ -28,6 +28,7 @@ export default class MapScreen extends React.Component {
       },
       events: store.getState().nearbyEvents
     }
+    console.log('this.state.events is:', this.state.events);
   }
 
   componentDidMount() {
