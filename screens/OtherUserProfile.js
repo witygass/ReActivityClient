@@ -12,25 +12,53 @@ import {
 } from 'react-native';
 import { store } from '../lib/reduxStore.js';
 import { api } from '../lib/ajaxCalls.js';
+import EventListEntry from '../components/EventListEntry';
 
-export default class RealProfileScreen extends React.Component {
+/* IMPORTANT NOTE */
+//
+// If you've recently updated the database and you find this page note working, go to
+// the reduxStore.js file and change the default state of 'userProfileCurrentlyViewing'
+// to a name you can confirm is in the database. Name are newly generated each time, so
+// you likely won't have duplicate names from the last seeding.
+//
+// This should be refactored to display a 'User Not Found' page, so that it's not necessary
+// to update the redux default state every time we want to reseed the database.
+
+
+export default class OtherUserProfileScreen extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
       username: store.getState().userProfileCurrentlyViewing,
-      user: {firstName: 'test', interests: []}
+      user: {firstName: 'test', interests: [], activities: []}
     }
     api.getUserByUsername(this.state.username, function(user) {
       this.setState({user: user});
     }.bind(this));
+
   }
-  
+
+
+  // In the case where you try and click on an event, the EventListView attempts to display
+  // it, but other user profiles do not come with detailed event information, but rather a somewhat
+  // condensed version. It is necessary to replace these brief histories with full histories, since
+  // we pass in the clicked event to the EventListView directly.
+  replaceEventHistory() {
+    var events = this.state.user.activities;
+    for (var i = 0; i < events.length; i++) {
+      api.getEventById(events[i].id, function(detailedEvent) {
+        
+      })
+    }
+  }
 
   
 
 
   render() {
+    var that = this;
+    console.log('this.state.user is:', this.state.user)
     return (
 
       <View style={styles.container}>
@@ -59,6 +87,12 @@ export default class RealProfileScreen extends React.Component {
             <Text>
               Bio: {this.state.user.bioText}
             </Text>
+            <Text>
+            Events:
+            </Text>
+            {this.state.user.activities.map((activity) => (
+              <EventListEntry event={activity} key={activity.id} navigator={that.props.navigator} />
+            ))}
 
           </View>
         </ScrollView>

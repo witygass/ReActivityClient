@@ -62,6 +62,7 @@ export default class EventViewScreen extends React.Component {
 
   render() {
     var that = this;
+    console.log('Event View state is:', this.state);
     return (
 
       <View style={styles.container}>
