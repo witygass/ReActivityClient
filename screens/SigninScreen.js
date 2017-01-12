@@ -11,7 +11,7 @@ import {
   ExponentLinksView,
 } from '@exponent/samples';
 
-import socket from '../components/SocketIo';
+// import socket from '../components/SocketIo';
 import { baseUrl } from '../lib/localvars.js';
 
 import { store } from '../lib/reduxStore.js';

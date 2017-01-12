@@ -10,52 +10,63 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-
+import { Components } from 'exponent';
+import { withNavigation } from '@exponent/ex-navigation';
 import { store } from '../lib/reduxStore';
+import Router from '../navigation/Router';
 
 export default class EventListEntry extends React.Component {
   constructor(props) {
     super(props);
     this.randomImage = this.randomImage.bind(this);
+    this.setCurrentEventView = this.setCurrentEventView.bind(this);
   }
 
   randomImage() {
     return 'http://lorempixel.com/400/400/';
   }
 
-  render() {
-    console.log('location:', this.props.event)
-    var that = this;
+  setCurrentEventView() {
     var event = this.props.event;
-    return (
-      <TouchableOpacity
-        onPress={
-          function() {
-            store.dispatch({
-              type: 'UPDATE_CURRENTLY_VIEWING_EVENT',
-              event: event
-            });
-            console.log('The event being pushed is:', event);
-            that.props.navigator.push('eventView');
-          }
-        }
-      >
-        <View style={styles.container}>
-          <View style={styles.creator}>
-            <Image
-              style={styles.creatorPhoto}
-              source={{uri: this.randomImage()}}
-              />
-            <Text style={styles.creatorName}>{this.props.event.creator.username}</Text>
-          </View>
-          <View style={styles.details}>
-            <Text style={styles.title}>{this.props.event.title}</Text>
-            <Text style={styles.description}>Location: {this.props.event.description}</Text>
-          </View>
-      </View>
-    </TouchableOpacity>
-    );
+    store.dispatch({
+      type: 'UPDATE_CURRENTLY_VIEWING_EVENT',
+      event: event
+    });
+    console.log('The event being pushed is:', event);
+    this.props.navigator.push('eventView');
   }
+
+  render() {
+  return (
+    <TouchableOpacity onPress={this.setCurrentEventView}>
+      <View style={styles.container}>
+        <View style={styles.creator}>
+          <Image
+            style={styles.creatorPhoto}
+            source={{uri: this.props.event.creator.profileUrl}}
+          >
+          <Components.LinearGradient
+            colors={['transparent', 'rgba(0,0,0,1)']}
+            style={styles.creatorNameGradient}
+          >
+            <Text style={styles.creatorName}>{this.props.event.creator.firstName}</Text>
+          </Components.LinearGradient>
+          </Image>
+        </View >
+        <View style={styles.details}>
+          <Text
+            style={styles.title}
+            numberOfLines={1}
+          >{this.props.event.title}
+          </Text>
+          <Text
+            style={styles.description}
+            numberOfLines={3}
+          >Place: {this.props.event.description}</Text>
+        </View>
+    </View>
+  </TouchableOpacity>
+  );}
 }
 
 var {height, width} = Dimensions.get('window');
@@ -66,8 +77,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'stretch',
     backgroundColor: '#fbfbfb',
-    paddingVertical: 6,
-    minHeight: 95,
+    // marginVertical: 5,
+    height: 95,
     marginBottom: 3,
     ...Platform.select({
       ios: {
@@ -87,22 +98,30 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     width: width * .22,
-    borderRightColor: '#D3D3D3',
-    borderStyle: 'solid',
-    borderRightWidth: 1,
   },
   creatorPhoto: {
-    width: 50,
-    height: 50,
+    width: width * .22,
+    height: width * .22,
+  },
+  creatorNameGradient: {
+    position: 'absolute',
+    bottom: 0,
+    width: width * .22,
+    alignItems: 'center'
   },
   creatorName: {
     textAlign: 'center',
     fontSize: 14,
     fontWeight: '300',
+    color: 'azure',
+    backgroundColor: 'transparent',
   },
   details: {
-    marginLeft: width * .02,
+    overflow: 'hidden',
+    paddingTop: 6,
+    paddingHorizontal: width * .02,
     width: width * .76,
+    marginBottom: 8,
   },
   title: {
     fontSize: 17
@@ -110,7 +129,7 @@ const styles = StyleSheet.create({
   description: {
     color: 'darkslategray',
     marginTop: 5,
-    marginRight: 3,
+    marginRight: 5,
     fontSize: 13,
     fontWeight: '100'
   },
