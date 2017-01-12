@@ -5,7 +5,7 @@ import {
   StyleSheet,
   Text,
 } from 'react-native';
-import { Permissions } from 'exponent';
+import * as Exponent from 'exponent';
 import MapView from 'react-native-maps';
 import { store } from '../lib/reduxStore';
 
@@ -31,35 +31,44 @@ export default class MapScreen extends React.Component {
   }
 
   componentDidMount() {
-    navigator.geolocation.getCurrentPosition((position) => {
-        var initialPosition = position;
-        this.setState({initialPosition});
-      },
-      (error) => alert(JSON.stringify(error))
-    );
-    this.watchID = navigator.geolocation.watchPosition((position) => {
-      var currentPosition = position.coords;
-      var locs = [];
-      var latDelta = 0;
-      var lonDelta = 0;
-      // CHANGE THESE WHEN NATE FIXES LATLNG
-      var userLat = currentPosition.longitude;
-      var userLon = currentPosition.latitude;
-      //
-      for (let i = 0; i < this.state.events.length; i++) {
-        var eventCoords = this.state.events[i].locDetailsView
-        if (Math.abs(userLat - eventCoords.latitude) * 3 > latDelta) {
-          latDelta = Math.abs(userLat - eventCoords.latitude) * 3
-        }
-        if (Math.abs(userLon - eventCoords.longitude) * 3 > lonDelta) {
-          lonDelta = Math.abs(userLon - eventCoords.longitude) * 3
-        }
+    async function getLocationAsync() {
+      const { Location, Permissions } = Exponent;
+      const { status } = await Permissions.askAsync(Permissions.LOCATION);
+
+      if (status === 'granted') {
+        navigator.geolocation.getCurrentPosition((position) => {
+          var initialPosition = position;
+          this.setState({initialPosition});
+        },
+        (error) => alert(JSON.stringify(error))
+        );
+        this.watchID = navigator.geolocation.watchPosition((position) => {
+          var currentPosition = position.coords;
+          var locs = [];
+          var latDelta = 0;
+          var lonDelta = 0;
+          // CHANGE THESE WHEN NATE FIXES LATLNG
+          var userLat = currentPosition.longitude;
+          var userLon = currentPosition.latitude;
+          //
+          for (let i = 0; i < this.state.events.length; i++) {
+            var eventCoords = this.state.events[i].locDetailsView
+            if (Math.abs(userLat - eventCoords.latitude) * 3 > latDelta) {
+              latDelta = Math.abs(userLat - eventCoords.latitude) * 3
+            }
+            if (Math.abs(userLon - eventCoords.longitude) * 3 > lonDelta) {
+              lonDelta = Math.abs(userLon - eventCoords.longitude) * 3
+            }
+          }
+          // console.log([userLat, userLon])
+          currentPosition.latitudeDelta = latDelta;
+          currentPosition.longitudeDelta = lonDelta;
+          this.setState({region: currentPosition});
+        });
+      } else {
+        throw new Error('Location permission not granted');
       }
-      // console.log([userLat, userLon])
-      currentPosition.latitudeDelta = latDelta;
-      currentPosition.longitudeDelta = lonDelta;
-      this.setState({region: currentPosition});
-    });
+    }
   }
 
   render() {
