@@ -97,6 +97,7 @@ export default class HomeScreen extends React.Component {
   render() {
     var that = this;
     var toRender = that.state[that.state.currentlyViewing];
+    console.log('toRender is:', toRender)
     return (
       <View style={styles.container}>
         <View style={styles.contentContainer}>
@@ -118,10 +119,7 @@ export default class HomeScreen extends React.Component {
                   titleColor="silver"
                 />
               }>
-              {
-
-
-                toRender.map((event) => <EventListEntry event={event} key={event.id} navigator={that.props.navigator}/>)}
+              {toRender.map((event) => <EventListEntry event={event} key={event.id} navigator={that.props.navigator}/>)}
             </ScrollView>
           </View>
         </View>

@@ -61,25 +61,25 @@ export default class RealProfileScreen extends React.Component {
   render() {
     return (
 
-      <View style={styles.mainContainer}>
+      <View style={styles.container}>
         <ScrollView style={styles.container}
           contentContainer={styles.contentContainer}>
           <View style={styles.profileView}>
             <Image style={styles.profileImage}>
-              <View style={styles.profileDetails}>
-                <Text style={styles.name}>
-                </Text>
-                <Text style={styles.username}>
-                </Text>
-                <Text style={styles.location}>
-                </Text>
-                <Text style={styles.bio}>
-                </Text>
-                <Text style={styles.sports}>
-                </Text>
-                
-              </View>
             </Image>
+            <View style={styles.profileDetails}>
+              <Text>
+                Building...
+              </Text>
+              <Text style={styles.username}>
+              </Text>
+              <Text style={styles.location}>
+              </Text>
+              <Text style={styles.bio}>
+              </Text>
+              <Text style={styles.sports}>
+              </Text> 
+            </View>
           </View>
         </ScrollView>
       </View>
