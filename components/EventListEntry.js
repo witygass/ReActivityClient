@@ -43,7 +43,7 @@ export default class EventListEntry extends React.Component {
         <View style={styles.creator}>
           <Image
             style={styles.creatorPhoto}
-            source={{uri: this.props.event.creator.profileUrl}}
+            source={{uri: this.props.event.creator.profileUrl || 'http://lorempixel.com/400/400/'}}
           >
           <Components.LinearGradient
             colors={['transparent', 'rgba(0,0,0,1)']}
