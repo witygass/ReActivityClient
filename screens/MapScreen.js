@@ -5,49 +5,11 @@ import {
   StyleSheet,
   Text,
 } from 'react-native';
-import {Location, Permissions} from 'exponent';
+import { Permissions } from 'exponent';
 import MapView from 'react-native-maps';
-import dummyEventData from './dummyData/dummyEventData';
-
-import { store } from '../lib/reduxStore.js';
-
-var getLocationAsync = async function() {
-  const { status } = await Permissions.askAsync(Permissions.LOCATION);
-  if (status === 'granted') {
-    return Location.getCurrentPositionAsync({enableHighAccuracy: true});
-  } else {
-    throw new Error('Location permission not granted');
-  }
-}
+import { store } from '../lib/reduxStore';
 
 export default class MapScreen extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      region: {
-        latitude: store.getState().locationDetails.lat,
-        longitude: store.getState().locationDetails.lon,
-        // latitude: 45,
-        // longitude: -70,
-        // latitudeDelta: 0.0922,
-        // longitudeDelta: 0.0421,
-        // latitude: 37.78825,
-        // longitude: -122.4324,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
-      },
-      events: dummyEventData
-    }
-    this.onRegionChange = function(region) {
-      console.log('region has changed!');
-      this.setState({ region });
-    }.bind(this)
-    // getLocationAsync().then(function(res) {
-    //   console.log('something');
-    //   console.log(res);
-    // })
-  }
-
   static route = {
     navigationBar: {
       visible: false,
@@ -55,21 +17,64 @@ export default class MapScreen extends React.Component {
     },
   }
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      region: {
+        latitude: store.getState().locationDetails.lat,
+        longitude: store.getState().locationDetails.lon,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+      },
+      events: store.getState().nearbyEvents
+    }
+  }
+
+  componentDidMount() {
+    navigator.geolocation.getCurrentPosition((position) => {
+        var initialPosition = position;
+        this.setState({initialPosition});
+      },
+      (error) => alert(JSON.stringify(error))
+    );
+    this.watchID = navigator.geolocation.watchPosition((position) => {
+      var currentPosition = position.coords;
+      var locs = [];
+      var latDelta = 0;
+      var lonDelta = 0;
+      // CHANGE THESE WHEN NATE FIXES LATLNG
+      var userLat = currentPosition.longitude;
+      var userLon = currentPosition.latitude;
+      //
+      for (let i = 0; i < this.state.events.length; i++) {
+        var eventCoords = this.state.events[i].locDetailsView
+        if (Math.abs(userLat - eventCoords.latitude) * 3 > latDelta) {
+          latDelta = Math.abs(userLat - eventCoords.latitude) * 3
+        }
+        if (Math.abs(userLon - eventCoords.longitude) * 3 > lonDelta) {
+          lonDelta = Math.abs(userLon - eventCoords.longitude) * 3
+        }
+      }
+      // console.log([userLat, userLon])
+      currentPosition.latitudeDelta = latDelta;
+      currentPosition.longitudeDelta = lonDelta;
+      this.setState({region: currentPosition});
+    });
+  }
+
   render() {
-    // onRegionChange is triggered when not desired.. not sure why this is happening. Removing for now.
-    console.log(this.state.events);
-    // onRegionChange={this.onRegionChange}
     return (
       <MapView
         style={{flex: 1}}
+        showsUserLocation={true}
         region={this.state.region}
       >
       {this.state.events.map(eventMarker => (
         <MapView.Marker
-          coordinate={eventMarker.location.latlng}
+          coordinate={{longitude: eventMarker.locDetailsView.latitude, latitude: eventMarker.locDetailsView.longitude}}
           title={eventMarker.title}
           description={eventMarker.description}
-          key={eventMarker.key}
+          key={eventMarker.id}
         />
       ))}
       </MapView>
