@@ -12,7 +12,7 @@ import {
 } from '@exponent/samples';
 
 import socket from '../components/SocketIo';
-import { serverURL } from '../lib/localvars.js';
+import { baseUrl } from '../lib/localvars.js';
 
 import { store } from '../lib/reduxStore.js';
 
@@ -32,7 +32,7 @@ export default class SigninScreen extends React.Component {
 
   submit = () => {
     var that =  this;
-    fetch(serverURL + '/auth/login', {
+    fetch(baseUrl + '/auth/login', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -88,7 +88,7 @@ export default class SigninScreen extends React.Component {
 // #function
 //   _sendGET = () => {
 //     AsyncStorage.getItem('JWTtoken').then((token) => {
-//       return fetch(serverURL + '/api/test', {
+//       return fetch(baseUrl + '/api/test', {
 //         method: 'GET',
 //         headers: {
 //           'Authorization': 'JWT ' +  token,

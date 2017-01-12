@@ -1,6 +1,6 @@
 import io from 'socket.io-client';
-import { serverURL } from '../lib/localvars.js';
+import { baseUrl } from '../lib/localvars.js';
 
-const socket = io.connect(serverURL);
+const socket = io.connect(baseUrl);
 
 module.exports = socket;
