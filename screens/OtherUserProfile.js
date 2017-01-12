@@ -16,7 +16,7 @@ import EventListEntry from '../components/EventListEntry';
 
 /* IMPORTANT NOTE */
 //
-// If you've recently updated the database and you find this page note working, go to
+// If you've recently updated the database and you find this page not working, go to
 // the reduxStore.js file and change the default state of 'userProfileCurrentlyViewing'
 // to a name you can confirm is in the database. Name are newly generated each time, so
 // you likely won't have duplicate names from the last seeding.
@@ -37,6 +37,11 @@ export default class OtherUserProfileScreen extends React.Component {
       this.setState({user: user});
     }.bind(this));
 
+    // Replace the event history with more detailed events.
+    // this.replaceEventHistory();
+
+    // Function binding
+    this.replaceEventHistory = this.replaceEventHistory.bind(this);
   }
 
 
@@ -45,11 +50,14 @@ export default class OtherUserProfileScreen extends React.Component {
   // condensed version. It is necessary to replace these brief histories with full histories, since
   // we pass in the clicked event to the EventListView directly.
   replaceEventHistory() {
+    // I see no reason why this would actually work.
+    var that = this;
     var events = this.state.user.activities;
     for (var i = 0; i < events.length; i++) {
       api.getEventById(events[i].id, function(detailedEvent) {
-        
-      })
+        events[this] = detailedEvent;
+        that.setState({activities: events});
+      }.bind(i))
     }
   }
 
@@ -65,6 +73,15 @@ export default class OtherUserProfileScreen extends React.Component {
         <ScrollView style={styles.container}
           contentContainer={styles.contentContainer}>
           <View style={styles.formContainer}>
+            <Text
+              style={styles.backButton}
+              onPress = {
+                function() {
+                  that.props.navigator.pop();
+                }
+              }>
+              Back 
+            </Text>
 
             <Image source = {{uri: this.state.user.profileUrl}} style={styles.profileImage}>
             </Image>
@@ -167,6 +184,10 @@ const styles = StyleSheet.create({
       color: '#444',
       fontStyle: 'italic',
       fontSize: 10  
+    },
+    backButton: {
+      alignItems: 'center',
+      textAlign: 'center'
     }
 
 })

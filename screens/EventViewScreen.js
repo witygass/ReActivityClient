@@ -1,4 +1,5 @@
 import React from 'react';
+
 import {
   Image,
   Button,
@@ -8,6 +9,7 @@ import {
   ScrollView,
   StyleSheet
 } from 'react-native';
+
 import { store } from '../lib/reduxStore.js';
 import { api } from '../lib/ajaxCalls.js';
 
@@ -20,14 +22,24 @@ export default class EventViewScreen extends React.Component {
       event: store.getState().currentlyViewedEvent
     }
 
+    // Update the currently viewed event with a more detailed/recent one. 
     api.getEventById(that.state.event.id, function(event) {
       store.dispatch({
         type: 'UPDATE_CURRENTLY_VIEWING_EVENT',
         event: event
       });
-      console.log('Directly before setting state, store state is:', store.getState().currentlyViewedEvent)
       that.setState({event: store.getState().currentlyViewedEvent});
     })
+
+    // If you come here from certain pages, the event object will not have all
+    // the properties it needs to display. In this case, we must add 'dummy objects'
+    // into the event. This will quickly be replaced by the above api call.
+    if (!this.state.event.locDetailsView) this.state.event.locDetailsView = {};
+    if (!this.state.event.creator) this.state.event.creator = {};
+    if (!this.state.event.sport) this.state.event.sport = {};
+
+
+    console.log('The current event (before update) is:', this.state.event);
 
 
     // Bind this to functions
@@ -62,7 +74,6 @@ export default class EventViewScreen extends React.Component {
 
   render() {
     var that = this;
-    console.log('Event View state is:', this.state);
     return (
 
       <View style={styles.container}>
@@ -72,7 +83,6 @@ export default class EventViewScreen extends React.Component {
             <Text
               onPress = {
                 function() {
-                  console.log('This is being called!');
                   that.props.navigator.pop();
                 }
               }>

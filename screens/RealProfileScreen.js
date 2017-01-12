@@ -10,6 +10,9 @@ import {
   StyleSheet,
   Platform
 } from 'react-native';
+
+import ProfileAvatar from '../components/ProfileAvatar';
+
 import { store } from '../lib/reduxStore.js';
 
 export default class RealProfileScreen extends React.Component {
@@ -59,6 +62,7 @@ export default class RealProfileScreen extends React.Component {
 
 
   render() {
+    var that = this;
     return (
 
       <View style={styles.container}>
@@ -71,8 +75,7 @@ export default class RealProfileScreen extends React.Component {
               <Text>
                 Building...
               </Text>
-              <Text style={styles.username}>
-              </Text>
+              <ProfileAvatar username='Bud_Hickle89165' navigator={that.props.navigator} />
               <Text style={styles.location}>
               </Text>
               <Text style={styles.bio}>

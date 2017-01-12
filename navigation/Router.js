@@ -14,6 +14,7 @@ import RealProfileScreen from '../screens/RealProfileScreen';
 import EventViewScreen from '../screens/EventViewScreen';
 import IntroScreen from '../screens/IntroScreen';
 import OtherUserProfile from '../screens/OtherUserProfile';
+import ProfileAvatar from '../components/ProfileAvatar';
 
 export default createRouter(() => ({
   home: () => HomeScreen,
@@ -27,5 +28,6 @@ export default createRouter(() => ({
   realProfile: () => RealProfileScreen,
   eventView: () => EventViewScreen,
   intro: () => IntroScreen,
-  otherUserProfile: () => OtherUserProfile
+  otherUserProfile: () => OtherUserProfile,
+  testProfileAvatar: () => ProfileAvatar
 }));
