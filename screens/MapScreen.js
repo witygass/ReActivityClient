@@ -48,8 +48,8 @@ export default class MapScreen extends React.Component {
           var latDelta = 0;
           var lonDelta = 0;
           // CHANGE THESE WHEN NATE FIXES LATLNG
-          var userLat = currentPosition.longitude;
-          var userLon = currentPosition.latitude;
+          var userLat = currentPosition.latitude;
+          var userLon = currentPosition.longitude;
           //
           for (let i = 0; i < this.state.events.length; i++) {
             var eventCoords = this.state.events[i].locDetailsView
@@ -80,7 +80,7 @@ export default class MapScreen extends React.Component {
       >
       {this.state.events.map(eventMarker => (
         <MapView.Marker
-          coordinate={{longitude: eventMarker.locDetailsView.latitude, latitude: eventMarker.locDetailsView.longitude}}
+          coordinate={{longitude: eventMarker.locDetailsView.longitude, latitude: eventMarker.locDetailsView.latitude}}
           title={eventMarker.title}
           description={eventMarker.description}
           key={eventMarker.id}
