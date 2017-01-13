@@ -71,6 +71,8 @@ export default class HomeScreen extends React.Component {
   // (Scroll refresh.)
   _onRefresh() {
     var that = this;
+    AsyncStorage.getItem('JWTtoken').then((token) => !token && that.props.navigator.push('signin'));
+
     loader.loadNearbyEvents(function(events) {
       that.setState({nearbyEvents: events});
     });
@@ -78,12 +80,10 @@ export default class HomeScreen extends React.Component {
     loader.loadMyEvents(function(events) {
       that.setState({myEvents: events});
     });
-
-    AsyncStorage.getItem('JWTtoken').then((token) => !token && that.props.navigator.push('signin'));
   }
 
-  // This occurs when the user pushes a button on the top navigator tab. It changes the 
-  // currently viewed list. 
+  // This occurs when the user pushes a button on the top navigator tab. It changes the
+  // currently viewed list.
   hotRefresh() {
     this.setState({currentlyViewing: store.getState().currentlyViewing});
   }
@@ -94,14 +94,14 @@ export default class HomeScreen extends React.Component {
   componentWillMount() {
     var that = this;
 
+    AsyncStorage.getItem('JWTtoken').then((token) => !token && that.props.navigator.push('signin'));
+
     loader.loadNearbyEvents(function(events) {
       that.setState({nearbyEvents: events});
     });
     loader.loadMyEvents(function(events) {
       that.setState({myEvents: events});
     });
-
-    AsyncStorage.getItem('JWTtoken').then((token) => !token && that.props.navigator.push('signin'));
   }
 
 
