@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   AsyncStorage,
+  Button,
   ScrollView,
   StyleSheet,
   Text,
@@ -12,20 +13,23 @@ import {
 export default class SettingsScreen extends React.Component {
   static route = {
     navigationBar: {
-      title: 'exp.json'
+      title: 'Settings'
     },
   }
 
   constructor() {
     super();
     this.state = {
-      token: 'none'
+      token: 'none',
+      userId: 0
     }
   }
 
-  componentWillUpdate() {
+  componentWillMount() {
     var that = this;
-    AsyncStorage.getItem('JWTtoken').then((token) => that.setState({token: token}));
+    AsyncStorage.multiGet(['JWTtoken', 'userId']).then((array) => {
+      that.setState({token: array[0][1], userId: array[1][1]});
+    });
   }
 
 
@@ -40,8 +44,13 @@ export default class SettingsScreen extends React.Component {
       <ScrollView
         style={styles.container}
         contentContainerStyle={this.props.route.getContentContainerStyle()}>
-        <Text>current token:{this.state.token}</Text>
-        <Text onPress={this.logout}>Logout</Text>
+        <Text>current token: {this.state.token}</Text>
+        <Text>current userId: {this.state.userId}</Text>
+        <Button
+          onPress={this.logout}
+          title="Logout"
+          color="#841584"
+        />
       </ScrollView>
     );
   }

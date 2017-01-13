@@ -26,7 +26,8 @@ export default class SigninScreen extends React.Component {
     isConnected: false,
     data: '',
     email: '',
-    password: ''
+    password: '',
+    username: 0
   }
 
 
@@ -43,13 +44,14 @@ export default class SigninScreen extends React.Component {
         password: this.state.password,
       })
     }).then(function(response){
-      var token = JSON.parse(response._bodyText).token;
-      AsyncStorage.setItem('JWTtoken', token).then(() => {
+      var body = JSON.parse(response._bodyText);
+      that.setState({username: body.username});
+      AsyncStorage.multiSet([['JWTtoken', body.token], ['userId', body.userId.toString()]]).then(() => {
         console.log('token stored');
         that.loginSuccess();
       })
       .catch((err) => {
-        console.log(err);
+        console.log('Set AsyncStorage Error:', err);
       });
     })
   }
@@ -126,8 +128,6 @@ export default class SigninScreen extends React.Component {
           title="Submit"
           color="#841584"
         />
-      <Text onPress={this.logout}>Logout</Text>
-
       </ScrollView>
     );
   }
