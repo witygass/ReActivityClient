@@ -131,7 +131,7 @@ export default class HomeScreen extends React.Component {
   render() {
     var that = this;
     var toRender = that.state[that.state.currentlyViewing];
-    // console.log('toRender is:', toRender)
+
     return (
       <View style={styles.container}>
         <View style={styles.contentContainer}>

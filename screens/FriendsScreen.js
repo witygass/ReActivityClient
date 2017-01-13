@@ -32,7 +32,6 @@ export default class FriendsScreen extends React.Component {
   componentWillMount() {
     var that = this;
     api.getFriendListByTokenId(store.getState().userProfileInformation.username, function(friendList) {
-      console.log('API was called, got ', friendList);
       store.dispatch({
         type: 'UPDATE_USER_FRIEND_LIST',
         friendList: friendList

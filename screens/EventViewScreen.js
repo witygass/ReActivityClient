@@ -31,7 +31,6 @@ export default class EventViewScreen extends React.Component {
         event: event
       });
       that.setState({event: store.getState().currentlyViewedEvent});
-      console.log('THE CURRENT STATE IS:', that.state.event);
     })
 
     // If you come here from certain pages, the event object will not have all
@@ -51,11 +50,9 @@ export default class EventViewScreen extends React.Component {
   }
 
   renderAttendees(att) {
-    console.log('Att is:', att);
     var that = this;
     var code = [];
     if (!att) return;
-    console.log('ATT BEFORE RUNNING SNIPPET:', att);
     for (var i = 0; i < att.length; i++) {
       var snippet = (
         <ProfileAvatar username={att[i].username} navigator={that.props.navigator} />
@@ -220,17 +217,16 @@ const styles = StyleSheet.create({
       marginBottom: 20
     },
     shadowView: {
-      marginTop: 10,
       margin: 5,
       backgroundColor: '#fff',
       padding: 5,
       shadowColor: '#000000',
       shadowOffset: {
         width: 0,
-        height: 3
+        height: 2
       },
-      shadowRadius: 5,
-      shadowOpacity: 1.0
+      shadowRadius: 3,
+      shadowOpacity: 0.4
     },
     attendeeNameDisplay: {
       fontSize: 18

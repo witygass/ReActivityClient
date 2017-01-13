@@ -66,7 +66,6 @@ export default class OtherUserProfileScreen extends React.Component {
 
   render() {
     var that = this;
-    console.log('this.state.user is:', this.state.user)
     return (
 
       <View style={styles.container}>

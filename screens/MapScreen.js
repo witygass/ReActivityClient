@@ -28,7 +28,6 @@ export default class MapScreen extends React.Component {
       },
       events: store.getState().nearbyEvents
     }
-    console.log('this.state.events is:', this.state.events);
   }
 
   componentDidMount() {
@@ -69,7 +68,10 @@ export default class MapScreen extends React.Component {
       } else {
         throw new Error('Location permission not granted');
       }
-    }
+      currentPosition.latitudeDelta = latDelta;
+      currentPosition.longitudeDelta = lonDelta;
+      this.setState({region: currentPosition});
+    };
   }
 
   render() {
