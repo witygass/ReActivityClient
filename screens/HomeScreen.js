@@ -82,8 +82,8 @@ export default class HomeScreen extends React.Component {
     AsyncStorage.getItem('JWTtoken').then((token) => !token && that.props.navigator.push('signin'));
   }
 
-  // This occurs when the user pushes a button on the top navigator tab. It changes the 
-  // currently viewed list. 
+  // This occurs when the user pushes a button on the top navigator tab. It changes the
+  // currently viewed list.
   hotRefresh() {
     this.setState({currentlyViewing: store.getState().currentlyViewing});
   }
