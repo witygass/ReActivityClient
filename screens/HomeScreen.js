@@ -135,7 +135,7 @@ export default class HomeScreen extends React.Component {
     return (
       <View style={styles.container}>
         <View style={styles.contentContainer}>
-          <View style={{flex: 0, height: 30, flexDirection: 'column', justifyContent: 'center', alignItems: 'stretch', backgroundColor: 'paleturquoise'}}>
+          <View style={styles.header}>
             <HomeScreenHeader/>
           </View>
             <View style={{height: 40}}>
@@ -173,10 +173,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   contentContainer: {
-    paddingTop: 24,
     width: width,
   },
   scrollView: {
     minHeight: height,
   },
+  header: {
+    flex: 0,
+    height: 40,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'stretch',
+    backgroundColor: 'paleturquoise'
+  }
 });

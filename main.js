@@ -57,7 +57,7 @@ class AppContainer extends React.Component {
             <StackNavigation id="root" initialRoute={Router.getRoute('rootNavigation')} />
           </NavigationProvider>
 
-          {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+          {Platform.OS === 'ios' && <StatusBar barStyle="default" hidden={true}/>}
           {Platform.OS === 'android' && <View style={styles.statusBarUnderlay} />}
         </View>
       );

@@ -14,6 +14,7 @@ import { store } from '../lib/reduxStore.js';
 import { api } from '../lib/ajaxCalls.js';
 
 import ProfileAvatar from '../components/ProfileAvatar';
+import Backbar from '../components/Backbar';
 
 export default class EventViewScreen extends React.Component {
 
@@ -118,17 +119,10 @@ export default class EventViewScreen extends React.Component {
     return (
 
       <View style={styles.container}>
+        <Backbar navigator={this.props.navigator} />
         <ScrollView style={styles.container}
           contentContainer={styles.contentContainer}>
           <View style={styles.formImageContainer}>
-            <Text
-              onPress = {
-                function() {
-                  that.props.navigator.pop();
-                }
-              }>
-              Back 
-            </Text>
             <Image 
               style={styles.formImage}
               source={{uri: this.state.event.photoUrl}}/>
@@ -190,11 +184,9 @@ const styles = StyleSheet.create({
       backgroundColor: '#eee'
     },
     contentContainer: {
-      paddingTop: 80
     },
     formImageContainer: {
       alignItems: 'center',
-      marginTop: 20,
       marginBottom: 10,
 
     },
@@ -206,7 +198,6 @@ const styles = StyleSheet.create({
     formImage: {
       width: 400,
       height: 200,
-      marginTop: 3
 
     },
     inputStyle: {

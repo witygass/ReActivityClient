@@ -10,6 +10,9 @@ import {
   StyleSheet,
   Platform
 } from 'react-native';
+
+import Backbar from '../components/Backbar';
+
 import { store } from '../lib/reduxStore.js';
 import { api } from '../lib/ajaxCalls.js';
 import EventListEntry from '../components/EventListEntry';
@@ -69,19 +72,11 @@ export default class OtherUserProfileScreen extends React.Component {
     return (
 
       <View style={styles.container}>
+        <Backbar navigator={this.props.navigator} />
         <ScrollView style={styles.container}
           contentContainer={styles.contentContainer}>
           <View style={styles.formContainer}>
-            <Text
-              style={styles.backButton}
-              onPress = {
-                function() {
-                  that.props.navigator.pop();
-                }
-              }>
-              Back 
-            </Text>
-
+      
             <Image source = {{uri: this.state.user.profileUrl}} style={styles.profileImage}>
             </Image>
             <Text>
@@ -134,13 +129,11 @@ const styles = StyleSheet.create({
       marginBottom: 20
     },
     formContainer: {
-      marginTop: 15,
       marginBottom: 20
     },
     profileImage: {
       width: width,
       height: 200,
-      marginTop: 3
 
     },
     inputStyle: {
