@@ -34,11 +34,13 @@ export default class ProfileAvatar extends React.Component {
   }
 
   render() {
+    var that = this;
+    console.log('Username is:', this.state.username);
 
     return (
       <View style={styles.container}>
         <Text style={styles.text} onPress={this.clicked}>
-          Example...
+          {that.state.username}
         </Text>
       </View>
     )

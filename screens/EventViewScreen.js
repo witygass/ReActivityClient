@@ -13,6 +13,8 @@ import {
 import { store } from '../lib/reduxStore.js';
 import { api } from '../lib/ajaxCalls.js';
 
+import ProfileAvatar from '../components/ProfileAvatar';
+
 export default class EventViewScreen extends React.Component {
 
   constructor(props) {
@@ -29,6 +31,7 @@ export default class EventViewScreen extends React.Component {
         event: event
       });
       that.setState({event: store.getState().currentlyViewedEvent});
+      console.log('THE CURRENT STATE IS:', that.state.event);
     })
 
     // If you come here from certain pages, the event object will not have all
@@ -39,7 +42,6 @@ export default class EventViewScreen extends React.Component {
     if (!this.state.event.sport) this.state.event.sport = {};
 
 
-    console.log('The current event (before update) is:', this.state.event);
 
 
     // Bind this to functions
@@ -47,24 +49,14 @@ export default class EventViewScreen extends React.Component {
   }
 
   renderAttendees(att) {
+    console.log('Att is:', att);
     var that = this;
     var code = [];
-    for (var i = 0; i < att && att.length; i++) {
+    if (!att) return;
+    console.log('ATT BEFORE RUNNING SNIPPET:', att);
+    for (var i = 0; i < att.length; i++) {
       var snippet = (
-        <Text
-          style={styles.attendeeNameDisplay}
-          onPress={
-            function() {
-              store.dispatch({
-                type: 'UPDATE_USER_VIEWING_PROFILE',
-                viewing: this
-              });
-              that.props.navigator.push('otherUserProfile');
-            }.bind(att[i])
-          }
-        >
-          • {att[i].firstName + ' ' + att[i].lastName}
-        </Text>
+        <ProfileAvatar username={att[i].username} navigator={that.props.navigator} />
       )
       code.push(snippet);
     }
