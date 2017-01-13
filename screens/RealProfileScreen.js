@@ -75,7 +75,6 @@ export default class RealProfileScreen extends React.Component {
               <Text>
                 Building...
               </Text>
-              <ProfileAvatar username='Bud_Hickle89165' navigator={that.props.navigator} />
               <Text style={styles.location}>
               </Text>
               <Text style={styles.bio}>
