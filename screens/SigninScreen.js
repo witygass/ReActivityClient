@@ -45,14 +45,22 @@ export default class SigninScreen extends React.Component {
       })
     }).then(function(response){
       var body = JSON.parse(response._bodyText);
+
       that.setState({username: body.username});
       AsyncStorage.multiSet([['JWTtoken', body.token], ['userId', body.userId.toString()]]).then(() => {
-        console.log('token stored');
+        console.log('user info stored');
         that.loginSuccess();
       })
       .catch((err) => {
         console.log('Set AsyncStorage Error:', err);
       });
+
+      store.dispatch({
+        type: 'UPDATE_USER_INFO',
+        token: body.token,
+        userId: body.userId
+      });
+
     })
   }
 
@@ -64,6 +72,12 @@ export default class SigninScreen extends React.Component {
   }
 
   logout = () => {
+    store.dispatch({
+      type: 'UPDATE_USER_INFO',
+      token: null,
+      userId: null
+    });
+    
     AsyncStorage.removeItem('JWTtoken').then(() => {
       console.log('token deleted');
     })
