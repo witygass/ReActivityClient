@@ -1,13 +1,17 @@
 import React from 'react';
 import {
+  Dimensions,
   ScrollView,
-  View,
   StyleSheet,
   Text,
+  View,
 } from 'react-native';
 import * as Exponent from 'exponent';
 import MapView from 'react-native-maps';
+import EventMarkerCallout from '../components/EventMarkerCallout';
 import { store } from '../lib/reduxStore';
+import { FontAwesome } from '@exponent/vector-icons';
+var {height, width} = Dimensions.get('window');
 
 export default class MapScreen extends React.Component {
   static route = {
@@ -60,7 +64,7 @@ export default class MapScreen extends React.Component {
               lonDelta = Math.abs(userLon - eventCoords.longitude) * 3
             }
           }
-          // console.log([userLat, userLon])
+          console.log(latDelta, lonDelta);
           currentPosition.latitudeDelta = latDelta;
           currentPosition.longitudeDelta = lonDelta;
           this.setState({region: currentPosition});
@@ -87,7 +91,19 @@ export default class MapScreen extends React.Component {
           title={eventMarker.title}
           description={eventMarker.description}
           key={eventMarker.id}
-        />
+        >
+          <FontAwesome
+            name='map-marker'
+            size={32}
+            color='indianred'
+          />
+          <MapView.Callout
+            style={{width: width * .75}}
+            tooltip={false}
+          >
+            <EventMarkerCallout event={eventMarker}/>
+          </MapView.Callout>
+        </MapView.Marker>
       ))}
       </MapView>
     );
