@@ -21,11 +21,8 @@ export default class SigninScreen extends React.Component {
     },
   }
   state = {
-    isConnected: false,
-    data: '',
     email: '',
-    password: '',
-    username: 0
+    password: ''
   }
 
 
@@ -45,7 +42,7 @@ export default class SigninScreen extends React.Component {
       var body = JSON.parse(response._bodyText);
 
       that.setState({username: body.username});
-      AsyncStorage.multiSet([['JWTtoken', body.token], ['userId', body.userId.toString()]]).then(() => {
+      AsyncStorage.multiSet([['JWTtoken', body.token], ['userId', body.userId.toString()], ['username', body.username]]).then(() => {
         console.log('user info stored');
         that.loginSuccess();
       })
@@ -56,7 +53,8 @@ export default class SigninScreen extends React.Component {
       store.dispatch({
         type: 'UPDATE_USER_INFO',
         token: body.token,
-        userId: body.userId
+        userId: body.userId,
+        username: body.username
       });
 
     })
@@ -73,7 +71,8 @@ export default class SigninScreen extends React.Component {
     store.dispatch({
       type: 'UPDATE_USER_INFO',
       token: null,
-      userId: null
+      userId: null,
+      username: null
     });
     AsyncStorage.removeItem('JWTtoken').then(() => {
       console.log('token deleted');

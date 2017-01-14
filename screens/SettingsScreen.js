@@ -23,26 +23,28 @@ export default class SettingsScreen extends React.Component {
     super();
     this.state = {
       token: 'none',
-      userId: 0
+      userId: 0,
+      username: ''
     }
   }
 
   componentWillMount() {
     var that = this;
-    AsyncStorage.multiGet(['JWTtoken', 'userId']).then((array) => {
-      that.setState({token: array[0][1], userId: array[1][1]});
+    AsyncStorage.multiGet(['JWTtoken', 'userId', 'username']).then((array) => {
+      that.setState({token: array[0][1], userId: array[1][1], username: array[2][1]});
     });
   }
 
 
   logout = () => {
-    AsyncStorage.multiRemove(['JWTtoken','userId']).then(() => {
+    AsyncStorage.multiRemove(['JWTtoken','userId', 'username']).then(() => {
       console.log('token deleted');
     })
     store.dispatch({
       type: 'UPDATE_USER_INFO',
       token: null,
-      userId: null
+      userId: null,
+      username: null
     });
     this.props.navigator.push('signin');
     // this.props.navigation.performAction(({ tabs, stacks }) => {
@@ -58,6 +60,7 @@ export default class SettingsScreen extends React.Component {
         contentContainerStyle={this.props.route.getContentContainerStyle()}>
         <Text>current token: {this.state.token}</Text>
         <Text>current userId: {this.state.userId}</Text>
+        <Text>current username: {this.state.username}</Text>
         <Button
           onPress={this.logout}
           title="Logout"
