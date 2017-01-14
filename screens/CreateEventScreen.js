@@ -8,8 +8,10 @@ import {
   ScrollView,
   StyleSheet
 } from 'react-native';
-import { store } from '../lib/reduxStore.js';
-import { api } from '../lib/ajaxCalls.js';
+import { store } from '../lib/reduxStore';
+import { api } from '../lib/ajaxCalls';
+
+import Backbar from '../components/Backbar';
 
 export default class CreateEventScreen extends React.Component {
 
@@ -46,18 +48,10 @@ export default class CreateEventScreen extends React.Component {
     return (
 
       <View style={styles.container}>
+        <Backbar navigator={this.props.navigator} />
         <ScrollView style={styles.container}
-          contentContainer={styles.contentContainer}>
-          <View style={styles.formImageContainer}>
-            <Image
-              style={styles.formImage}
-              source={{uri: 'https://upload.wikimedia.org/wikipedia/commons/3/3d/Grapes_%284737199646%29.jpg'}}/>
-              <Button
-                onPress={this.goBack}
-                title={'<= Go Back'}
-                style={{alignSelf: 'left'}}
-              />
-          </View>
+          contentContainer={styles.contentContainer}
+        >
           <View style={styles.formContainer}>
             <Text>
               Where:
@@ -165,11 +159,7 @@ export default class CreateEventScreen extends React.Component {
               title = 'Submit'
               color = '#800080'
             />
-            <Button
-              onPress = {this.submit}
-              title = 'Save For Later'
-              color = '#800080'
-            />
+          
           </View>
         </ScrollView>
       </View>
@@ -180,21 +170,21 @@ export default class CreateEventScreen extends React.Component {
 
   submit() {
     var event = {
-      title: this.state.title,
-      sportId: this.state.sportId,
-      minPlayers: this.state.minPlayers,
-      maxPlayers: this.state.maxPlayers,
-      status: this.state.status,
-      description: this.state.description,
-      startTime: this.state.startTime,
-      endTime: this.state.endTime,
-      locationName: this.state.locationName,
-      streetAddress1: this.state.streetAddress1,
+      title: this.state.title || 'title not provided',
+      sportId: this.state.sportId || 'sportId not provided',
+      minPlayers: this.state.minPlayers || 'minPlayers not provided',
+      maxPlayers: this.state.maxPlayers || 'maxPlayers not provided',
+      status: this.state.status || 'status not provided',
+      description: this.state.description || 'description not provided',
+      startTime: this.state.startTime || 'startTime not provided',
+      endTime: this.state.endTime || 'endTime not provided',
+      locationName: this.state.locationName || 'locationName not provided',
+      streetAddress1: this.state.streetAddress1 || 'streetAddress1 not provided',
       streetAddress2: null,
-      city: this.state.city,
-      postalCode: this.state.postalCode,
-      latitude: this.state.latitude,
-      longitude: this.state.longitude
+      city: this.state.city || 'city not provided',
+      postalCode: this.state.postalCode || 'postalCode not provided',
+      latitude: this.state.latitude || 'lat not provided',
+      longitude: this.state.longitude || 'long not provided'
     };
 
     api.createEvent(event);
@@ -213,7 +203,6 @@ const styles = StyleSheet.create({
   },
   formImageContainer: {
     alignItems: 'center',
-    marginTop: 20,
     marginBottom: 20
   },
   formContainer: {
@@ -223,7 +212,6 @@ const styles = StyleSheet.create({
   formImage: {
     width: 400,
     height: 150,
-    marginTop: 3
   },
   inputStyle: {
     height: 40

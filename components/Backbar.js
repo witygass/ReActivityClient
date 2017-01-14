@@ -50,18 +50,16 @@ const styles = StyleSheet.create({
     flex: 1,
     maxHeight: 40,
     backgroundColor: 'paleturquoise',
-    justifyContent: 'center'
+    justifyContent: 'center',
     
   },
   image: {
     height: 25,
-    width: 25
+    width: 25,
+    marginLeft: 5
     
   },
-  button: {
-    height: 25,
-    width: 25,
-    marginLeft: 10
-
+  text: {
+    fontSize: 18
   }
 })

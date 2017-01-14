@@ -217,7 +217,8 @@ const styles = StyleSheet.create({
         height: 2
       },
       shadowRadius: 3,
-      shadowOpacity: 0.4
+      shadowOpacity: 0.4,
+      borderRadius: 5
     },
     attendeeNameDisplay: {
       fontSize: 18
