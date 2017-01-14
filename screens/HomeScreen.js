@@ -59,20 +59,18 @@ export default class HomeScreen extends React.Component {
       // This keeps reference to the list currently being used. It will be a string, so that it can be
       // passed back through this.state to reach the desired event array. Ie, 'nearbyEvents', 'friendsEvents',
       // 'watchedEvents', or 'myEvents'.
-      currentlyViewing: store.getState().currentlyViewing
+      currentlyViewing: store.getState().currentlyViewing,
+      tokenRender: null
     };
 
     // Function binding.
     this._onRefresh = this._onRefresh.bind(this);
     this.hotRefresh = this.hotRefresh.bind(this);
-    this.checkSignin = this.checkSignin.bind(this);
+    this.checkAndLoad = this.checkAndLoad.bind(this);
   }
 
-  // This is called when the user pulls down the page when they are already at the top.
-  // (Scroll refresh.)
-  _onRefresh() {
+  loadContent() {
     var that = this;
-    this.checkSignin();
 
     loader.loadNearbyEvents(function(events) {
       that.setState({nearbyEvents: events});
@@ -81,6 +79,14 @@ export default class HomeScreen extends React.Component {
     loader.loadMyEvents(function(events) {
       that.setState({myEvents: events});
     });
+
+  }
+
+  // This is called when the user pulls down the page when they are already at the top.
+  // (Scroll refresh.)
+  _onRefresh() {
+    console.log('_onRefresh');
+    this.checkAndLoad();
   }
 
   // This occurs when the user pushes a button on the top navigator tab. It changes the
@@ -90,24 +96,29 @@ export default class HomeScreen extends React.Component {
   }
 
   // We need to check the Signin status to access protected requests and get user info
-  checkSignin() {
+  checkAndLoad() {
+    console.log('checkAndLoad');
     var that = this;
-    if (!store.getState().userProfileInformation.token || (store.getState().userProfileInformation.userId < 0)) {
+    if (!store.getState().userProfileInformation.token) {
       AsyncStorage.multiGet(['JWTtoken', 'userId']).then((array) => {
         store.dispatch({
           type: 'UPDATE_USER_INFO',
           token: array[0][1],
           userId: array[1][1]
         });
-        !(array[0][1]) && that.props.navigator.push('signin');
+        if (array[0][1])  {
+          that.setState({tokenRender: true});
+          that.loadContent();
+        } else {
+          that.props.navigator.push('signin');
+        }
       })
       .catch((err) => {
         console.log('Set AsyncStorage Error:', err);
       });
-      // !token && that.props.navigator.push('signin'));
-      // AsyncStorage.multiGet(['JWTtoken', 'userId']).then((array) => {
-      //   that.setState({token: array[0][1], userId: array[1][1]});
-      // });
+    } else {
+      that.setState({tokenRender: true});
+      that.loadContent();
     }
 
   }
@@ -116,49 +127,50 @@ export default class HomeScreen extends React.Component {
   // where the page is rendering and data is not present. Correctly reference objects to ensure that
   // you aren't attempting to access a property on an undefined value (left by the lack of data.)
   componentWillMount() {
-    var that = this;
-    this.checkSignin();
-
-    loader.loadNearbyEvents(function(events) {
-      that.setState({nearbyEvents: events});
-    });
-    loader.loadMyEvents(function(events) {
-      that.setState({myEvents: events});
-    });
+    console.log('componentWillMount');
+    this.checkAndLoad();
   }
 
 
   render() {
     var that = this;
     var toRender = that.state[that.state.currentlyViewing];
-
-    return (
-      <View style={styles.container}>
-        <View style={styles.contentContainer}>
-          <View style={styles.header}>
-            <HomeScreenHeader/>
-          </View>
-            <View style={{height: 40}}>
-              <EventTypeFilterBar action = {this.hotRefresh}/>
+    if(this.state.tokenRender) {
+      console.log('render', this.state.tokenRender)
+      return (
+        <View style={styles.container}>
+          <View style={styles.contentContainer}>
+            <View style={styles.header}>
+              <HomeScreenHeader/>
             </View>
-          <View>
-            <ScrollView
-              style={styles.scrollView}
-              refreshControl={
-                <RefreshControl
-                  refreshing={this.state.refreshing}
-                  onRefresh={this._onRefresh}
-                  tintColor="silver"
-                  title="Loading..."
-                  titleColor="silver"
-                />
-              }>
-              {toRender.map((event) => <EventListEntry event={event} key={event.id} navigator={that.props.navigator}/>)}
-            </ScrollView>
+              <View style={{height: 40}}>
+                <EventTypeFilterBar action = {this.hotRefresh}/>
+              </View>
+            <View>
+              <ScrollView
+                style={styles.scrollView}
+                refreshControl={
+                  <RefreshControl
+                    refreshing={this.state.refreshing}
+                    onRefresh={this._onRefresh}
+                    tintColor="silver"
+                    title="Loading..."
+                    titleColor="silver"
+                  />
+                }>
+                {toRender.map((event) => <EventListEntry event={event} key={event.id} navigator={that.props.navigator}/>)}
+              </ScrollView>
+            </View>
           </View>
         </View>
+      )
+    } else {
+      console.log('not render', this.state.tokenRender)
+      return (
+      <View>
       </View>
-    )
+      )
+    }
   }
 }
 

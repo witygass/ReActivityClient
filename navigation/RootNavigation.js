@@ -32,6 +32,8 @@ export default class RootNavigation extends React.Component {
   render() {
     return (
       <TabNavigation
+        id="main"
+        navigatorUID="main"
         tabBarHeight={56}
         initialTab="home">
         <TabNavigationItem
