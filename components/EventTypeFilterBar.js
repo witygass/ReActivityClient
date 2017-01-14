@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     width: width * .33332,
-    backgroundColor: 'aliceblue',
+    backgroundColor: 'peachpuff',
     borderStyle: 'solid',
     borderColor: 'white',
     borderWidth: 1,
