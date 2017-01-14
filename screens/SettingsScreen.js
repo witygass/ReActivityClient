@@ -10,6 +10,8 @@ import {
   ExponentConfigView,
 } from '@exponent/samples';
 
+import { store } from '../lib/reduxStore'
+
 export default class SettingsScreen extends React.Component {
   static route = {
     navigationBar: {
@@ -34,9 +36,19 @@ export default class SettingsScreen extends React.Component {
 
 
   logout = () => {
-    AsyncStorage.removeItem('JWTtoken').then(() => {
+    AsyncStorage.multiRemove(['JWTtoken','userId']).then(() => {
       console.log('token deleted');
     })
+    store.dispatch({
+      type: 'UPDATE_USER_INFO',
+      token: null,
+      userId: null
+    });
+    this.props.navigator.push('signin');
+    // this.props.navigation.performAction(({ tabs, stacks }) => {
+    //   tabs('main').jumpToTab('signin');
+    //   stacks('home').push('signin');
+    // });
   }
 
   render() {
