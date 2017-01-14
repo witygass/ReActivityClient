@@ -99,6 +99,7 @@ export default class HomeScreen extends React.Component {
     var that = this;
     if (!store.getState().userProfileInformation.token) {
       AsyncStorage.multiGet(['JWTtoken', 'userId']).then((array) => {
+        console.log('array is:', array);
         store.dispatch({
           type: 'UPDATE_USER_INFO',
           token: array[0][1],
@@ -131,6 +132,7 @@ export default class HomeScreen extends React.Component {
 
   render() {
     var that = this;
+    console.log('that.state.myEvents is: ', that.state.myEvents);
     var toRender = that.state[that.state.currentlyViewing];
     if(this.state.tokenRender) {
       return (
