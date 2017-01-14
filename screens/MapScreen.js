@@ -47,14 +47,13 @@ export default class MapScreen extends React.Component {
         (error) => alert(JSON.stringify(error))
         );
         this.watchID = navigator.geolocation.watchPosition((position) => {
+          console.log('NOT RUNNING!');
           var currentPosition = position.coords;
           var locs = [];
           var latDelta = 0;
           var lonDelta = 0;
-          // CHANGE THESE WHEN NATE FIXES LATLNG
           var userLat = currentPosition.latitude;
           var userLon = currentPosition.longitude;
-          //
           for (let i = 0; i < this.state.events.length; i++) {
             var eventCoords = this.state.events[i].locDetailsView
             if (Math.abs(userLat - eventCoords.latitude) * 3 > latDelta) {
@@ -92,11 +91,6 @@ export default class MapScreen extends React.Component {
           description={eventMarker.description}
           key={eventMarker.id}
         >
-          <FontAwesome
-            name='map-marker'
-            size={32}
-            color='indianred'
-          />
           <MapView.Callout
             style={{width: width * .75}}
             tooltip={false}
