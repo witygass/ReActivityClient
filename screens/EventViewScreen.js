@@ -13,6 +13,9 @@ import {
 import { store } from '../lib/reduxStore.js';
 import { api } from '../lib/ajaxCalls.js';
 
+import ProfileAvatar from '../components/ProfileAvatar';
+import Backbar from '../components/Backbar';
+
 export default class EventViewScreen extends React.Component {
 
   constructor(props) {
@@ -39,36 +42,75 @@ export default class EventViewScreen extends React.Component {
     if (!this.state.event.sport) this.state.event.sport = {};
 
 
-    console.log('The current event (before update) is:', this.state.event);
 
 
     // Bind this to functions
     this.renderAttendees = this.renderAttendees.bind(this);
+    this.formatTime = this.formatTime.bind(this);
+    this.formatDate = this.formatDate.bind(this);
   }
 
   renderAttendees(att) {
     var that = this;
     var code = [];
-    for (var i = 0; i < att && att.length; i++) {
+    if (!att) return;
+    for (var i = 0; i < att.length; i++) {
       var snippet = (
-        <Text
-          style={styles.attendeeNameDisplay}
-          onPress={
-            function() {
-              store.dispatch({
-                type: 'UPDATE_USER_VIEWING_PROFILE',
-                viewing: this
-              });
-              that.props.navigator.push('otherUserProfile');
-            }.bind(att[i])
-          }
-        >
-          • {att[i].firstName + ' ' + att[i].lastName}
-        </Text>
+        <ProfileAvatar username={att[i].username} navigator={that.props.navigator} />
       )
       code.push(snippet);
     }
     return code;
+  }
+
+  formatTime(date) {
+    var time = new Date(date);
+
+    var hours = time.getHours()%12 + 1
+    var minutes = time.getMinutes() > 9 ? time.getMinutes() : '0' + time.getMinutes();
+    var timeOfDay = time.getHours() >= 12 ? 'PM' : 'AM';
+
+    return hours + ':' + minutes + ' ' + timeOfDay;
+  }
+
+  formatDate(date) {
+    var time = new Date(date);
+
+    var month = time.getMonth() + 1;
+    var day = time.getDay() + 1;
+    var date = time.getDate();
+    var year = time.getFullYear();
+
+    var months = {
+      1 : 'January',
+      2 : 'February',
+      3 : 'March',
+      4 : 'April',
+      5 : 'May',
+      6 : 'June',
+      7 : 'July',
+      8 : 'August',
+      9 : 'September',
+      10 : 'October',
+      11 : 'November',
+      12 : 'December'
+    }
+
+    var days = {
+      1 : 'Sunday',
+      2 : 'Monday',
+      3 : 'Tuesday',
+      4 : 'Wednesday',
+      5 : 'Thursday',
+      6 : 'Friday',
+      7 : 'Saturday'
+    }
+
+    day = days[day];
+    month = months[month];
+
+    return day + ', ' + month + ' ' + date + ', ' + year;
+
   }
 
 
@@ -77,55 +119,49 @@ export default class EventViewScreen extends React.Component {
     return (
 
       <View style={styles.container}>
+        <Backbar navigator={this.props.navigator} />
         <ScrollView style={styles.container}
           contentContainer={styles.contentContainer}>
           <View style={styles.formImageContainer}>
-            <Text
-              onPress = {
-                function() {
-                  that.props.navigator.pop();
-                }
-              }>
-              Back 
-            </Text>
             <Image 
               style={styles.formImage}
               source={{uri: this.state.event.photoUrl}}/>
           </View>
           <View style={styles.formContainer}>
 
-            <Text
-              style = {styles.eventTitle}
-            >
-              {this.state.event.locDetailsView.name}
-            </Text>
-            <Text>
-              Creator Name: {this.state.event.creator.username}
-            </Text>
-            <Text>
-              Id: {this.state.event.id}
-            </Text>
-            <Text>
-              Position: Lat - {this.state.event.locDetailsView.latitude} : Lon - {this.state.event.locDetailsView.longitude}
-            </Text>
-            <Text>
-              Stars At: {this.state.event.startTime}
-            </Text>
-            <Text>
-              Ends At: {this.state.event.endTime}
-            </Text>
-            <Text>
-              Event Type: {this.state.event.sport.sport}
-            </Text>
-            <Text>
-              Player Range: Between {this.state.event.minParticipants} and {this.state.event.maxParticipants} players.
-            </Text>
-           
-            <View style={styles.listContainer}>
-              <Text>
-                Coming:
+            <View>
+              <Text
+                style = {styles.eventTitle}
+              >
+                {this.state.event.title}
               </Text>
-              {this.renderAttendees(this.state.event.users)}
+            </View>
+            
+            <View style={styles.shadowView}>
+              <Text>
+                Where: {this.state.event.locDetailsView.streetAddress1}
+              </Text>
+              <Text>
+                Date: {this.formatDate(this.state.event.startTime)}
+              </Text>
+              <Text>
+                When: {this.formatTime(this.state.event.startTime)} - {this.formatTime(this.state.event.endTime)}
+              </Text>
+              <Text>
+                Event: {this.state.event.sport.sport}
+              </Text>
+              <Text>
+                Player Range: Between {this.state.event.minParticipants} and {this.state.event.maxParticipants} players.
+              </Text>
+            </View>
+           
+            <View style={styles.shadowView}>
+              <Text>
+                Who's Coming:
+              </Text>
+              <View style={styles.attending}>
+                {this.renderAttendees(this.state.event.users)}
+              </View>
             </View>
             
           </View>
@@ -138,26 +174,30 @@ export default class EventViewScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+    attending: {
+      flex: 1,
+      flexDirection: 'row',
+      flexWrap: 'wrap'
+    },
     container: {
       flex: 1,
-      backgroundColor: '#fff'
+      backgroundColor: '#eee'
     },
     contentContainer: {
-      paddingTop: 80
     },
     formImageContainer: {
       alignItems: 'center',
-      marginTop: 20,
-      marginBottom: 20
+      marginBottom: 10,
+
     },
     formContainer: {
+      flex: 1,
       marginTop: 5,
       marginBottom: 20
     },
     formImage: {
       width: 400,
       height: 200,
-      marginTop: 3
 
     },
     inputStyle: {
@@ -167,9 +207,18 @@ const styles = StyleSheet.create({
       marginTop: 10,
       marginBottom: 20
     },
-    listContainer: {
-      borderTopWidth: 2,
-      marginTop: 10
+    shadowView: {
+      margin: 5,
+      backgroundColor: '#fff',
+      padding: 5,
+      shadowColor: '#000000',
+      shadowOffset: {
+        width: 0,
+        height: 2
+      },
+      shadowRadius: 3,
+      shadowOpacity: 0.4,
+      borderRadius: 5
     },
     attendeeNameDisplay: {
       fontSize: 18
@@ -177,9 +226,8 @@ const styles = StyleSheet.create({
     eventTitle: {
       fontSize: 20,
       textAlign: 'center',
-      textShadowOffset: {width: 2, height: 2},
-      textShadowRadius: 2,
-      textShadowColor: '#666'
+      marginBottom: 10,
+      fontWeight: 'bold'
     }
 
 })

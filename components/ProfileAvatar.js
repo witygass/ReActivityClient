@@ -14,13 +14,21 @@ import {
 } from 'react-native';
 
 import { store } from '../lib/reduxStore';
+import { api } from '../lib/ajaxCalls';
 
 export default class ProfileAvatar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: this.props.username
+      username: this.props.username,
+      profImage: 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'
     }
+    // We need the user's profile image. We'll be receiving this info again on click,
+    // but this (potentially) saves space by just getting the image and throwing everything else
+    // away until needed.
+    api.getUserByUsername(this.state.username, function(user) {
+      this.setState({profImage: user.profileUrl})
+    }.bind(this));
 
     this.clicked = this.clicked.bind(this);
   }
@@ -34,13 +42,16 @@ export default class ProfileAvatar extends React.Component {
   }
 
   render() {
+    var that = this;
 
     return (
-      <View style={styles.container}>
-        <Text style={styles.text} onPress={this.clicked}>
-          Example...
-        </Text>
-      </View>
+      <TouchableOpacity style={styles.container} onPress={this.clicked}>
+        <Image
+          source={{uri: this.state.profImage || 'https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png'}}
+          style={styles.image}
+        >
+        </Image>
+      </TouchableOpacity>
     )
 
   }
@@ -48,10 +59,14 @@ export default class ProfileAvatar extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    margin: 3,
+    width: 69,
+    height: 69,
+    
   },
-  text: {
-    flex: 1,
-    marginTop: 20
+  image: {
+    height: 69,
+    width: 69,
+    borderRadius: 5
   }
 })

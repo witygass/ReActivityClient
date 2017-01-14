@@ -68,7 +68,10 @@ export default class MapScreen extends React.Component {
       } else {
         throw new Error('Location permission not granted');
       }
-    }
+      currentPosition.latitudeDelta = latDelta;
+      currentPosition.longitudeDelta = lonDelta;
+      this.setState({region: currentPosition});
+    };
   }
 
   render() {

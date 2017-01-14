@@ -29,7 +29,6 @@ export default class RealProfileScreen extends React.Component {
   renderFeed(feed) {
     var that = this;
     var code = [];
-    console.log('Feed is:', feed);
     for (var i = 0; i < feed.length; i++) {
       var b = i;
       var a = (
@@ -41,7 +40,6 @@ export default class RealProfileScreen extends React.Component {
                 type: 'CHANGE_EVENT_VIEW',
                 event: this
               });
-              console.log('Store has been updated. state is:', store.getState().currentlyViewing)
               // Reroute
               that.props.navigator.push('eventView');
             }.bind(feed[b])
@@ -91,7 +89,6 @@ export default class RealProfileScreen extends React.Component {
 
   updateProfile() {
     // This should redirect to a 'edit profile bio' page
-    console.log('UpdateProfile is happening.')
   }
 
 }

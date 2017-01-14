@@ -12,27 +12,39 @@ import {
 } from 'react-native';
 
 import ProfileAvatar from '../components/ProfileAvatar';
+import EventListEntry from '../components/EventListEntry';
 
-import { store } from '../lib/reduxStore.js';
+import { store } from '../lib/reduxStore';
+import { api } from '../lib/ajaxCalls';
 
 export default class RealProfileScreen extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = store.getState().userProfileInformation;
+    this.state = {
+      user: store.getState().userProfileInformation
+    }
 
     // Bind this to functions
     this.updateProfile = this.updateProfile.bind(this);
     this.renderFeed = this.renderFeed.bind(this);
+  }
 
-    
+  componentWillMount() {
+    var that = this;
+    api.getUserByUsername(this.state.user.username, function(user) {
+      store.dispatch({
+        type: 'UPDATE_USER',
+        user: user
+      })
+      that.setState({user: user});
+    })
   }
   
 
   renderFeed(feed) {
     var that = this;
     var code = [];
-    console.log('Feed is:', feed);
     for (var i = 0; i < feed.length; i++) {
       var b = i;
       var a = (
@@ -44,7 +56,6 @@ export default class RealProfileScreen extends React.Component {
                 type: 'CHANGE_EVENT_VIEW',
                 event: this
               });
-              console.log('Store has been updated. state is:', store.getState().currentlyViewing)
               // Reroute
               that.props.navigator.push('eventView');
             }.bind(feed[b])
@@ -66,23 +77,44 @@ export default class RealProfileScreen extends React.Component {
     return (
 
       <View style={styles.container}>
+      <View style={styles.headerBar}>
+        <Text style={styles.headerTitle}>
+          My Profile
+        </Text>
+      </View>
         <ScrollView style={styles.container}
           contentContainer={styles.contentContainer}>
           <View style={styles.profileView}>
-            <Image style={styles.profileImage}>
+            <Image style={styles.profileImage}
+              source = {{uri: this.state.user.profileUrl}}
+            >
             </Image>
-            <View style={styles.profileDetails}>
-              <Text>
-                Building...
+            <View style={styles.shadowView}>
+              <Text style={styles.name}>
+                {this.state.user.firstName + ' ' + this.state.user.lastName}
               </Text>
-              <ProfileAvatar username='Bud_Hickle89165' navigator={that.props.navigator} />
-              <Text style={styles.location}>
+              <Text style={styles.username}>
+              @{this.state.user.username}
               </Text>
               <Text style={styles.bio}>
+              "{this.state.user.bioText}"
               </Text>
-              <Text style={styles.sports}>
+            </View>
+            <View style={styles.shadowView}>
+              <Text style={styles.interestsLabel}>
+                Interests:
+              </Text>
+              <Text style={styles.interests}>
+              {this.state.user.interests.map((interest) => <Text> -{interest.sport} </Text>)}
               </Text> 
             </View>
+          </View>
+          <View style={styles.eventList}>
+            {this.state.user.activities.map((event) => {
+              return (
+                <EventListEntry navigator={that.props.navigator} event={event} />
+              )
+            })}
           </View>
         </ScrollView>
       </View>
@@ -94,7 +126,6 @@ export default class RealProfileScreen extends React.Component {
 
   updateProfile() {
     // This should redirect to a 'edit profile bio' page
-    console.log('UpdateProfile is happening.')
   }
 
 }
@@ -104,56 +135,19 @@ var {height, width} = Dimensions.get('window');
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      backgroundColor: '#fff'
+      backgroundColor: '#eee'
     },
     contentContainer: {
       paddingTop: 80
     },
-    formImageContainer: {
-      alignItems: 'center',
-      marginTop: 20,
-      marginBottom: 20
-    },
-    formContainer: {
-      marginTop: 10,
-      marginBottom: 20
-    },
     profileImage: {
-      width: width,
+      width: 200,
       height: 200,
-      marginTop: 3
-
-    },
-    inputStyle: {
-      height: 40
-    },
-    buttonContainer: {
-      marginTop: 10,
-      marginBottom: 20
-    },
-    profileName: {
-      height: 20
-    },
-    feed: {
-      color: '#66e',
-      backgroundColor: '#fff',
-      textAlign: 'center',
-      height: 30,
-      ...Platform.select({
-        ios: {
-          shadowColor: 'black',
-          shadowOffset: {height: -3},
-          shadowOpacity: 0.1,
-          shadowRadius: 3,
-        },
-        android: {
-          elevation: 20,
-        },
-      })
-    },
-    feedContainer: {
+      marginTop: 3,
+      alignSelf: 'center',
       borderWidth: 1,
       borderColor: '#333'
+
     },
     bio: {
       marginTop: 10,  
@@ -164,6 +158,37 @@ const styles = StyleSheet.create({
       color: '#444',
       fontStyle: 'italic',
       fontSize: 10  
+    },
+    shadowView: {
+      margin: 5,
+      backgroundColor: '#fff',
+      padding: 5,
+      shadowColor: '#000000',
+      shadowOffset: {
+        width: 0,
+        height: 2
+      },
+      shadowRadius: 3,
+      shadowOpacity: 0.4,
+      borderRadius: 5
+    },
+    name: {
+      fontSize: 16
+    },
+    interestsLabel: {
+      fontSize: 16,
+      marginBottom: 5
+    },
+    headerBar: {
+      flex: 1,
+      maxHeight: 40,
+      backgroundColor: 'paleturquoise',
+      justifyContent: 'center'
+    },
+    headerTitle: {
+      fontSize: 18,
+      alignSelf: 'center',
+      color: 'midnightblue'
     }
 
 })

@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
         elevation: 20,
       },
     }),
+    
   },
   filterOption: {
     flex: 1,
