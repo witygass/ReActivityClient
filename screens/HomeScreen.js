@@ -103,7 +103,6 @@ export default class HomeScreen extends React.Component {
     var that = this;
     if (!store.getState().userProfileInformation.token) {
       AsyncStorage.multiGet(['JWTtoken', 'userId', 'username']).then((array) => {
-        console.log('array is:', array);
         store.dispatch({
           type: 'UPDATE_USER_INFO',
           token: array[0][1],
