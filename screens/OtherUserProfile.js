@@ -45,6 +45,7 @@ export default class OtherUserProfileScreen extends React.Component {
 
     // Function binding
     this.replaceEventHistory = this.replaceEventHistory.bind(this);
+    this.thumbnailFromSport = this.thumbnailFromSport.bind(this);
   }
 
 
@@ -62,6 +63,19 @@ export default class OtherUserProfileScreen extends React.Component {
         that.setState({activities: events});
       }.bind(i))
     }
+  }
+
+  thumbnailFromSport(sport) {
+    var sports = {
+      'baseball' : 'http://twinstrivia.com/wp-content/uploads/2011/11/Baseball1.png',
+      'soccer' : 'https://upload.wikimedia.org/wikipedia/en/thumb/4/4e/Soccerball_mask.svg/50px-Soccerball_mask.svg.png',
+      'basketball' : 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7a/Basketball.png/50px-Basketball.png',
+      'weight-training' : 'http://rlv.zcache.com/barbell_bodybuilding_classic_round_sticker-rec30a842558440b8956dc11143ca6a1c_v9waf_8byvr_50.jpg',
+      'football' : 'http://cdn.bleacherreport.net/images/team_logos/50x50/college_football.png',
+      'mountain-biking' : 'http://argos.scene7.com/is/image/Argos/3324680_R_Z002A_UC1385685?wid=50&hei=50',
+      'running' : 'http://litbimg6.rightinthebox.com/images/50x50/201609/utmphm1473306095331.jpg'
+    }
+    return sports[sport];
   }
 
   
@@ -91,19 +105,25 @@ export default class OtherUserProfileScreen extends React.Component {
             <Text>
               Last Active: {this.state.user.lastActive}
             </Text>
-            <Text>
-              Interests:
+            <View style={styles.activityContainer}>
+            <Text style={{marginRight: 3}}>
+              Interests:  
             </Text>
-              {this.state.user.interests.map((interest) => (<Text>{interest.sport}</Text>))}
+              {this.state.user.interests.map( (interest) => {
+                return (
+                  <Image source={{uri: this.thumbnailFromSport(interest.sport)}} style={styles.thumb}></Image>
+                )})
+              }
+            </View>
             <Text>
               Bio: {this.state.user.bioText}
             </Text>
             <Text>
             Events:
             </Text>
-            {this.state.user.activities.map((activity) => (
-              <EventListEntry event={activity} key={activity.id} navigator={that.props.navigator} />
-            ))}
+              {this.state.user.activities.map((activity) => (
+                <EventListEntry event={activity} key={activity.id} navigator={that.props.navigator} />
+              ))}
 
           </View>
         </ScrollView>
@@ -180,6 +200,15 @@ const styles = StyleSheet.create({
     backButton: {
       alignItems: 'center',
       textAlign: 'center'
+    },
+    thumb: {
+      width: 20,
+      height: 20
+    },
+    activityContainer: {
+      flex: 1, 
+      flexWrap: 'wrap',
+      flexDirection: 'row'
     }
 
 })
