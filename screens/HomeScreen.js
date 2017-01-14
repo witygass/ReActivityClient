@@ -85,7 +85,6 @@ export default class HomeScreen extends React.Component {
   // This is called when the user pulls down the page when they are already at the top.
   // (Scroll refresh.)
   _onRefresh() {
-    console.log('_onRefresh');
     this.checkAndLoad();
   }
 
@@ -97,7 +96,6 @@ export default class HomeScreen extends React.Component {
 
   // We need to check the Signin status to access protected requests and get user info
   checkAndLoad() {
-    console.log('checkAndLoad');
     var that = this;
     if (!store.getState().userProfileInformation.token) {
       AsyncStorage.multiGet(['JWTtoken', 'userId']).then((array) => {
@@ -127,7 +125,6 @@ export default class HomeScreen extends React.Component {
   // where the page is rendering and data is not present. Correctly reference objects to ensure that
   // you aren't attempting to access a property on an undefined value (left by the lack of data.)
   componentWillMount() {
-    console.log('componentWillMount');
     this.checkAndLoad();
   }
 
@@ -136,7 +133,6 @@ export default class HomeScreen extends React.Component {
     var that = this;
     var toRender = that.state[that.state.currentlyViewing];
     if(this.state.tokenRender) {
-      console.log('render', this.state.tokenRender)
       return (
         <View style={styles.container}>
           <View style={styles.contentContainer}>
@@ -165,7 +161,6 @@ export default class HomeScreen extends React.Component {
         </View>
       )
     } else {
-      console.log('not render', this.state.tokenRender)
       return (
       <View>
       </View>
