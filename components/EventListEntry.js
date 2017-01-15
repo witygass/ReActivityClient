@@ -1,3 +1,7 @@
+// This component is used when a list of events needs to be displayed. Each individual event
+// in the list is rendered with this component, meaning that there will be many copies of this
+// component on the screen at a time. As such, keep it light.
+
 import React from 'react';
 import {
   Dimensions,
@@ -18,14 +22,11 @@ import Router from '../navigation/Router';
 export default class EventListEntry extends React.Component {
   constructor(props) {
     super(props);
-    this.randomImage = this.randomImage.bind(this);
     this.setCurrentEventView = this.setCurrentEventView.bind(this);
   }
-
-  randomImage() {
-    return 'http://lorempixel.com/400/400/';
-  }
-
+  
+  // In the case that someone clicks on an event, we need to change out 'currently viewed event'
+  // to said event, then add the 'view event' screen to the navigation stack.
   setCurrentEventView() {
     var event = this.props.event;
     store.dispatch({
