@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     maxHeight: 40,
-    backgroundColor: 'paleturquoise',
+    backgroundColor: 'coral',
     justifyContent: 'center',
     
   },

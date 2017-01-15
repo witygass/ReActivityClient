@@ -32,7 +32,7 @@ export default class HomeScreenHeader extends React.Component {
         <Button
           onPress={this.navigateToAddEvent}
           title="⊕"
-          color="midnightblue"
+          color="black"
           accessibilityLabel="Add Event"
           />
       </View>
@@ -75,6 +75,7 @@ const styles = StyleSheet.create({
     marginLeft: width * .07,
     textAlign: 'center',
     fontSize: 17,
-    color: 'midnightblue',
+    color: 'black',
+    fontFamily: 'rubik'
   }
 });

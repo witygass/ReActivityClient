@@ -93,20 +93,20 @@ export default class OtherUserProfileScreen extends React.Component {
       
             <Image source = {{uri: this.state.user.profileUrl}} style={styles.profileImage}>
             </Image>
-            <Text>
+            <Text style={{fontFamily: 'rubik'}}>
               Name: {this.state.user.firstName + ' ' + this.state.user.lastName}
             </Text>
-            <Text>
+            <Text style={{fontFamily: 'rubik'}}>
               Id: {this.state.user.id}
             </Text>
-            <Text>
+            <Text style={{fontFamily: 'rubik'}}>
               @{this.state.user.username}
             </Text>
-            <Text>
+            <Text style={{fontFamily: 'rubik'}}>
               Last Active: {this.state.user.lastActive}
             </Text>
             <View style={styles.activityContainer}>
-            <Text style={{marginRight: 3}}>
+            <Text style={{marginRight: 3, fontFamily: 'rubik'}}>
               Interests:  
             </Text>
               {this.state.user.interests.map( (interest) => {
@@ -115,10 +115,10 @@ export default class OtherUserProfileScreen extends React.Component {
                 )})
               }
             </View>
-            <Text>
+            <Text style={{fontFamily: 'rubik'}}>
               Bio: {this.state.user.bioText}
             </Text>
-            <Text>
+            <Text style={{fontFamily: 'rubik'}}>
             Events:
             </Text>
               {this.state.user.activities.map((activity) => (

@@ -43,7 +43,8 @@ export default class RootNavigation extends React.Component {
         </TabNavigationItem>
         <TabNavigationItem
           id="map"
-          renderIcon={isSelected => this._renderIcon('map-marker', isSelected)}>
+          renderIcon={isSelected => this._renderIcon('map-marker', isSelected)}
+          onPress = {() => console.log('map clicked.')}>
           <StackNavigation initialRoute="map" />
         </TabNavigationItem>
         <TabNavigationItem
@@ -53,7 +54,6 @@ export default class RootNavigation extends React.Component {
           <StackNavigation initialRoute="realProfile" />
         </TabNavigationItem>
         <TabNavigationItem
-
           id="testProfileAvatar"
           renderIcon={isSelected => this._renderIcon('bolt', isSelected)}>
           <StackNavigation initialRoute="testProfileAvatar" />

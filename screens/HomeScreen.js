@@ -80,6 +80,10 @@ export default class HomeScreen extends React.Component {
       that.setState({myEvents: events});
     });
 
+    loader.loadFriendsEvents(function(events) {
+      that.setState({friendsEvents: events});
+    })
+
   }
 
   // This is called when the user pulls down the page when they are already at the top.
@@ -98,11 +102,13 @@ export default class HomeScreen extends React.Component {
   checkAndLoad() {
     var that = this;
     if (!store.getState().userProfileInformation.token) {
-      AsyncStorage.multiGet(['JWTtoken', 'userId']).then((array) => {
+      AsyncStorage.multiGet(['JWTtoken', 'userId', 'username']).then((array) => {
+        console.log('array is:', array);
         store.dispatch({
           type: 'UPDATE_USER_INFO',
           token: array[0][1],
-          userId: array[1][1]
+          userId: array[1][1],
+          username: array[2][1]
         });
         if (array[0][1])  {
           that.setState({tokenRender: true});
@@ -131,13 +137,14 @@ export default class HomeScreen extends React.Component {
 
   render() {
     var that = this;
+    console.log('that.state.myEvents is: ', that.state.myEvents);
     var toRender = that.state[that.state.currentlyViewing];
     if(this.state.tokenRender) {
       return (
         <View style={styles.container}>
           <View style={styles.contentContainer}>
             <View style={styles.header}>
-              <HomeScreenHeader/>
+              <HomeScreenHeader />
             </View>
               <View style={{height: 40}}>
                 <EventTypeFilterBar action = {this.hotRefresh}/>
@@ -191,6 +198,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'stretch',
-    backgroundColor: 'paleturquoise'
+    backgroundColor: 'coral'
   }
 });

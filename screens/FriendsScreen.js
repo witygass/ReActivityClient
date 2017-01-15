@@ -66,10 +66,8 @@ var {height, width} = Dimensions.get('window');
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 15,
   },
   contentContainer: {
-    paddingTop: 20,
     width: width,
   }
 });

@@ -49,7 +49,7 @@ export default class FriendListEntry extends React.Component {
               />
           </View >
           <View style={styles.details}>
-            <Text>{this.props.friend.firstName} {this.props.friend.lastName}</Text>
+            <Text style={{fontFamily: 'rubik'}}>{this.props.friend.firstName} {this.props.friend.lastName}</Text>
             <Text></Text>
           </View>
       </View>

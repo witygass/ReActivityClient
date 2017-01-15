@@ -25,6 +25,8 @@ export default class RealProfileScreen extends React.Component {
       user: store.getState().userProfileInformation
     }
 
+    console.log('profile state is:', this.state.user);
+
     // Bind this to functions
     this.updateProfile = this.updateProfile.bind(this);
     this.renderFeed = this.renderFeed.bind(this);
@@ -152,12 +154,14 @@ const styles = StyleSheet.create({
     bio: {
       marginTop: 10,  
       fontStyle: 'italic',
-      marginLeft: 10
+      marginLeft: 10,
+      fontFamily: 'rubik'
     },
     username: {
       color: '#444',
       fontStyle: 'italic',
-      fontSize: 10  
+      fontSize: 10,
+      fontFamily: 'rubik'
     },
     shadowView: {
       margin: 5,
@@ -173,22 +177,31 @@ const styles = StyleSheet.create({
       borderRadius: 5
     },
     name: {
-      fontSize: 16
+      fontSize: 16,
+      fontFamily: 'rubik'
     },
     interestsLabel: {
       fontSize: 16,
-      marginBottom: 5
+      marginBottom: 5,
+      fontFamily: 'rubik'
     },
     headerBar: {
       flex: 1,
       maxHeight: 40,
-      backgroundColor: 'paleturquoise',
+      backgroundColor: 'coral',
       justifyContent: 'center'
     },
     headerTitle: {
       fontSize: 18,
       alignSelf: 'center',
-      color: 'midnightblue'
+      color: 'black',
+      fontFamily: 'rubik'
+    },
+    feed: {
+      fontFamily: 'rubik'
+    },
+    interests: {
+      fontFamily: 'rubik'
     }
 
 })

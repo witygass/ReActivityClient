@@ -115,6 +115,7 @@ const styles = StyleSheet.create({
     fontWeight: '300',
     color: 'azure',
     backgroundColor: 'transparent',
+    fontFamily: 'rubik'
   },
   details: {
     overflow: 'hidden',
@@ -124,13 +125,15 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   title: {
-    fontSize: 17
+    fontSize: 17,
+    fontFamily: 'rubik'
   },
   description: {
     color: 'darkslategray',
     marginTop: 5,
     marginRight: 5,
     fontSize: 13,
-    fontWeight: '100'
+    fontWeight: '100',
+    fontFamily: 'rubik'
   },
 });
