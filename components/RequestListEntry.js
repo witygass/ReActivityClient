@@ -20,39 +20,43 @@ import { api } from '../lib/ajaxCalls';
 export default class RequestListEntry extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      requestHandled: false,
+      requestAction: 'something'
+    }
     if (!this.props.request.profileUrl) {
       this.props.request.profileUrl = "https://s3.amazonaws.com/uifaces/faces/twitter/aaronkwhite/128.jpg";
     }
   }
 
+  goToProfilePage(user) {
+    api.getUserByUsername(user.id, (user) => {
+      store.dispatch({
+        type: 'UPDATE_USER_VIEWING_PROFILE',
+        viewing: user.id
+      })
+      this.props.navigator.push('otherUserProfile');
+    })
+  }
+
   accept(user) {
-    console.log('accept', user);
+    api.acceptFriendRequests(user.id, () => {
+      this.setState({requestHandled: true, requestAction: 'Friend request accepted'});
+    })
   }
 
   reject(user) {
-    console.log('reject', user);
+    api.deleteFriendRequests(user.id, () => {
+      this.setState({requestHandled: true, requestAction: 'Friend request deleted'});
+    })
   }
 
   render() {
-    // console.log('test request', this.props.request);
-    var that = this;
+
     var user = this.props.request;
     return (
         <View style={styles.container}>
-          <TouchableOpacity
-            onPress = {
-              function() {
-                console.log('User id is:', user.id);
-                api.getUserByUsername(user.id, function(user) {
-                  store.dispatch({
-                    type: 'UPDATE_USER_VIEWING_PROFILE',
-                    viewing: user.id
-                  })
-                  that.props.navigator.push('otherUserProfile');
-                })
-              }
-            }
-            >
+          <TouchableOpacity onPress = {this.goToProfilePage.bind(this, user)}>
           <View style={styles.creator}>
             <Image
               style={styles.creatorPhoto}
@@ -63,9 +67,13 @@ export default class RequestListEntry extends React.Component {
           <View style={styles.details}>
             <Text>{this.props.request.firstName} {this.props.request.lastName}</Text>
             <Text>
-              <FontAwesome name='check' size={32} color='green' onPress={this.accept.bind(null, user)} />
-              <Text>   </Text>
-              <FontAwesome name='times' size={32} color='red'  onPress={this.reject.bind(null, user)} />
+              {this.state.requestHandled ? this.state.requestAction :
+                <Text>
+                  <FontAwesome name='check' size={32} color='green' onPress={this.accept.bind(this, user)} />
+                  <Text>   </Text>
+                  <FontAwesome name='times' size={32} color='red'  onPress={this.reject.bind(this, user)} />
+                </Text>
+              }
             </Text>
           </View>
       </View>

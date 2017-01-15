@@ -34,21 +34,20 @@ export default class FriendsScreen extends React.Component {
   }
 
   componentWillMount() {
-    var that = this;
-    api.getFriendListById(store.getState().userProfileInformation.id, function(friendList) {
+    api.getFriendListById(store.getState().userProfileInformation.id, (friendList) => {
       store.dispatch({
         type: 'UPDATE_USER_FRIEND_LIST',
         friendList: friendList
       });
-      that.setState({friendList: friendList});
+      this.setState({friendList: friendList});
     });
 
-    api.getFriendRequests(function(requestList) {
+    api.getFriendRequests((requestList) => {
       store.dispatch({
         type: 'UPDATE_FRIENDS_REQUESTS',
         requestList: requestList
       });
-      that.setState({requestList: requestList});
+      this.setState({requestList: requestList});
     })
   }
 
@@ -61,14 +60,13 @@ export default class FriendsScreen extends React.Component {
   };
 
   renderScene = ({ route }) => {
-    var that = this;
     switch (route.key) {
     case '1':
       return (
         <View style={styles.container}>
           <View style={styles.contentContainer}>
               <ScrollView style={styles.scrollView}>
-                {this.state.friendList.map((friend) => <FriendListEntry friend={friend} key={friend.id} navigator={that.props.navigator}/>)}
+                {this.state.friendList.map((friend) => <FriendListEntry friend={friend} key={friend.id} navigator={this.props.navigator}/>)}
               </ScrollView>
           </View>
         </View>
@@ -78,7 +76,7 @@ export default class FriendsScreen extends React.Component {
         <View style={styles.container}>
           <View style={styles.contentContainer}>
             <ScrollView style={styles.scrollView}>
-              {this.state.requestList.map((request) => <RequestListEntry request={request} key={request.id} navigator={that.props.navigator}/>)}
+              {this.state.requestList.map((request) => <RequestListEntry request={request} key={request.id} navigator={this.props.navigator}/>)}
             </ScrollView>
           </View>
         </View>

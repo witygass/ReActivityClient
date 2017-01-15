@@ -20,27 +20,23 @@ export default class FriendListEntry extends React.Component {
     if (!this.props.friend.profileUrl) {
       this.props.friend.profileUrl = "https://s3.amazonaws.com/uifaces/faces/twitter/aaronkwhite/128.jpg";
     }
+  }
 
+  goToProfilePage(user) {
+    api.getUserByUsername(user.id, (user) => {
+      store.dispatch({
+        type: 'UPDATE_USER_VIEWING_PROFILE',
+        viewing: user.id
+      })
+      this.props.navigator.push('otherUserProfile');
+    })
   }
 
   render() {
     var that = this;
     var user = this.props.friend;
     return (
-      <TouchableOpacity
-        onPress = {
-          function() {
-            console.log('User id is:', user.id);
-            api.getUserByUsername(user.id, function(user) {
-              store.dispatch({
-                type: 'UPDATE_USER_VIEWING_PROFILE',
-                viewing: user.id
-              })
-              that.props.navigator.push('otherUserProfile');
-            })
-          }
-        }
-      >
+      <TouchableOpacity onPress = {this.goToProfilePage.bind(this, user)}>
         <View style={styles.container}>
           <View style={styles.creator}>
             <Image
