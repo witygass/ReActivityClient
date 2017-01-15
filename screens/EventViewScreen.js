@@ -138,25 +138,25 @@ export default class EventViewScreen extends React.Component {
             </View>
             
             <View style={styles.shadowView}>
-              <Text>
+              <Text style={{fontFamily: 'rubik'}}>
                 Where: {this.state.event.locDetailsView.streetAddress1}
               </Text>
-              <Text>
+              <Text style={{fontFamily: 'rubik'}}>
                 Date: {this.formatDate(this.state.event.startTime)}
               </Text>
-              <Text>
+              <Text style={{fontFamily: 'rubik'}}>
                 When: {this.formatTime(this.state.event.startTime)} - {this.formatTime(this.state.event.endTime)}
               </Text>
-              <Text>
+              <Text style={{fontFamily: 'rubik'}}>
                 Event: {this.state.event.sport.sport}
               </Text>
-              <Text>
+              <Text style={{fontFamily: 'rubik'}}>
                 Player Range: Between {this.state.event.minParticipants} and {this.state.event.maxParticipants} players.
               </Text>
             </View>
            
             <View style={styles.shadowView}>
-              <Text>
+              <Text style={{fontFamily: 'rubik'}}>
                 Who's Coming:
               </Text>
               <View style={styles.attending}>
@@ -227,7 +227,8 @@ const styles = StyleSheet.create({
       fontSize: 20,
       textAlign: 'center',
       marginBottom: 10,
-      fontWeight: 'bold'
+      fontWeight: 'bold',
+      fontFamily: 'rubik'
     }
 
 })

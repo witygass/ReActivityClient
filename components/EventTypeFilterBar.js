@@ -102,5 +102,6 @@ const styles = StyleSheet.create({
     color: 'darkslategray',
     textAlign: 'center',
     fontSize: 17,
+    fontFamily: 'rubik'
   }
 });
