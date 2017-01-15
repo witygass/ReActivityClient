@@ -22,7 +22,6 @@ export default class Backbar extends React.Component {
   }
 
   clicked() {
-    console.log('This is happening.')
     this.props.navigator.pop();
   }
 

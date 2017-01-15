@@ -6,7 +6,8 @@ import {
   TextInput,
   View,
   ScrollView,
-  StyleSheet
+  StyleSheet,
+  Picker
 } from 'react-native';
 import { store } from '../lib/reduxStore';
 import { api } from '../lib/ajaxCalls';
@@ -53,98 +54,98 @@ export default class CreateEventScreen extends React.Component {
           contentContainer={styles.contentContainer}
         >
           <View style={styles.formContainer}>
-            <Text>
+            <Text style={styles.text}>
               Where:
             </Text>
             <TextInput
               onChangeText = {(text) => this.setState({title: text})} // Later, add redux command to update state
               style = {styles.inputStyle}
             />
-            <Text>
+            <Text style={styles.text}>
               SportId:
             </Text>
             <TextInput 
               onChangeText = {(text) => this.setState({sportId: text})} // Later, add redux te state
               style = {styles.inputStyle}
             />
-            <Text>
+            <Text style={styles.text}>
               Min Players:
             </Text>
             <TextInput
               onChangeText = {(text) => this.setState({minPlayers: text})} // Later, add redux command to update state
               style = {styles.inputStyle}
             />
-            <Text>
+            <Text style={styles.text}>
               Max Players:
             </Text>
             <TextInput
               onChangeText = {(text) => this.setState({maxPlayers: text})} // Later, add redux command to update state
               style = {styles.inputStyle}
             />
-            <Text>
+            <Text style={styles.text}>
               Status:
             </Text>
             <TextInput
               onChangeText = {(text) => this.setState({status: text})} // Later, add redux command to update state
               style = {styles.inputStyle}
             />
-            <Text>
+            <Text style={styles.text}>
               Description:
             </Text>
             <TextInput
               onChangeText = {(text) => this.setState({description: text})} // Later, add redux command to update state
               style = {styles.inputStyle}
             />
-            <Text>
+            <Text style={styles.text}>
               Start Time:
             </Text>
             <TextInput
               onChangeText = {(text) => this.setState({startTime: text})} // Later, add redux command to update state
               style = {styles.inputStyle}
             />
-            <Text>
+            <Text style={styles.text}>
               End Time:
             </Text>
             <TextInput
               onChangeText = {(text) => this.setState({endTime: text})} // Later, add redux command to update state
               style = {styles.inputStyle}
             />
-            <Text>
+            <Text style={styles.text}>
               locationName:
             </Text>
             <TextInput
               onChangeText = {(text) => this.setState({locationName: text})} // Later, add redux command to update state
               style = {styles.inputStyle}
             />
-            <Text>
+            <Text style={styles.text}>
               Street Address 1:
             </Text>
             <TextInput
               onChangeText = {(text) => this.setState({streetAddress1: text})} // Later, add redux command to update state
               style = {styles.inputStyle}
             />
-            <Text>
+            <Text style={styles.text}>
               City:
             </Text>
             <TextInput
               onChangeText = {(text) => this.setState({city: text})} // Later, add redux command to update state
               style = {styles.inputStyle}
             />
-            <Text>
+            <Text style={styles.text}>
               Zip Code:
             </Text>
             <TextInput
               onChangeText = {(text) => this.setState({postalCode: text})} // Later, add redux command to update state
               style = {styles.inputStyle}
             />
-            <Text>
+            <Text style={styles.text}>
               latitude:
             </Text>
             <TextInput
               onChangeText = {(text) => this.setState({latitude: text})} // Later, add redux command to update state
               style = {styles.inputStyle}
             />
-            <Text>
+            <Text style={styles.text}>
               longitude:
             </Text>
             <TextInput
@@ -196,7 +197,7 @@ export default class CreateEventScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff'
+    backgroundColor: '#eee'
   },
   contentContainer: {
     paddingTop: 80
@@ -214,10 +215,20 @@ const styles = StyleSheet.create({
     height: 150,
   },
   inputStyle: {
-    height: 40
+    height: 40,
+    backgroundColor: '#fff',
+    marginHorizontal: 20,
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: '#333',
+    marginBottom: 5
   },
   buttonContainer: {
     marginTop: 10,
     marginBottom: 20
+  },
+  text: {
+    fontFamily: 'rubik',
+    marginLeft: 20
   }
 });
