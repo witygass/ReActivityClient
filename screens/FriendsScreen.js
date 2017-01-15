@@ -52,15 +52,15 @@ export default class FriendsScreen extends React.Component {
     })
   }
 
-  _handleChangeTab = (index) => {
+  handleChangeTab = (index) => {
     this.setState({ index });
   };
 
-  _renderHeader = (props) => {
+  renderHeader = (props) => {
     return <TabBarTop {...props} />;
   };
 
-  _renderScene = ({ route }) => {
+  renderScene = ({ route }) => {
     var that = this;
     switch (route.key) {
     case '1':
@@ -95,9 +95,9 @@ export default class FriendsScreen extends React.Component {
       <TabViewAnimated
         style={styles.container}
         navigationState={this.state}
-        renderScene={this._renderScene}
-        renderHeader={this._renderHeader}
-        onRequestChangeTab={this._handleChangeTab}
+        renderScene={this.renderScene}
+        renderHeader={this.renderHeader}
+        onRequestChangeTab={this.handleChangeTab}
         />
     );
   }

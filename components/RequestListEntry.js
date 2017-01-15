@@ -10,6 +10,9 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import {
+  FontAwesome,
+} from '@exponent/vector-icons';
 
 import { store } from '../lib/reduxStore';
 import { api } from '../lib/ajaxCalls';
@@ -22,38 +25,50 @@ export default class RequestListEntry extends React.Component {
     }
   }
 
+  accept() {
+    console.log('accept');
+  }
+
+  reject() {
+    console.log('reject');
+  }
+  
   render() {
     // console.log('test request', this.props.request);
     var that = this;
     var user = this.props.request;
     return (
-      <TouchableOpacity
-        onPress = {
-          function() {
-            console.log('User id is:', user.id);
-            api.getUserByUsername(user.id, function(user) {
-              store.dispatch({
-                type: 'UPDATE_USER_VIEWING_PROFILE',
-                viewing: user.id
-              })
-              that.props.navigator.push('otherUserProfile');
-            })
-          }
-        }
-      >
         <View style={styles.container}>
+          <TouchableOpacity
+            onPress = {
+              function() {
+                console.log('User id is:', user.id);
+                api.getUserByUsername(user.id, function(user) {
+                  store.dispatch({
+                    type: 'UPDATE_USER_VIEWING_PROFILE',
+                    viewing: user.id
+                  })
+                  that.props.navigator.push('otherUserProfile');
+                })
+              }
+            }
+            >
           <View style={styles.creator}>
             <Image
               style={styles.creatorPhoto}
               source={{uri: this.props.request.profileUrl || 'https://s3.amazonaws.com/uifaces/faces/twitter/aaronkwhite/128.jpg'}}
               />
           </View >
+        </TouchableOpacity>
           <View style={styles.details}>
             <Text>{this.props.request.firstName} {this.props.request.lastName}</Text>
-            <Text></Text>
+            <Text>
+              <FontAwesome name='check' size={32} color='green' onPress={this.accept} />
+              <Text>   </Text>
+              <FontAwesome name='times' size={32} color='red'  onPress={this.reject} />
+            </Text>
           </View>
       </View>
-    </TouchableOpacity>
     );
   }
 }
