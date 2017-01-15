@@ -136,7 +136,7 @@ export default class HomeScreen extends React.Component {
 
   render() {
     var that = this;
-    console.log('that.state.myEvents is: ', that.state.myEvents);
+    // console.log('that.state.myEvents is: ', that.state.myEvents);
     var toRender = that.state[that.state.currentlyViewing];
     if(this.state.tokenRender) {
       return (

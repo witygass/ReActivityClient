@@ -25,14 +25,14 @@ export default class RequestListEntry extends React.Component {
     }
   }
 
-  accept() {
-    console.log('accept');
+  accept(user) {
+    console.log('accept', user);
   }
 
-  reject() {
-    console.log('reject');
+  reject(user) {
+    console.log('reject', user);
   }
-  
+
   render() {
     // console.log('test request', this.props.request);
     var that = this;
@@ -63,9 +63,9 @@ export default class RequestListEntry extends React.Component {
           <View style={styles.details}>
             <Text>{this.props.request.firstName} {this.props.request.lastName}</Text>
             <Text>
-              <FontAwesome name='check' size={32} color='green' onPress={this.accept} />
+              <FontAwesome name='check' size={32} color='green' onPress={this.accept.bind(null, user)} />
               <Text>   </Text>
-              <FontAwesome name='times' size={32} color='red'  onPress={this.reject} />
+              <FontAwesome name='times' size={32} color='red'  onPress={this.reject.bind(null, user)} />
             </Text>
           </View>
       </View>
