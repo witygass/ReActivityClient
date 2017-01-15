@@ -15,6 +15,7 @@ import { api } from '../lib/ajaxCalls.js'
 import {store} from '../lib/reduxStore'
 
 import FriendListEntry from '../components/FriendListEntry';
+import RequestListEntry from '../components/RequestListEntry';
 
 export default class FriendsScreen extends React.Component {
 
@@ -22,7 +23,7 @@ export default class FriendsScreen extends React.Component {
     super();
     this.state = {
       friendList: [],
-      friendRequests: [],
+      requestList: [],
       index: 0,
       routes: [
         { key: '1', title: 'Friends' },
@@ -30,6 +31,25 @@ export default class FriendsScreen extends React.Component {
         { key: '3', title: 'Find' },
       ],
     };
+  }
+
+  componentWillMount() {
+    var that = this;
+    api.getFriendListById(store.getState().userProfileInformation.id, function(friendList) {
+      store.dispatch({
+        type: 'UPDATE_USER_FRIEND_LIST',
+        friendList: friendList
+      });
+      that.setState({friendList: friendList});
+    });
+
+    api.getFriendRequests(function(requestList) {
+      store.dispatch({
+        type: 'UPDATE_FRIENDS_REQUESTS',
+        requestList: requestList
+      });
+      that.setState({requestList: requestList});
+    })
   }
 
   _handleChangeTab = (index) => {
@@ -47,38 +67,28 @@ export default class FriendsScreen extends React.Component {
       return (
         <View style={styles.container}>
           <View style={styles.contentContainer}>
-            <View>
               <ScrollView style={styles.scrollView}>
                 {this.state.friendList.map((friend) => <FriendListEntry friend={friend} key={friend.id} navigator={that.props.navigator}/>)}
               </ScrollView>
-            </View>
           </View>
         </View>
       );
     case '2':
-      return <View style={[ styles.page, { backgroundColor: '#673ab7' } ]} />;
+      return (
+        <View style={styles.container}>
+          <View style={styles.contentContainer}>
+            <ScrollView style={styles.scrollView}>
+              {this.state.requestList.map((request) => <RequestListEntry request={request} key={request.id} navigator={that.props.navigator}/>)}
+            </ScrollView>
+          </View>
+        </View>
+      );
     case '3':
       return <View style={[ styles.page, { backgroundColor: '#673fff' } ]} />;
     default:
       return null;
     }
   };
-
-  componentWillMount() {
-    var that = this;
-    api.getFriendListById(store.getState().userProfileInformation.id, function(friendList) {
-      store.dispatch({
-        type: 'UPDATE_USER_FRIEND_LIST',
-        friendList: friendList
-      });
-      that.setState({friendList: friendList});
-    });
-  }
-
-  // NOTE TO SELF:
-  //
-  // Clicking on a friend won't display anythign because the retrieved object is just basic info.
-  // You need to use it to get a more full profile object.
 
   render() {
     return (
