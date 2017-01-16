@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import Router from '../navigation/Router';
 import { withNavigation } from '@exponent/ex-navigation';
+import { FontAwesome } from '@exponent/vector-icons';
 
 @withNavigation
 export default class HomeScreenHeader extends React.Component {
@@ -23,18 +24,26 @@ export default class HomeScreenHeader extends React.Component {
     this.props.navigator.push(Router.getRoute('createEvent'));
   }
 
+
+  // <Button
+  //   onPress={this.navigateToAddEvent}
+  //   title="⊕"
+  //   color="midnightblue"
+  //   accessibilityLabel="Add Event"
+  //   />
   render() {
     return (
       <View style={styles.filterBar}>
         <View style={styles.filterOption}>
           <Text style={styles.filterOptionText}>Activities</Text>
         </View>
-        <Button
+        <FontAwesome
           onPress={this.navigateToAddEvent}
-          title="⊕"
-          color="black"
-          accessibilityLabel="Add Event"
-          />
+          name={'plus-square-o'}
+          size={28}
+          color={'white'}
+          style={{marginRight: 7.5}}
+        />
       </View>
     );
   }
@@ -46,7 +55,7 @@ const styles = StyleSheet.create({
   filterBar: {
     flex: 1,
     flexDirection: 'row',
-    alignItems: 'stretch',
+    alignItems: 'center',
     justifyContent: 'space-around',
     ...Platform.select({
       ios: {
@@ -59,7 +68,6 @@ const styles = StyleSheet.create({
         elevation: 20,
       },
     }),
-    
   },
   filterOption: {
     flex: 1,
@@ -67,15 +75,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     width: width * .33332,
-    // borderStyle: 'solid',
-    // borderTopColor: 'silver',
-    // borderWidth: 1,
   },
   filterOptionText: {
     marginLeft: width * .07,
     textAlign: 'center',
-    fontSize: 17,
-    color: 'black',
-    fontFamily: 'rubik'
+    fontSize: 20,
+    color: 'white',
+    fontFamily: 'rubik',
   }
 });
