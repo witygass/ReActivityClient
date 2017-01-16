@@ -10,15 +10,22 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import {
+  FontAwesome,
+} from '@exponent/vector-icons';
 
 import { store } from '../lib/reduxStore';
 import { api } from '../lib/ajaxCalls';
 
-export default class FriendListEntry extends React.Component {
+export default class RequestListEntry extends React.Component {
   constructor(props) {
     super(props);
-    if (!this.props.friend.profileUrl) {
-      this.props.friend.profileUrl = "https://s3.amazonaws.com/uifaces/faces/twitter/aaronkwhite/128.jpg";
+    this.state = {
+      requestHandled: false,
+      requestAction: 'something'
+    }
+    if (!this.props.request.profileUrl) {
+      this.props.request.profileUrl = "https://s3.amazonaws.com/uifaces/faces/twitter/aaronkwhite/128.jpg";
     }
   }
 
@@ -32,24 +39,44 @@ export default class FriendListEntry extends React.Component {
     })
   }
 
+  accept(user) {
+    api.acceptFriendRequests(user.id, () => {
+      this.setState({requestHandled: true, requestAction: 'Friend request accepted'});
+    })
+  }
+
+  reject(user) {
+    api.deleteFriendRequests(user.id, () => {
+      this.setState({requestHandled: true, requestAction: 'Friend request deleted'});
+    })
+  }
+
   render() {
-    var that = this;
-    var user = this.props.friend;
+
+    var user = this.props.request;
     return (
-      <TouchableOpacity onPress = {this.goToProfilePage.bind(this, user)}>
         <View style={styles.container}>
+          <TouchableOpacity onPress = {this.goToProfilePage.bind(this, user)}>
           <View style={styles.creator}>
             <Image
               style={styles.creatorPhoto}
-              source={{uri: this.props.friend.profileUrl || 'https://s3.amazonaws.com/uifaces/faces/twitter/aaronkwhite/128.jpg'}}
+              source={{uri: this.props.request.profileUrl || 'https://s3.amazonaws.com/uifaces/faces/twitter/aaronkwhite/128.jpg'}}
               />
           </View >
+        </TouchableOpacity>
           <View style={styles.details}>
-            <Text style={{fontFamily: 'rubik'}}>{this.props.friend.firstName} {this.props.friend.lastName}</Text>
-            <Text></Text>
+            <Text>{this.props.request.firstName} {this.props.request.lastName}</Text>
+            <Text>
+              {this.state.requestHandled ? this.state.requestAction :
+                <Text>
+                  <FontAwesome name='check' size={32} color='green' onPress={this.accept.bind(this, user)} />
+                  <Text>   </Text>
+                  <FontAwesome name='times' size={32} color='red'  onPress={this.reject.bind(this, user)} />
+                </Text>
+              }
+            </Text>
           </View>
       </View>
-    </TouchableOpacity>
     );
   }
 }
