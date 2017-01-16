@@ -145,10 +145,10 @@ export default class HomeScreen extends React.Component {
             <View style={styles.header}>
               <HomeScreenHeader />
             </View>
-              <View style={{height: 40}}>
+              <View style={styles.filterBarContainer}>
                 <EventTypeFilterBar action = {this.hotRefresh}/>
               </View>
-            <View>
+            <View style={{height: height - 135}}>
               <ScrollView
                 style={styles.scrollView}
                 refreshControl={
@@ -188,15 +188,22 @@ const styles = StyleSheet.create({
   contentContainer: {
     width: width,
   },
-  scrollView: {
-    minHeight: height,
-  },
   header: {
     flex: 0,
     height: 40,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'stretch',
-    backgroundColor: 'coral'
+    backgroundColor: 'coral',
+    paddingBottom: 2,
+  },
+  filterBarContainer: {
+    height: 40,
+    marginBottom: 2,
+  },
+  scrollView: {
+    borderTopWidth: 1,
+    borderTopColor: 'gainsboro',
+    minHeight: height * .1,
   }
 });

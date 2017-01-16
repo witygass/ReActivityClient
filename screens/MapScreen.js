@@ -35,46 +35,48 @@ export default class MapScreen extends React.Component {
   }
 
   componentDidMount() {
+    var context = this;
     async function getLocationAsync() {
       const { Location, Permissions } = Exponent;
       const { status } = await Permissions.askAsync(Permissions.LOCATION);
 
       if (status === 'granted') {
         navigator.geolocation.getCurrentPosition((position) => {
+          console.log('location permission is granted.');
           var initialPosition = position;
-          this.setState({initialPosition});
+          context.setState({initialPosition});
         },
         (error) => alert(JSON.stringify(error))
         );
-        this.watchID = navigator.geolocation.watchPosition((position) => {
-          console.log('NOT RUNNING!');
+        context.watchID = navigator.geolocation.watchPosition((position) => {
+          // console.log('watching device location now');
           var currentPosition = position.coords;
           var locs = [];
           var latDelta = 0;
           var lonDelta = 0;
           var userLat = currentPosition.latitude;
           var userLon = currentPosition.longitude;
-          for (let i = 0; i < this.state.events.length; i++) {
-            var eventCoords = this.state.events[i].locDetailsView
-            if (Math.abs(userLat - eventCoords.latitude) * 3 > latDelta) {
-              latDelta = Math.abs(userLat - eventCoords.latitude) * 3
+          for (let i = 0; i < context.state.events.length; i++) {
+            var eventCoords = context.state.events[i].locDetailsView
+            if (Math.abs(userLat - eventCoords.latitude) * 2.2 > latDelta) {
+              latDelta = Math.abs(userLat - eventCoords.latitude) * 2.2
             }
-            if (Math.abs(userLon - eventCoords.longitude) * 3 > lonDelta) {
-              lonDelta = Math.abs(userLon - eventCoords.longitude) * 3
+            if (Math.abs(userLon - eventCoords.longitude) * 2.2 > lonDelta) {
+              lonDelta = Math.abs(userLon - eventCoords.longitude) * 2.2
             }
           }
-          console.log(latDelta, lonDelta);
           currentPosition.latitudeDelta = latDelta;
           currentPosition.longitudeDelta = lonDelta;
-          this.setState({region: currentPosition});
+          context.setState({region: currentPosition});
         });
       } else {
         throw new Error('Location permission not granted');
       }
       currentPosition.latitudeDelta = latDelta;
       currentPosition.longitudeDelta = lonDelta;
-      this.setState({region: currentPosition});
+      context.setState({region: currentPosition});
     };
+    getLocationAsync();
   }
 
   render() {
