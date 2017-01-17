@@ -35,6 +35,9 @@ export default class SettingsScreen extends React.Component {
     });
   }
 
+  goToSignup = () => {
+    this.props.navigator.push('signup');
+  }
 
   logout = () => {
     AsyncStorage.multiRemove(['JWTtoken','userId', 'username']).then(() => {
@@ -66,6 +69,7 @@ export default class SettingsScreen extends React.Component {
           title="Logout"
           color="#841584"
         />
+        <Text onPress={this.goToSignup}>Signup</Text>
       </ScrollView>
     );
   }
