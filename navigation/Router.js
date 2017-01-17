@@ -18,6 +18,7 @@ import OtherUserProfile from '../screens/OtherUserProfile';
 import ProfileAvatar from '../components/ProfileAvatar';
 import ImageUpload from '../components/ImageUpload';
 import FilterOptions from '../screens/FilterOptions';
+import GooglePlacesWidget from '../components/GooglePlacesWidget';
 
 export default createRouter(() => ({
   home: () => HomeScreen,
@@ -36,4 +37,5 @@ export default createRouter(() => ({
   testProfileAvatar: () => ProfileAvatar,
   imageUpload: () => ImageUpload,
   filterOptions: () => FilterOptions
+  googlePlacesWidget: () => GooglePlacesWidget
 }));

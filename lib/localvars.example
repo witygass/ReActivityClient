@@ -1,3 +1,4 @@
 module.exports = {
-  baseUrl: 'INSERT_URL_HERE'
+  baseUrl: 'INSERT_URL_HERE',
+  googleAPI: 'INSERT_API_KEY_HERE' // get one for 'Google Places API Web Service' at https://console.developers.google.com/apis/library
 }

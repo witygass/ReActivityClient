@@ -17,19 +17,23 @@ export default class GiftedFormExample extends React.Component {
         formName='signupForm' // GiftedForm instances that use the same name will also share the same states
 
         openModal={(route) => {
-          // console.log(route);
-          this.props.navigator.push('signin'); // The ModalWidget will be opened using this method. Tested with ExNavigator
+          console.log('modal');
+          // for (var key in route) {
+          //   console.log(key, route[key]);
+          // }
+          this.props.navigator.push('googlePlacesWidget'); // The ModalWidget will be opened using this method. Tested with ExNavigator
         }}
 
         clearOnClose={false} // delete the values of the form when unmounted
 
         defaults={{
           //
-          // username: 'Farid',
-          // 'gender{M}': true,
-          // password: 'abcdefg',
-          // country: 'FR',
-          // birthday: new Date(((new Date()).getFullYear() - 18)+''),
+          fullName : '',
+          username: '',
+          password: '',
+          emailAddress: '',
+          country: 'FR',
+          bio : 'more Text'
 
         }}
 
@@ -77,30 +81,6 @@ export default class GiftedFormExample extends React.Component {
               validator: 'isLength',
               arguments: [0, 512],
               message: '{TITLE} must be between {ARGS[0]} and {ARGS[1]} characters'
-            }]
-          },
-          gender: {
-            title: 'Gender',
-            validate: [{
-              validator: (...args) => {
-                if (args[0] === undefined) {
-                  return false;
-                }
-                return true;
-              },
-              message: '{TITLE} is required',
-            }]
-          },
-          birthday: {
-            title: 'Birthday',
-            validate: [{
-              validator: 'isBefore',
-              arguments: [moment().utc().subtract(18, 'years').format('YYYY-MM-DD')],
-              message: 'You must be at least 18 years old'
-            }, {
-              validator: 'isAfter',
-              arguments: [moment().utc().subtract(100, 'years').format('YYYY-MM-DD')],
-              message: '{TITLE} is not valid'
             }]
           },
           country: {
@@ -172,36 +152,6 @@ export default class GiftedFormExample extends React.Component {
         <GiftedForm.SeparatorWidget />
 
         <GiftedForm.ModalWidget
-          title='Gender'
-          displayValue='gender'
-          image={require('../assets/images/icons/gender.png')}
-        >
-          <GiftedForm.SeparatorWidget />
-
-          <GiftedForm.SelectWidget name='gender' title='Gender' multiple={false}>
-            <GiftedForm.OptionWidget image={require('../assets/images/icons/female.png')} title='Female' value='F'/>
-            <GiftedForm.OptionWidget image={require('../assets/images/icons/male.png')} title='Male' value='M'/>
-          </GiftedForm.SelectWidget>
-        </GiftedForm.ModalWidget>
-
-        <GiftedForm.ModalWidget
-          title='Birthday'
-          displayValue='birthday'
-          image={require('../assets/images/icons/birthday.png')}
-
-          scrollEnabled={false}
-        >
-          <GiftedForm.SeparatorWidget/>
-          <GiftedForm.DatePickerIOSWidget
-            name='birthday'
-            mode='date'
-
-            getDefaultDate={() => {
-              return new Date(((new Date()).getFullYear() - 18)+'');
-            }}
-          />
-        </GiftedForm.ModalWidget>
-        <GiftedForm.ModalWidget
           title='Country'
           displayValue='country'
           image={require('../assets/images/icons/passport.png')}
@@ -247,16 +197,15 @@ export default class GiftedFormExample extends React.Component {
           onSubmit={(isValid, values, validationResults, postSubmit = null, modalNavigator = null) => {
             if (isValid === true) {
               // prepare object
-              values.gender = values.gender[0];
-              values.birthday = moment(values.birthday).format('YYYY-MM-DD');
-
+              console.log(values);
               //  Implement the request to your server using values variable
               //  then you can do:
               //  postSubmit(); // disable the loader
               //  postSubmit(['An error occurred, please try again']); // disable the loader and display an error message
               //  postSubmit(['Username already taken', 'Email already taken']); // disable the loader and display an error message
               //  GiftedFormManager.reset('signupForm'); // clear the states of the form manually. 'signupForm' is the formName used
-
+              GiftedFormManager.reset();
+              postSubmit();
             }
           }}
 
