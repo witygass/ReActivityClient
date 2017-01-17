@@ -16,6 +16,8 @@ import EventViewScreen from '../screens/EventViewScreen';
 import IntroScreen from '../screens/IntroScreen';
 import OtherUserProfile from '../screens/OtherUserProfile';
 import ProfileAvatar from '../components/ProfileAvatar';
+import ImageUpload from '../components/ImageUpload';
+import FilterOptions from '../screens/FilterOptions';
 
 export default createRouter(() => ({
   home: () => HomeScreen,
@@ -31,5 +33,7 @@ export default createRouter(() => ({
   eventView: () => EventViewScreen,
   intro: () => IntroScreen,
   otherUserProfile: () => OtherUserProfile,
-  testProfileAvatar: () => ProfileAvatar
+  testProfileAvatar: () => ProfileAvatar,
+  imageUpload: () => ImageUpload,
+  filterOptions: () => FilterOptions
 }));
