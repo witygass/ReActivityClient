@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 
 import Backbar from '../components/Backbar';
+import FriendStatus from '../components/FriendStatus';
 
 import { store } from '../lib/reduxStore.js';
 import { api } from '../lib/ajaxCalls.js';
@@ -34,10 +35,13 @@ export default class OtherUserProfileScreen extends React.Component {
     super(props);
     this.state = {
       username: store.getState().userProfileCurrentlyViewing,
-      user: {firstName: 'test', interests: [], activities: []}
+      user: {firstName: 'test', interests: [], activities: []},
+      loaded: false
     }
     api.getUserByUsername(this.state.username, function(user) {
+      console.log('This is running. Should resolve soon...');
       this.setState({user: user});
+      this.setState({loaded: true});
     }.bind(this));
 
     // Replace the event history with more detailed events.
@@ -78,11 +82,22 @@ export default class OtherUserProfileScreen extends React.Component {
     return sports[sport];
   }
 
+
+
+
+
   
 
 
   render() {
     var that = this;
+
+    if (this.state.loaded === false) {
+      return (<Text>Loading...</Text>);
+    }
+    else if (this.state.loaded === true) {
+      console.log('The big block is trying to render...');
+
     return (
 
       <View style={styles.container}>
@@ -93,9 +108,16 @@ export default class OtherUserProfileScreen extends React.Component {
       
             <Image source = {{uri: this.state.user.profileUrl}} style={styles.profileImage}>
             </Image>
-            <Text style={{fontFamily: 'rubik'}}>
-              Name: {this.state.user.firstName + ' ' + this.state.user.lastName}
+            <Text style={{fontFamily: 'rubik', fontSize: 25}}>
+              {this.state.user.firstName + ' ' + this.state.user.lastName}
             </Text>
+
+
+
+            <FriendStatus status={that.state.user.relationship} friendId={that.state.user.id || null} />
+
+
+
             <Text style={{fontFamily: 'rubik'}}>
               Id: {this.state.user.id}
             </Text>
@@ -130,7 +152,7 @@ export default class OtherUserProfileScreen extends React.Component {
       </View>
     
     )
-  }
+  }}
 }
 
 var {height, width} = Dimensions.get('window');

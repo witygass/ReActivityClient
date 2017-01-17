@@ -27,6 +27,7 @@ import EventListEntry from '../components/EventListEntry';
 import EventTypeFilterBar from '../components/EventTypeFilterBar';
 import HomeScreenHeader from '../components/HomeScreenHeader';
 import dummyEventData from './dummyData/dummyEventData';
+import FilterBar from '../components/FilterBar';
 
 import { MonoText } from '../components/StyledText';
 import { api } from '../lib/ajaxCalls'
@@ -145,10 +146,13 @@ export default class HomeScreen extends React.Component {
             <View style={styles.header}>
               <HomeScreenHeader />
             </View>
-              <View style={styles.filterBarContainer}>
-                <EventTypeFilterBar action = {this.hotRefresh}/>
-              </View>
-            <View style={{height: height - 135}}>
+            <View style={{height: 40}}>
+              <EventTypeFilterBar action = {this.hotRefresh}/>
+            </View>
+            <View style={{height: 38}}>
+              <FilterBar />
+            </View>
+            <View>
               <ScrollView
                 style={styles.scrollView}
                 refreshControl={
