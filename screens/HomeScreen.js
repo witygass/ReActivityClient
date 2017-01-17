@@ -153,7 +153,6 @@ export default class HomeScreen extends React.Component {
               <FilterBar />
             </View>
             <View>
->>>>>>> -Add image upload template
               <ScrollView
                 style={styles.scrollView}
                 refreshControl={
