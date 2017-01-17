@@ -10,6 +10,8 @@ import {
 
 import { baseUrl } from '../lib/localvars.js';
 import { store } from '../lib/reduxStore.js';
+import GiftedFormExample from '../components/GiftedFormExample.js';
+
 
 export default class SignupScreen extends React.Component {
   static route = {
@@ -69,55 +71,7 @@ export default class SignupScreen extends React.Component {
       <ScrollView
         style={styles.container}
         contentContainerStyle={this.props.route.getContentContainerStyle()}>
-        <Text>Username:</Text>
-        <TextInput
-          onChangeText={(username) => this.setState({username})}
-          value={this.state.text}
-          style={styles.inputBox}
-        />
-      <Text>First Name:</Text>
-        <TextInput
-          onChangeText={(firstName) => this.setState({firstName})}
-          value={this.state.text}
-          style={styles.inputBox}
-        />
-      <Text>Last Name:</Text>
-        <TextInput
-          onChangeText={(lastName) => this.setState({lastName})}
-          value={this.state.text}
-          style={styles.inputBox}
-        />
-      <Text>Bio:</Text>
-        <TextInput
-          onChangeText={(bioText) => this.setState({bioText})}
-          value={this.state.text}
-          style={styles.inputBox}
-        />
-      <Text>Url to profile picture:</Text>
-        <TextInput
-          onChangeText={(profileUrl) => this.setState({profileUrl})}
-          value={this.state.text}
-          style={styles.inputBox}
-        />
-      <Text>Interests:</Text>
-      <Text>Option to select</Text>
-        <Text>Email:</Text>
-        <TextInput
-          onChangeText={(email) => this.setState({email})}
-          value={this.state.text}
-          style={styles.inputBox}
-        />
-        <Text>Password:</Text>
-        <TextInput
-          onChangeText={(password) => this.setState({password})}
-          value={this.state.text}
-          style={styles.inputBox}
-        />
-        <Button
-          onPress={this.submit}
-          title="Submit"
-          color="#841584"
-        />
+        <GiftedFormExample navigator={this.props.navigator} />
       </ScrollView>
     );
   }
