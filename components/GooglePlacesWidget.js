@@ -26,14 +26,13 @@ module.exports = React.createClass({
         autoFocus={false}
         fetchDetails={true}
         onPress={(data, details = {}) => { // details is provided when fetchDetails = true
-          // console.log(details);
-          this._onChange({
-            name: details.formatted_address,
-            placeId: details.place_id,
-            loc: [details.geometry.location.lng, details.geometry.location.lat],
-            types: details.types
-          });
-          this.props.onClose(details.formatted_address, this.props.navigator);
+          console.log('Google location found', data, details);
+          this.props.state.city = {
+            name: details.address_components[0],
+            placeId: data.id,
+            loc: [details.geometry.location.lng, details.geometry.location.lat]
+          };
+          // this.props.onClose(details.formatted_address, this.props.navigator);
         }}
         getDefaultValue={() => {
           return ''; // text input default value
@@ -42,7 +41,7 @@ module.exports = React.createClass({
           // available options: https://developers.google.com/places/web-service/autocomplete
           key: googleAPI,
           language: 'en', // language of the results
-          types: '(cities)', // default: 'geocode'
+          types: this.props.queryType, // default: 'geocode'
         }}
         styles={{
           description: {

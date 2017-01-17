@@ -1,18 +1,55 @@
 import React from 'react';
 import {
-  Text,
-  View,
-} from 'react-native';
+  Dimensions,
+  Modal,
+  Text, TouchableHighlight, View } from 'react-native';
 
 var {GiftedForm, GiftedFormManager} = require('react-native-gifted-form');
 var moment = require('moment');
+import GooglePlacesWidget from '../components/GooglePlacesWidget';
 
 export default class GiftedFormExample extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      modalVisible: false,
+      city: {}
+    }
   }
+
+  setModalVisible(visible) {
+    this.setState({modalVisible: visible});
+  }
+
   render() {
+    var {height, width} = Dimensions.get('window');
+
     return (
+      <View style={{flex: 1,
+          flexDirection: 'row',
+          alignItems: 'stretch',
+          justifyContent: 'center'}}>
+  <Modal
+    animationType={"slide"}
+    transparent={false}
+    visible={this.state.modalVisible}
+    onRequestClose={() => {alert("Modal has been closed.")}}
+    >
+    <View style={{flex: 1,
+        flexDirection: 'row',
+        alignItems: 'stretch',
+        justifyContent: 'center'}}>
+    <View style={{marginTop: 25, width: width}}>
+      <GooglePlacesWidget queryType='(cities)' state = {this.state}/>
+    </View>
+  </View>
+      <TouchableHighlight onPress={() => {
+        this.setModalVisible(!this.state.modalVisible)
+      }}>
+        <Text>Hide Modal</Text>
+      </TouchableHighlight>
+
+  </Modal>
       <GiftedForm
         formName='signupForm' // GiftedForm instances that use the same name will also share the same states
 
@@ -21,7 +58,8 @@ export default class GiftedFormExample extends React.Component {
           // for (var key in route) {
           //   console.log(key, route[key]);
           // }
-          this.props.navigator.push('googlePlacesWidget'); // The ModalWidget will be opened using this method. Tested with ExNavigator
+          this.setModalVisible(true);
+          // this.props.navigator.push('googlePlacesWidget'); // The ModalWidget will be opened using this method. Tested with ExNavigator
         }}
 
         clearOnClose={false} // delete the values of the form when unmounted
@@ -33,7 +71,7 @@ export default class GiftedFormExample extends React.Component {
           password: '',
           emailAddress: '',
           country: 'FR',
-          bio : 'more Text'
+          bio : ''
 
         }}
 
@@ -166,26 +204,15 @@ export default class GiftedFormExample extends React.Component {
           />
         </GiftedForm.ModalWidget>
 
-
-        <GiftedForm.ModalWidget
+        <GiftedForm.TextInputWidget
+          name='bio' // mandatory
           title='Biography'
-          displayValue='bio'
 
           image={require('../assets/images/icons/book.png')}
 
-          scrollEnabled={true} // true by default
-        >
-          <GiftedForm.SeparatorWidget/>
-          <GiftedForm.TextAreaWidget
-            name='bio'
-
-            autoFocus={true}
-
-            placeholder='Something interesting about yourself'
-          />
-        </GiftedForm.ModalWidget>
-
-
+          placeholder='something interesting about yourself'
+          clearButtonMode='while-editing'
+        />
 
         <GiftedForm.SubmitWidget
           title='Sign up'
@@ -197,7 +224,7 @@ export default class GiftedFormExample extends React.Component {
           onSubmit={(isValid, values, validationResults, postSubmit = null, modalNavigator = null) => {
             if (isValid === true) {
               // prepare object
-              console.log(values);
+              console.log(values, this.state);
               //  Implement the request to your server using values variable
               //  then you can do:
               //  postSubmit(); // disable the loader
@@ -218,6 +245,7 @@ export default class GiftedFormExample extends React.Component {
         <GiftedForm.HiddenWidget name='tos' value={true} />
 
       </GiftedForm>
+      </View>
     );
   }
 };
