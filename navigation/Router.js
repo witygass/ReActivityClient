@@ -36,6 +36,6 @@ export default createRouter(() => ({
   otherUserProfile: () => OtherUserProfile,
   testProfileAvatar: () => ProfileAvatar,
   imageUpload: () => ImageUpload,
-  filterOptions: () => FilterOptions
+  filterOptions: () => FilterOptions,
   googlePlacesWidget: () => GooglePlacesWidget
 }));

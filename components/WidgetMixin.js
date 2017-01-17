@@ -6,6 +6,8 @@ var {
 
 var {GiftedFormManager} = require('react-native-gifted-form');
 
+var path = '../node_modules/react-native-gifted-form/'
+
 module.exports = {
 
   getInitialState() {
@@ -175,7 +177,7 @@ module.exports = {
       return null;
     }
 
-    var ValidationErrorWidget = require('../widgets/ValidationErrorWidget');
+    var ValidationErrorWidget = require(path + 'widgets/ValidationErrorWidget');
     return (
       <ValidationErrorWidget
         {...this.props}
@@ -215,7 +217,7 @@ module.exports = {
     const shouldShowValidationImage = this.props.validationImage === true;
 
     if (hasValue && hasImageProp && !isOptionWidget && shouldShowValidationImage && toValidate) {
-      const imageSrc = hasValidationErrors ? require('../icons/delete_sign.png'):require('../icons/checkmark.png');
+      const imageSrc = hasValidationErrors ? require(path + 'icons/delete_sign.png'):require(path + 'icons/checkmark.png');
 
       return (
         <Image
