@@ -42,7 +42,7 @@ export default class HomeScreenHeader extends React.Component {
           name={'plus-square-o'}
           size={28}
           color={'white'}
-          style={{marginRight: 7.5}}
+          style={styles.icon}
         />
       </View>
     );
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-around',
+    justifyContent: 'center',
     ...Platform.select({
       ios: {
         shadowColor: 'black',
@@ -77,10 +77,15 @@ const styles = StyleSheet.create({
     width: width * .33332,
   },
   filterOptionText: {
+    flex: 1,
     marginLeft: width * .07,
     textAlign: 'center',
     fontSize: 20,
     color: 'white',
     fontFamily: 'rubik',
+  },
+  icon: {
+    marginRight: 7.5,
+    marginTop: 3
   }
 });
