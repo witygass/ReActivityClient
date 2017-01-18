@@ -7,8 +7,9 @@ import {
 var {GiftedForm, GiftedFormManager} = require('react-native-gifted-form');
 var moment = require('moment');
 import GooglePlacesWidget from '../components/GooglePlacesWidget';
+import { api } from '../lib/ajaxCalls.js';
 
-export default class GiftedFormExample extends React.Component {
+export default class SignupForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -59,18 +60,27 @@ export default class GiftedFormExample extends React.Component {
 
         defaults={{
           //
-          fullName : '',
-          username: '',
-          password: '',
-          emailAddress: '',
-          city: ' ',
-          bio : ''
+          firstName : 'Marco',
+          lastName : 'Polo',
+          username: 'MarcoPolo',
+          password: 'marcopolo',
+          email: 'marco@polo.de',
+          city: 'Fr',
+          bioText : 'dsfasdfsd'
 
         }}
 
         validators={{
-          fullName: {
-            title: 'Full name',
+          firstName: {
+            title: 'First name',
+            validate: [{
+              validator: 'isLength',
+              arguments: [1, 23],
+              message: '{TITLE} must be between {ARGS[0]} and {ARGS[1]} characters'
+            }]
+          },
+          lastName: {
+            title: 'Last name',
             validate: [{
               validator: 'isLength',
               arguments: [1, 23],
@@ -97,7 +107,7 @@ export default class GiftedFormExample extends React.Component {
               message: '{TITLE} must be between {ARGS[0]} and {ARGS[1]} characters'
             }]
           },
-          emailAddress: {
+          email: {
             title: 'Email address',
             validate: [{
               validator: 'isLength',
@@ -106,7 +116,7 @@ export default class GiftedFormExample extends React.Component {
               validator: 'isEmail',
             }]
           },
-          bio: {
+          bioText: {
             title: 'Biography',
             validate: [{
               validator: 'isLength',
@@ -116,23 +126,28 @@ export default class GiftedFormExample extends React.Component {
           },
           city: {
             title: 'City',
-            validate: [{
-              validator: 'isLength',
-              arguments: [2],
-              message: '{TITLE} is required'
-            }]
           },
         }}
       >
 
+      <GiftedForm.SeparatorWidget />
+      <GiftedForm.TextInputWidget
+        name='firstName' // mandatory
+        title='First name'
+
+        image={require('../assets/images/icons/user.png')}
+
+        placeholder='Marco'
+        clearButtonMode='while-editing'
+        />
         <GiftedForm.SeparatorWidget />
         <GiftedForm.TextInputWidget
-          name='fullName' // mandatory
-          title='Full name'
+          name='lastName' // mandatory
+          title='Last name'
 
           image={require('../assets/images/icons/user.png')}
 
-          placeholder='Marco Polo'
+          placeholder='Polo'
           clearButtonMode='while-editing'
         />
 
@@ -149,7 +164,7 @@ export default class GiftedFormExample extends React.Component {
             if (!currentText) {
               let fullName = GiftedFormManager.getValue('signupForm', 'fullName');
               if (fullName) {
-                return fullName.replace(/[^a-zA-Z0-9-_]/g, '');
+                return firstName.replace(/[^a-zA-Z0-9-_]/g, '') + lastName.replace(/[^a-zA-Z0-9-_]/g, '');
               }
             }
             return currentText;
@@ -169,7 +184,7 @@ export default class GiftedFormExample extends React.Component {
         />
 
         <GiftedForm.TextInputWidget
-          name='emailAddress' // mandatory
+          name='email' // mandatory
           title='Email address'
           placeholder='example@nomads.ly'
 
@@ -198,7 +213,7 @@ export default class GiftedFormExample extends React.Component {
         </GiftedForm.ModalWidget>
 
         <GiftedForm.TextInputWidget
-          name='bio' // mandatory
+          name='bioText' // mandatory
           title='Biography'
 
           image={require('../assets/images/icons/book.png')}
@@ -217,17 +232,36 @@ export default class GiftedFormExample extends React.Component {
           onSubmit={(isValid, values, validationResults, postSubmit = null, modalNavigator = null) => {
             if (isValid === true) {
               // prepare object
-              values.city = this.state.city.name.long_name;
-              console.log(values, this.state);
-              this.render();
-              //  Implement the request to your server using values variable
+              data = {
+                firstName: values.firstName,
+                lastName: values.lastName,
+                username: values.username,
+                password: values.password,
+                email: values.email,
+                bioText: values.bioText,
+                homeLocation: [{
+                  id: this.state.details.place_id,
+                  name: this.state.details.name,
+                  address: this.state.details.formatted_address,
+                  latitude: this.state.details.geometry.location.lat,
+                  longitude: this.state.details.geometry.location.lng,
+                  locationName: 'home'
+                }],
+                interests: [1, 2, 3]
+              }
+              api.signupUser(function(response) {
+                console.log(response);
+              }, JSON.stringify(data));
+                postSubmit();
               //  then you can do:
               //  postSubmit(); // disable the loader
               //  postSubmit(['An error occurred, please try again']); // disable the loader and display an error message
               //  postSubmit(['Username already taken', 'Email already taken']); // disable the loader and display an error message
               //  GiftedFormManager.reset('signupForm'); // clear the states of the form manually. 'signupForm' is the formName used
-              GiftedFormManager.reset();
-              postSubmit();
+              // GiftedFormManager.reset();
+
+            } else {
+              console.log(values, this.state.details);
             }
           }}
 

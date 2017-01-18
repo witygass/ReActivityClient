@@ -10,7 +10,7 @@ import {
 
 import { baseUrl } from '../lib/localvars.js';
 import { store } from '../lib/reduxStore.js';
-import GiftedFormExample from '../components/GiftedFormExample.js';
+import SignupForm from '../components/SignupForm.js';
 
 
 export default class SignupScreen extends React.Component {
@@ -71,7 +71,7 @@ export default class SignupScreen extends React.Component {
       <ScrollView
         style={styles.container}
         contentContainerStyle={this.props.route.getContentContainerStyle()}>
-        <GiftedFormExample navigator={this.props.navigator} />
+        <SignupForm navigator={this.props.navigator} />
       </ScrollView>
     );
   }
