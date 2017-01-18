@@ -85,6 +85,12 @@ export default class HomeScreen extends React.Component {
       that.setState({friendsEvents: events});
     })
 
+    api.getSports(function(sports) {
+      store.dispatch({
+        type: 'SET_SPORT_IDS', 
+        sportIds: sports
+      });
+    })
   }
 
   // This is called when the user pulls down the page when they are already at the top.
