@@ -239,15 +239,15 @@ export default class SignupForm extends React.Component {
                 password: values.password,
                 email: values.email,
                 bioText: values.bioText,
-                homeLocation: [{
+                homeLocation: {
                   id: this.state.details.place_id,
                   name: this.state.details.name,
                   address: this.state.details.formatted_address,
                   latitude: this.state.details.geometry.location.lat,
                   longitude: this.state.details.geometry.location.lng,
                   locationName: 'home'
-                }],
-                interests: [1, 2, 3]
+                },
+                interests: [22, 23, 24]
               }
               api.signupUser(function(response) {
                 console.log(response);
