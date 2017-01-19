@@ -21,16 +21,13 @@ export default class EditProfileForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      modalVisible: false,
       modalInterests: false,
-      city: {},
       availableInterests: [],
       selectedInterests: [],
       submitWarning: '',
       defaults: {
         firstName : '',
         lastName : '',
-        password: '',
         bioText : ''
       },
       loaded: false,
@@ -44,11 +41,11 @@ export default class EditProfileForm extends React.Component {
         // console.log(userInfo);
         let userInterests = [];
         for (var i = 0; i < userInfo.interests.length; i++) {
-          console.log('userInterests: ', userInfo.interests[i]);
           userInterests.push({label: userInfo.interests[i].sport, value: userInfo.interests[i].id});
         }
         this.setState({
           defaults: {
+            id: userInfo.id,
             firstName : userInfo.firstName,
             lastName : userInfo.lastName,
             password: '',
@@ -63,13 +60,11 @@ export default class EditProfileForm extends React.Component {
     let interestsFromStore = store.getState().sportsToIds;
     let availableInterests = [];
     for (let i = 0; i < interestsFromStore.length; i++) {
-      console.log('availableInterests: ', interestsFromStore[i]);
       availableInterests.push({label: interestsFromStore[i].sport, value: interestsFromStore[i].id});
     }
     this.setState({
       availableInterests: availableInterests,
     });
-    // console.log(this.state)
   }
 
   onSelectionsChange = (selectedInterests) => {
@@ -110,22 +105,15 @@ export default class EditProfileForm extends React.Component {
         title="Confirm"
         color="blue"
       />
-
-
   </Modal>
 
       <GiftedForm
         formName='signupForm' // GiftedForm instances that use the same name will also share the same states
-
         openModal={(route) => {
-        this.setState({modalVisible: true});
-          // this.props.navigator.push('googlePlacesWidget'); // The ModalWidget will be opened using this method. Tested with ExNavigator
+          this.setState({modalVisible: true});
         }}
-
         clearOnClose={false} // delete the values of the form when unmounted
-
         defaults={this.state.defaults}
-
         validators={{
           firstName: {
             title: 'First name',
@@ -143,35 +131,6 @@ export default class EditProfileForm extends React.Component {
               message: '{TITLE} must be between {ARGS[0]} and {ARGS[1]} characters'
             }]
           },
-          username: {
-            title: 'Username',
-            validate: [{
-              validator: 'isLength',
-              arguments: [3, 16],
-              message: '{TITLE} must be between {ARGS[0]} and {ARGS[1]} characters'
-            },{
-              validator: 'matches',
-              arguments: /^[a-zA-Z0-9]*$/,
-              message: '{TITLE} can contains only alphanumeric characters'
-            }]
-          },
-          password: {
-            title: 'Password',
-            validate: [{
-              validator: 'isLength',
-              arguments: [6, 16],
-              message: '{TITLE} must be between {ARGS[0]} and {ARGS[1]} characters'
-            }]
-          },
-          email: {
-            title: 'Email address',
-            validate: [{
-              validator: 'isLength',
-              arguments: [6, 255],
-            },{
-              validator: 'isEmail',
-            }]
-          },
           bioText: {
             title: 'Biography',
             validate: [{
@@ -180,56 +139,29 @@ export default class EditProfileForm extends React.Component {
               message: '{TITLE} must be between {ARGS[0]} and {ARGS[1]} characters'
             }]
           },
-          city: {
-            title: 'City',
-          },
         }}
       >
-
-      <GiftedForm.SeparatorWidget />
       <GiftedForm.TextInputWidget
         name='firstName' // mandatory
         title='First name'
-
         image={require('../assets/images/icons/user.png')}
-
         placeholder='Marco'
         clearButtonMode='while-editing'
         />
         <GiftedForm.TextInputWidget
           name='lastName' // mandatory
           title='Last name'
-
           image={require('../assets/images/icons/user.png')}
-
           placeholder='Polo'
           clearButtonMode='while-editing'
         />
-
-        <GiftedForm.TextInputWidget
-          name='password' // mandatory
-          title='Password'
-
-          placeholder='******'
-
-
-          clearButtonMode='while-editing'
-          secureTextEntry={true}
-          image={require('../assets/images/icons/lock.png')}
-        />
-
-        <GiftedForm.SeparatorWidget />
-
         <GiftedForm.TextInputWidget
           name='bioText' // mandatory
           title='Biography'
-
           image={require('../assets/images/icons/book.png')}
-
           placeholder='something interesting about yourself'
           clearButtonMode='while-editing'
           />
-
         <Button
           onPress={() => { this.setState({modalInterests: true}); }}
           title="Change interests"
@@ -245,7 +177,7 @@ export default class EditProfileForm extends React.Component {
             }
           }}
           onSubmit={(isValid, values, validationResults, postSubmit = null, modalNavigator = null) => {
-            if (isValid === true && this.state.details) {
+            if (isValid === true) {
               // prepare object
               interestsToSend = [];
               for (var i = 0; i < this.state.selectedInterests.length; i++) {
@@ -255,31 +187,31 @@ export default class EditProfileForm extends React.Component {
               data = {
                 firstName: values.firstName,
                 lastName: values.lastName,
-                username: values.username,
-                password: values.password,
-                email: values.email,
                 bioText: values.bioText,
-                homeLocation: {
-                  id: this.state.details.place_id,
-                  name: this.state.details.name,
-                  address: this.state.details.formatted_address,
-                  latitude: this.state.details.geometry.location.lat,
-                  longitude: this.state.details.geometry.location.lng,
-                  locationName: 'home'
-                },
-                interests: interestsToSend
               }
-              api.signupUser((response) => {
+              api.editProfile(this.state.defaults.id, (response) => {
                 if (response.status > 400 ) {
                   postSubmit();
                   this.setState({submitWarning: response._bodyText})
                   console.log('Error in the API callback', response._bodyText);
-                } else if (response.status === 201) {
-                  console.log('SignUp successul');
+                } else if (response.status === 200) {
+                  console.log('Profile change successul');
                   postSubmit();
-                  this.props.navigator.push('signin');
+                  this.props.navigator.push('settings');
                 }
               }, JSON.stringify(data));
+
+              api.editInterests((response) => {
+                if (response.status > 400 ) {
+                  postSubmit();
+                  this.setState({submitWarning: response._bodyText})
+                  console.log('Error in the API callback', response._bodyText);
+                } else if (response.status === 200) {
+                  console.log('Interests change successul');
+                  postSubmit();
+                  this.props.navigator.push('settings');
+                }
+              }, JSON.stringify({interests: interestsToSend}));
 
               //  then you can do:
               //  postSubmit(); // disable the loader
@@ -295,12 +227,6 @@ export default class EditProfileForm extends React.Component {
           }}
 
         />
-        <GiftedForm.NoticeWidget
-          title='By signing up, you agree to the Terms of Service and Privacy Policity.'
-        />
-
-        <GiftedForm.HiddenWidget name='tos' value={true} />
-
       </GiftedForm>
       </View>
     );
