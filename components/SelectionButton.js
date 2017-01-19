@@ -25,12 +25,23 @@ export default class SelectionButton extends React.Component {
       // array on click
       selected: false,
       // The activity associated with this particular button
-      activity: this.props.activity
+      activity: this.props.activity,
+      // This refresh value exists only so that it can be changed with setState(). This
+      // causes the page to re-render, effectively refreshing it. It's actual value doesn't
+      // matter -- only that it changed.
+      refresh: true
     }
 
     // Bind functions
     this.back = this.back.bind(this);
     this.buttonPress = this.buttonPress.bind(this);
+    this.r = this.r.bind(this);
+  }
+
+  r() {
+    // This is a refresh function. It is meant to be short, since it might be called 
+    // frequently.
+    this.setState({refresh: !this.state.refresh});
   }
 
   back() {
@@ -38,10 +49,44 @@ export default class SelectionButton extends React.Component {
   }
 
   buttonPress() {
-    console.log('One is being pressed!');
 
-    if (!this.state.selected) {
-      this.setState({selected: true});
+    console.log('Weve pressed the button.')
+
+    // Check if filterButtonSelected has a value on it. If not, the button is being pressed
+    // for the first time. In this case, set selected to 'true'.
+    if (store.getState().filterButtonSelected[this.state.activity] === undefined) {
+      console.log('THIS SHOULD BE HAPPENING')
+      store.dispatch({
+        type: 'SET_FILTER_BUTTON',
+        eventName: this.state.activity,
+        newValue: false
+      })
+      this.r();
+
+    }
+    // if the value is false, set it to true.
+    if (store.getState().filterButtonSelected[this.state.activity] === false) {
+      store.dispatch({
+        type: 'SET_FILTER_BUTTON', 
+        eventName: this.state.activity,
+        newValue: true
+      })
+      this.r();
+    }
+
+    // If the value is true, set it to false.
+    else if (store.getState().filterButtonSelected[this.state.activity] === true) {
+      store.dispatch({
+        type: 'SET_FILTER_BUTTON',
+        eventName: this.state.activity,
+        newValue: false
+      })
+      this.r();
+    }
+
+
+    // If the value is true, then push it to the filter.
+    if (store.getState().filterButtonSelected[this.state.activity] === true) {
       // Add to redux store.
       var activities = store.getState().selectedActivities;
       activities.push(this.state.activity);
@@ -49,9 +94,10 @@ export default class SelectionButton extends React.Component {
         type: 'SET_SELECTED_ACTIVITIES',
         selectedActivities: activities
       });
-    } else {
-      this.setState({selected: false});
-      // Remove from parent array.
+    }
+
+    // If the value is false, remove it from the filter. 
+    if (store.getState().filterButtonSelected[this.state.activity] === false) {
       var copy = store.getState().selectedActivities;
       var newArr = [];
       for (var i = 0; i < copy.length; i++) {
@@ -67,8 +113,10 @@ export default class SelectionButton extends React.Component {
   render() {
     var that = this;
 
+    console.log('Selected is:', store.getState().filterButtonSelected[this.state.activity]);
+
     // Set our style
-    if (this.state.selected) {
+    if (store.getState().filterButtonSelected[this.state.activity]) {
       _style = { backgroundColor: 'coral' }
     } else {
       _style = { backgroundColor: 'white' }
