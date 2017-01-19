@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fbfbfb',
     paddingVertical: 6,
     minHeight: 95,
-    marginBottom: 3,
+    marginBottom: 0,
     ...Platform.select({
       ios: {
         shadowColor: 'black',
@@ -88,8 +88,8 @@ const styles = StyleSheet.create({
     borderRightWidth: 1,
   },
   creatorPhoto: {
-    width: 50,
-    height: 50,
+    width: 100,
+    height: 100,
   },
   creatorName: {
     textAlign: 'center',
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
     fontWeight: '300',
   },
   details: {
-    marginLeft: width * .02,
+    marginLeft: width * .05,
     width: width * .76,
   },
   title: {
@@ -105,8 +105,6 @@ const styles = StyleSheet.create({
   },
   description: {
     color: 'darkslategray',
-    marginTop: 5,
-    marginRight: 3,
     fontSize: 13,
     fontWeight: '100'
   },

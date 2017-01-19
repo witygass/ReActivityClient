@@ -16,13 +16,30 @@ import { store } from '../lib/reduxStore.js';
 export default class EventTypeFilterBar extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      currentlySelected: 'Mine'
+    }
   }
 
   render() {
     var that = this;
+    var mineColor = this.state.currentlySelected === 'Mine' ? 'peachpuff' : 'seashell';
+    var friendsColor = this.state.currentlySelected === 'Friends' ? 'peachpuff' : 'seashell';
+    var nearbyColor = this.state.currentlySelected === 'Nearby' ? 'peachpuff' : 'seashell';
+
     return (
         <View style={styles.filterBar}>
-          <TouchableOpacity style={styles.filterOption}
+          <TouchableOpacity style={{
+            flex: 1,
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: width * .33332,
+            backgroundColor: mineColor,
+            borderStyle: 'solid',
+            borderColor: 'white',
+            borderWidth: 1,
+          }}
             onPress={
                 function() {
                   store.dispatch({
@@ -30,12 +47,24 @@ export default class EventTypeFilterBar extends React.Component {
                     viewing: 'myEvents'
                   })
                   that.props.action();
+                  that.setState({currentlySelected: 'Mine'});
                 }
               }
+
           >
             <Text style={styles.filterOptionText}>Mine</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.filterOption}
+          <TouchableOpacity style={{
+            flex: 1,
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: width * .33332,
+            backgroundColor: friendsColor,
+            borderStyle: 'solid',
+            borderColor: 'white',
+            borderWidth: 1,
+          }}
             onPress={
                 function() {
                   store.dispatch({
@@ -43,12 +72,23 @@ export default class EventTypeFilterBar extends React.Component {
                     viewing: 'friendsEvents'
                   })
                   that.props.action();
+                  that.setState({currentlySelected: 'Friends'})
                 }
               }
           >
             <Text style={styles.filterOptionText}>Friends</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.filterOption}
+          <TouchableOpacity style={{
+            flex: 1,
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: width * .33332,
+            backgroundColor: nearbyColor,
+            borderStyle: 'solid',
+            borderColor: 'white',
+            borderWidth: 1,
+          }}
             onPress={
                 function() {
                   store.dispatch({
@@ -56,6 +96,7 @@ export default class EventTypeFilterBar extends React.Component {
                     viewing: 'nearbyEvents'
                   })
                   that.props.action();
+                  that.setState({currentlySelected: 'Nearby'})
                 }
               }
           >
@@ -86,20 +127,20 @@ const styles = StyleSheet.create({
       },
     }),
   },
-  filterOption: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: width * .33332,
-    backgroundColor: 'peachpuff',
-    borderStyle: 'solid',
-    borderColor: 'white',
-    borderWidth: 1,
-    // borderRadius: 5,
-  },
+  /* THIS IS NOW INLINE TO SUPPORT SELECTED COLOR - WOULD LIKE TO FIX THIS IN FUTURE */
+  // filterOption: {
+  //   flex: 1,
+  //   flexDirection: 'row',
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
+  //   width: width * .33332,
+  //   backgroundColor: 'peachpuff',
+  //   borderStyle: 'solid',
+  //   borderColor: 'white',
+  //   borderWidth: 1,
+  // },
   filterOptionText: {
-    color: 'darkslategray',
+    color: 'black',
     textAlign: 'center',
     fontSize: 17,
     fontFamily: 'rubik'
