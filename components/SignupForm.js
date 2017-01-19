@@ -14,6 +14,8 @@ import GooglePlacesWidget from '../components/GooglePlacesWidget';
 // import LocationDropDown from '../components/LocationDropDown';
 import SelectMultiple from 'react-native-select-multiple'
 import { api } from '../lib/ajaxCalls.js';
+import { store } from '../lib/reduxStore'
+
 
 export default class SignupForm extends React.Component {
   constructor(props) {
@@ -24,23 +26,20 @@ export default class SignupForm extends React.Component {
       city: {},
       availableInterests: [],
       selectedInterests: [],
+      submitWarning: ''
     }
   }
   componentWillMount() {
-    api.getInterests((interests) => {
-      console.log(interests);
+    let interests = store.getState().sportsToIds;
       let availableInterests = []
       for (var i = 0; i < interests.length; i++) {
-        console.log(interests[i].sport, interests[i].id);
         availableInterests.push({label: interests[i].sport, value: interests[i].id});
       }
-      console.log(this.state, availableInterests);
       this.setState({availableInterests: availableInterests});
-    });
   }
-  onSelectionsChange = (selectedFruits) => {
+  onSelectionsChange = (selectedInterests) => {
     // selectedFruits is array of { label, value }
-    this.setState({ selectedFruits })
+    this.setState({ selectedInterests: selectedInterests })
   }
 
   render() {
@@ -86,7 +85,7 @@ export default class SignupForm extends React.Component {
         justifyContent: 'center'}}>
         <SelectMultiple
           items={this.state.availableInterests}
-          selectedItems={this.state.selectedFruits}
+          selectedItems={this.state.selectedInterests}
           onSelectionsChange={this.onSelectionsChange} />
   </View>
       <Button
@@ -104,7 +103,6 @@ export default class SignupForm extends React.Component {
         formName='signupForm' // GiftedForm instances that use the same name will also share the same states
 
         openModal={(route) => {
-          console.log('modal');
         this.setState({modalVisible: true});
           // this.props.navigator.push('googlePlacesWidget'); // The ModalWidget will be opened using this method. Tested with ExNavigator
         }}
@@ -113,13 +111,13 @@ export default class SignupForm extends React.Component {
 
         defaults={{
           //
-          firstName : 'Marco',
-          lastName : 'Polo',
-          username: 'MarcoPolo',
-          password: 'marcopolo',
-          email: 'marco@polo.de',
-          city: 'Fr',
-          bioText : 'dsfasdfsd'
+          firstName : '',
+          lastName : '',
+          username: '',
+          password: '',
+          email: '',
+          city: 'HR',
+          bioText : ''
 
         }}
 
@@ -214,9 +212,10 @@ export default class SignupForm extends React.Component {
 
           onTextInputFocus={(currentText = '') => {
             if (!currentText) {
-              let fullName = GiftedFormManager.getValue('signupForm', 'fullName');
-              if (fullName) {
-                return firstName.replace(/[^a-zA-Z0-9-_]/g, '') + lastName.replace(/[^a-zA-Z0-9-_]/g, '');
+              let firstName = GiftedFormManager.getValue('signupForm', 'firstName');
+              let lastName = GiftedFormManager.getValue('signupForm', 'lastName');
+              if (firstName) {
+                return (firstName.replace(/[^a-zA-Z0-9-_]/g, '') + lastName.replace(/[^a-zA-Z0-9-_]/g, ''));
               }
             }
             return currentText;
@@ -273,12 +272,13 @@ export default class SignupForm extends React.Component {
           />
         </GiftedForm.ModalWidget>
 
-        <TouchableHighlight onPress={() => {
-          this.setState({modalInterests: true});
-        }}>
-          <Text>Choose interests</Text>
-        </TouchableHighlight>
+        <Button
+          onPress={() => { this.setState({modalInterests: true}); }}
+          title="Choose interests"
+          color="blue"
+        />
 
+      <Text style={{color: 'red'}}>{this.state.submitWarning}</Text>
         <GiftedForm.SubmitWidget
           title='Sign up'
           widgetStyles={{
@@ -287,11 +287,13 @@ export default class SignupForm extends React.Component {
             }
           }}
           onSubmit={(isValid, values, validationResults, postSubmit = null, modalNavigator = null) => {
-            console.log(values, this.state);
-            if (isValid === true) {
+            if (isValid === true && this.state.details) {
               // prepare object
+              interestsToSend = [];
+              for (var i = 0; i < this.state.selectedInterests.length; i++) {
+              interestsToSend.push(this.state.selectedInterests[i].value);
+              }
 
-              console.log(this.state);
               data = {
                 firstName: values.firstName,
                 lastName: values.lastName,
@@ -307,29 +309,34 @@ export default class SignupForm extends React.Component {
                   longitude: this.state.details.geometry.location.lng,
                   locationName: 'home'
                 },
-                interests: [22, 23, 24]
+                interests: interestsToSend
               }
-              api.signupUser(function(response) {
-                if (response.status === 409) {
-                  postSubmit(['An error occurred, please try again']);
-                  console.log(response);
+              api.signupUser((response) => {
+                if (response.status > 400 ) {
+                  postSubmit();
+                  this.setState({submitWarning: response._bodyText})
+                  console.log('Error in the API callback', response._bodyText);
+                } else if (response.status === 201) {
+                  console.log('SignUp successul');
+                  postSubmit();
+                  this.props.navigator.push('signin');
                 }
               }, JSON.stringify(data));
-              postSubmit(['An error occurred, please try again']);
+
               //  then you can do:
               //  postSubmit(); // disable the loader
               //  postSubmit(['An error occurred, please try again']); // disable the loader and display an error message
               //  postSubmit(['Username already taken', 'Email already taken']); // disable the loader and display an error message
               //  GiftedFormManager.reset('signupForm'); // clear the states of the form manually. 'signupForm' is the formName used
-              // GiftedFormManager.reset();
 
             } else {
-              console.log(values, this.state.details);
+              postSubmit(['Please fill out the fields']);
+              this.setState({submitWarning: 'Please fill out the fields correctly'})
+              console.log('Fields not valid');
             }
           }}
 
         />
-
         <GiftedForm.NoticeWidget
           title='By signing up, you agree to the Terms of Service and Privacy Policity.'
         />
