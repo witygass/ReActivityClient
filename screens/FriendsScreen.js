@@ -56,7 +56,7 @@ export default class FriendsScreen extends React.Component {
   };
 
   renderHeader = (props) => {
-    return <TabBarTop {...props} />;
+    return <TabBarTop {...props} style={{backgroundColor: 'coral'}}/>;
   };
 
   renderScene = ({ route }) => {
