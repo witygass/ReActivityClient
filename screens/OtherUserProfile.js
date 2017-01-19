@@ -108,27 +108,19 @@ export default class OtherUserProfileScreen extends React.Component {
       
             <Image source = {{uri: this.state.user.profileUrl}} style={styles.profileImage}>
             </Image>
-            <Text style={{fontFamily: 'rubik', fontSize: 25}}>
+            <Text style={{fontFamily: 'rubik', fontSize: 25, marginLeft: 3}}>
               {this.state.user.firstName + ' ' + this.state.user.lastName}
             </Text>
 
-
+            <Text style={{fontFamily: 'rubik', color: '#444', marginLeft: 3}}>
+              @{this.state.user.username}
+            </Text>
 
             <FriendStatus status={that.state.user.relationship} friendId={that.state.user.id || null} />
 
-
-
-            <Text style={{fontFamily: 'rubik'}}>
-              Id: {this.state.user.id}
-            </Text>
-            <Text style={{fontFamily: 'rubik'}}>
-              @{this.state.user.username}
-            </Text>
-            <Text style={{fontFamily: 'rubik'}}>
-              Last Active: {this.state.user.lastActive}
-            </Text>
             <View style={styles.activityContainer}>
-            <Text style={{marginRight: 3, fontFamily: 'rubik'}}>
+
+            <Text style={{marginRight: 3, fontFamily: 'rubik', fontSize: 16, marginLeft: 3}}>
               Interests:  
             </Text>
               {this.state.user.interests.map( (interest) => {
@@ -137,15 +129,19 @@ export default class OtherUserProfileScreen extends React.Component {
                 )})
               }
             </View>
-            <Text style={{fontFamily: 'rubik'}}>
-              Bio: {this.state.user.bioText}
+
+            <Text style={{fontFamily: 'rubik', fontSize: 16, marginBottom: 10, marginTop: 5, marginLeft: 20, color: '#333'}}>
+              "{this.state.user.bioText}"
             </Text>
-            <Text style={{fontFamily: 'rubik'}}>
-            Events:
-            </Text>
-              {this.state.user.activities.map((activity) => (
-                <EventListEntry event={activity} key={activity.id} navigator={that.props.navigator} />
-              ))}
+            <View style={styles.eventTitle}>
+              <Text style={{fontFamily: 'rubik', fontSize: 18, marginLeft: 3}}>
+              Events:
+              </Text>
+            </View>
+
+            {this.state.user.activities.map((activity) => (
+              <EventListEntry event={activity} key={activity.id} navigator={that.props.navigator} />
+            ))}
 
           </View>
         </ScrollView>
@@ -231,6 +227,12 @@ const styles = StyleSheet.create({
       flex: 1, 
       flexWrap: 'wrap',
       flexDirection: 'row'
+    },
+    eventTitle: {
+      backgroundColor: 'peachpuff',
+      paddingVertical: 10,
+      borderTopWidth: 1,
+      borderTopColor: '#eee'
     }
 
 })
