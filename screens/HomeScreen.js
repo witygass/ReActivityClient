@@ -163,7 +163,6 @@ export default class HomeScreen extends React.Component {
 
   render() {
     var that = this;
-    console.log('We are rendering again. Nearby Events are:', this.state.nearbyEvents);
     // console.log('that.state.myEvents is: ', that.state.myEvents);
     var toRender = that.state[that.state.currentlyViewing];
     if(this.state.tokenRender) {
