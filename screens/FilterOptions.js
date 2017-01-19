@@ -55,6 +55,8 @@ export default class FilterOptions extends React.Component {
     // state before saving. And by 'state', I do mean redux.
     var activities = store.getState().selectedActivities;
 
+    this.props.navigator.pop();
+
     console.log('Activities is:', activities);
 
   }
