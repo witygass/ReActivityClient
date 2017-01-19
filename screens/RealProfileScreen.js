@@ -10,6 +10,7 @@ import {
   StyleSheet,
   Platform
 } from 'react-native';
+import { Components } from 'exponent';
 
 import ProfileAvatar from '../components/ProfileAvatar';
 import EventListEntry from '../components/EventListEntry';
@@ -42,7 +43,7 @@ export default class RealProfileScreen extends React.Component {
       that.setState({user: user});
     })
   }
-  
+
 
   renderFeed(feed) {
     var that = this;
@@ -79,18 +80,26 @@ export default class RealProfileScreen extends React.Component {
     return (
 
       <View style={styles.container}>
-      <View style={styles.headerBar}>
-        <Text style={styles.headerTitle}>
-          My Profile
-        </Text>
-      </View>
+        <View style={styles.headerBar}>
+          <Text style={styles.headerTitle}>
+            My Profile
+          </Text>
+        </View>
         <ScrollView style={styles.container}
           contentContainer={styles.contentContainer}>
           <View style={styles.profileView}>
-            <Image style={styles.profileImage}
-              source = {{uri: this.state.user.profileUrl}}
-            >
-            </Image>
+            <View style={styles.profileImageContainer}>
+              <Image style={styles.profileImage}
+                source = {{uri: this.state.user.profileUrl}}
+                >
+                <Components.LinearGradient
+                  colors={['transparent', 'rgba(0,0,0,1)']}
+                  style={styles.creatorNameGradient}
+                  >
+                  <Text style={styles.creatorName}>{this.state.user.firstName + ' ' + this.state.user.lastName}</Text>
+                </Components.LinearGradient>
+              </Image>
+            </View>
             <View style={styles.shadowView}>
               <Text style={styles.name}>
                 {this.state.user.firstName + ' ' + this.state.user.lastName}
@@ -108,7 +117,7 @@ export default class RealProfileScreen extends React.Component {
               </Text>
               <Text style={styles.interests}>
               {this.state.user.interests.map((interest) => <Text> -{interest.sport} </Text>)}
-              </Text> 
+              </Text>
             </View>
           </View>
           <View style={styles.eventList}>
@@ -120,7 +129,7 @@ export default class RealProfileScreen extends React.Component {
           </View>
         </ScrollView>
       </View>
-    
+
     )
   }
 
@@ -135,76 +144,95 @@ export default class RealProfileScreen extends React.Component {
 var {height, width} = Dimensions.get('window');
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#eee'
+  container: {
+    flex: 1,
+    backgroundColor: '#eee'
+  },
+  contentContainer: {
+    paddingTop: 80
+  },
+  profileView: {
+    flex: 1,
+    alignItems: 'stretch'
+  },
+  profileImageContainer: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'space-around',
+    alignItems: 'stretch',
+    width: width * .22,
+    backgroundColor: 'transparent',
+    alignSelf: 'center',
+  },
+  profileImage: {
+    width: 200,
+    height: 200,
+    marginTop: 3,
+    alignSelf: 'center',
+    borderWidth: 1,
+    borderColor: '#333'
+  },
+  creatorNameGradient: {
+    position: 'absolute',
+    bottom: 0,
+    width: width * .5,
+    alignItems: 'center'
+  },
+  creatorName: {
+    fontSize: 20,
+    color: 'white'
+  },
+  bio: {
+    marginTop: 10,
+    fontStyle: 'italic',
+    marginLeft: 10,
+    fontFamily: 'rubik'
+  },
+  username: {
+    color: '#444',
+    fontStyle: 'italic',
+    fontSize: 10,
+    fontFamily: 'rubik'
+  },
+  shadowView: {
+    margin: 5,
+    backgroundColor: '#fff',
+    padding: 5,
+    shadowColor: '#000000',
+    shadowOffset: {
+      width: 0,
+      height: 2
     },
-    contentContainer: {
-      paddingTop: 80
-    },
-    profileImage: {
-      width: 200,
-      height: 200,
-      marginTop: 3,
-      alignSelf: 'center',
-      borderWidth: 1,
-      borderColor: '#333'
-
-    },
-    bio: {
-      marginTop: 10,  
-      fontStyle: 'italic',
-      marginLeft: 10,
-      fontFamily: 'rubik'
-    },
-    username: {
-      color: '#444',
-      fontStyle: 'italic',
-      fontSize: 10,
-      fontFamily: 'rubik'
-    },
-    shadowView: {
-      margin: 5,
-      backgroundColor: '#fff',
-      padding: 5,
-      shadowColor: '#000000',
-      shadowOffset: {
-        width: 0,
-        height: 2
-      },
-      shadowRadius: 3,
-      shadowOpacity: 0.4,
-      borderRadius: 5
-    },
-    name: {
-      fontSize: 16,
-      fontFamily: 'rubik'
-    },
-    interestsLabel: {
-      fontSize: 16,
-      marginBottom: 5,
-      fontFamily: 'rubik'
-    },
-    headerBar: {
-      flex: 1,
-      maxHeight: 40,
-      backgroundColor: 'coral',
-      justifyContent: 'center'
-    },
-    headerTitle: {
-      fontSize: 18,
-      alignSelf: 'center',
-      color: 'black',
-      fontFamily: 'rubik'
-    },
-    feed: {
-      fontFamily: 'rubik'
-    },
-    interests: {
-      fontFamily: 'rubik'
-    }
+    shadowRadius: 3,
+    shadowOpacity: 0.4,
+    borderRadius: 5
+  },
+  name: {
+    fontSize: 16,
+    fontFamily: 'rubik'
+  },
+  interestsLabel: {
+    fontSize: 16,
+    marginBottom: 5,
+    fontFamily: 'rubik'
+  },
+  headerBar: {
+    flex: 1,
+    maxHeight: 40,
+    backgroundColor: 'coral',
+    justifyContent: 'center'
+  },
+  headerTitle: {
+    fontSize: 18,
+    alignSelf: 'center',
+    color: 'black',
+    fontFamily: 'rubik'
+  },
+  feed: {
+    fontFamily: 'rubik'
+  },
+  interests: {
+    fontFamily: 'rubik'
+  }
 
 })
-
-
-

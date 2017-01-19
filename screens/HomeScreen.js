@@ -136,6 +136,7 @@ export default class HomeScreen extends React.Component {
 
 
   render() {
+    console.log()
     var that = this;
     // console.log('that.state.myEvents is: ', that.state.myEvents);
     var toRender = that.state[that.state.currentlyViewing];
@@ -164,7 +165,7 @@ export default class HomeScreen extends React.Component {
                     titleColor="silver"
                   />
                 }>
-                {toRender.map((event) => <EventListEntry event={event} key={event.id} navigator={that.props.navigator}/>)}
+                {toRender.map((event) => <EventListEntry event={event} key={event.title} navigator={that.props.navigator}/>)}
               </ScrollView>
             </View>
           </View>

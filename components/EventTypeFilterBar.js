@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'peachpuff',
     borderStyle: 'solid',
     borderColor: 'white',
-    borderWidth: 1,
+    borderWidth: 2,
     // borderRadius: 5,
   },
   filterOptionText: {
