@@ -5,7 +5,8 @@ import {
   Text,
   AsyncStorage,
   TextInput,
-  Button
+  Button,
+  View
 } from 'react-native';
 import {
   ExponentLinksView,
@@ -89,19 +90,28 @@ export default class SigninScreen extends React.Component {
         style={styles.container}
         contentContainerStyle={this.props.route.getContentContainerStyle()}>
 
+        <View style={styles.helloBox}>
+          <Text style={styles.introText}>Welcome</Text>
+          <Text style={styles.introText}>to</Text>
+          <Text style={styles.introText}>Reactivity</Text>
+        </View>
 
-        <Text>Email:</Text>
-        <TextInput
-          onChangeText={(email) => this.setState({email})}
-          value={this.state.text}
-          style={styles.inputBox}
-        />
-        <Text>Password:</Text>
-        <TextInput
-          onChangeText={(password) => this.setState({password})}
-          value={this.state.text}
-          style={styles.inputBox}
-        />
+        <View style={styles.inputContainer}>
+          <Text style={styles.fieldText}>Email:</Text>
+          <TextInput
+            onChangeText={(email) => this.setState({email})}
+            value={this.state.text}
+            style={styles.inputBox}
+          />
+          <Text style={styles.fieldText}>Password:</Text>
+          <TextInput
+            onChangeText={(password) => this.setState({password})}
+            value={this.state.text}
+            style={styles.inputBox}
+          />
+        </View>
+
+
         <Button
           onPress={this.submit}
           title="Submit"
@@ -116,9 +126,30 @@ export default class SigninScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 15,
+    backgroundColor: '#eee'
   },
   inputBox: {
-    height: 40
+    height: 40,
+    backgroundColor: 'white',
+    borderRadius: 5,
+    marginVertical: 10,
+    marginHorizontal: 10
+  },
+  introText: {
+    fontSize: 30,
+    alignSelf: 'center',
+    fontFamily: 'rubik'
+  },
+  helloBox: {
+    flex: 1,
+    backgroundColor: 'peachpuff',
+    paddingVertical: 20
+  },
+  fieldText: {
+    fontSize: 16,
+    marginLeft: 10
+  },
+  inputContainer: {
+    marginTop: 5
   }
 });

@@ -93,7 +93,10 @@ export default class OtherUserProfileScreen extends React.Component {
     var that = this;
 
     if (this.state.loaded === false) {
-      return (<Text>Loading...</Text>);
+          return (<Image source={{uri: 'https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif'}} style={{flex: 1,width: 300, height: 300, alignItems: 'center', justifyContent: 'center'}}></Image>);
+
+
+
     }
     else if (this.state.loaded === true) {
       console.log('The big block is trying to render...');
@@ -170,8 +173,9 @@ const styles = StyleSheet.create({
       marginBottom: 20
     },
     profileImage: {
-      width: width,
-      height: 200,
+      width: width/1.5,
+      height: width/1.5,
+      alignSelf: 'center',
 
     },
     inputStyle: {

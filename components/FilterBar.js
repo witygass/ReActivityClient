@@ -117,7 +117,7 @@ export default class FilterBar extends React.Component {
         <Button 
           onPress={this.optionsButton}
           title="Filter"
-          color="white"
+          color="coral"
           style={styles.options}
         />
         <Text style={styles.text}>

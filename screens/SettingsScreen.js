@@ -5,6 +5,7 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  View
 } from 'react-native';
 import {
   ExponentConfigView,
@@ -61,15 +62,21 @@ export default class SettingsScreen extends React.Component {
       <ScrollView
         style={styles.container}
         contentContainerStyle={this.props.route.getContentContainerStyle()}>
-        <Text>current token: {this.state.token}</Text>
-        <Text>current userId: {this.state.userId}</Text>
-        <Text>current username: {this.state.username}</Text>
-        <Button
-          onPress={this.logout}
-          title="Logout"
-          color="#841584"
-        />
-        <Text onPress={this.goToSignup}>Signup</Text>
+        <View style={styles.whitebox}>
+          <Text style={styles.text}>current username: {this.state.username}</Text>
+        </View>
+        <View style={styles.whitebox}>
+          <Button
+            onPress={this.logout}
+            title="Logout"
+            color="coral"
+          />
+          <Button
+            onPress={this.goToSignup}
+            title="Signup"
+            color="coral"
+          />
+        </View>
       </ScrollView>
     );
   }
@@ -78,5 +85,13 @@ export default class SettingsScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#eee'
   },
+  text: {
+    fontSize: 18
+  },
+  whitebox: {
+    backgroundColor: 'white',
+    marginBottom: 3
+  }
 });
