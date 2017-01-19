@@ -22,6 +22,11 @@ import Router from '../navigation/Router';
 export default class EventListEntry extends React.Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+      event: this.props.event
+    }
+
     this.setCurrentEventView = this.setCurrentEventView.bind(this);
   }
   
@@ -38,6 +43,7 @@ export default class EventListEntry extends React.Component {
   }
 
   render() {
+
   return (
     <TouchableOpacity onPress={this.setCurrentEventView}>
       <View style={styles.container}>
@@ -59,6 +65,8 @@ export default class EventListEntry extends React.Component {
             style={styles.title}
             numberOfLines={1}
           >{this.props.event.title}
+
+
           </Text>
           <Text
             style={styles.description}

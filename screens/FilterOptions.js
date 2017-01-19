@@ -15,7 +15,8 @@ import {
 
 import SelectionButton from '../components/SelectionButton';
 
-import { store } from '../lib/reduxStore.js';
+import { store } from '../lib/reduxStore';
+import { api } from '../lib/ajaxCalls';
 
 export default class FilterOptions extends React.Component {
   constructor(props) {
@@ -27,15 +28,13 @@ export default class FilterOptions extends React.Component {
       // replaced with the complete list of activities from an api call.
       activities: ['baseball', 'soccer', 'weight-training', 'basketball', 'football',
       'mountain-biking', 'running'],
-      timeRange: null,
-      // These are the ones that the user actually wants to see.
-      selectedActivities: []
+      timeRange: null
 
     }
 
     // Bind functions
     this.back = this.back.bind(this);
-    this.buttonPress = this.buttonPress.bind(this);
+    this.saveFilterOptions = this.saveFilterOptions.bind(this);
     this.renderActivityBoxes = this.renderActivityBoxes.bind(this);
   }
 
@@ -43,17 +42,25 @@ export default class FilterOptions extends React.Component {
     this.props.navigator.pop();
   }
 
-  buttonPress() {
+  saveFilterOptions() {
+    // Here we're going to 'cheat'. We need to modify the 'selectedActivities' from a subcomponent.
+    // Since you can't use props 'upwards', we're going to save it on state, then grab pack from
+    // state before saving. And by 'state', I do mean redux.
+    var activities = store.getState().selectedActivities;
+
+    this.props.navigator.pop();
+
+    console.log('Activities is:', activities);
 
   }
 
   renderActivityBoxes() {
-    console.log('The current filter state is:', this.state.selectedActivities);
+    console.log('The current filter state is:', store.getState().selectedActivities);
 
     var code = [];
     this.state.activities.map((act) => {
       var partial = (
-        <SelectionButton ownerActivities={this.state.selectedActivities} activity={act} />
+        <SelectionButton activity={act} />
       )
       code.push(partial)
     })
@@ -72,7 +79,7 @@ export default class FilterOptions extends React.Component {
           <View style={styles.container2}>
             <Button
               title='Save'
-              onPress={function() {}} />
+              onPress={this.saveFilterOptions} />
           </View>
         </View>
     )

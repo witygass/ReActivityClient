@@ -13,15 +13,14 @@ import {
   Button
 } from 'react-native';
 
+import { store } from '../lib/reduxStore.js'
+
 
 export default class SelectionButton extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      // We need to maintain reference to the array of activities of the parents,
-      // since we're going to be appending or removing activities from/to it.
-      ownerActivities: this.props.ownerActivities,
       // Whether it is selected determines whether we add or remove from the parent
       // array on click
       selected: false,
@@ -43,17 +42,25 @@ export default class SelectionButton extends React.Component {
 
     if (!this.state.selected) {
       this.setState({selected: true});
-      // Add to parents array. User wants to see this.
-      this.state.ownerActivities.push(this.state.activity);
+      // Add to redux store.
+      var activities = store.getState().selectedActivities;
+      activities.push(this.state.activity);
+      store.dispatch({
+        type: 'SET_SELECTED_ACTIVITIES',
+        selectedActivities: activities
+      });
     } else {
       this.setState({selected: false});
       // Remove from parent array.
-      var copy = this.state.ownerActivities.slice();
+      var copy = store.getState().selectedActivities;
       var newArr = [];
       for (var i = 0; i < copy.length; i++) {
         if (copy[i] !== this.state.activity) newArr.push(copy[i]);
       }
-      this.setState({ownerActivities: newArr});
+      store.dispatch({
+        type: 'SET_SELECTED_ACTIVITIES',
+        selectedActivities: newArr
+      })
     }
   }
 

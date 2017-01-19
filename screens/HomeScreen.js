@@ -61,17 +61,37 @@ export default class HomeScreen extends React.Component {
       // passed back through this.state to reach the desired event array. Ie, 'nearbyEvents', 'friendsEvents',
       // 'watchedEvents', or 'myEvents'.
       currentlyViewing: store.getState().currentlyViewing,
-      tokenRender: null
+      tokenRender: null,
+      // This is a special value used to do hackey refresh things from the filterBar
+      refresh: true
     };
 
     // Function binding.
     this._onRefresh = this._onRefresh.bind(this);
     this.hotRefresh = this.hotRefresh.bind(this);
     this.checkAndLoad = this.checkAndLoad.bind(this);
+
+    // Subscribe to the redux store, for huge re-rendering
+    store.subscribe(function() {
+      this.setState({
+        myEvents: store.getState().myEvents,
+        nearbyEvents: store.getState().nearbyEvents,
+        friendsEvents: store.getState().friendsEvents
+      })
+
+
+
+
+
+
+      console.log('the home page subscription just went off!');
+    }.bind(this));
   }
 
   loadContent() {
     var that = this;
+
+    console.log('Load content is running. This shouldnt matter')
 
     loader.loadNearbyEvents(function(events) {
       that.setState({nearbyEvents: events});
@@ -85,6 +105,12 @@ export default class HomeScreen extends React.Component {
       that.setState({friendsEvents: events});
     })
 
+    api.getSports(function(sports) {
+      store.dispatch({
+        type: 'SET_SPORT_IDS', 
+        sportIds: sports
+      });
+    })
   }
 
   // This is called when the user pulls down the page when they are already at the top.
@@ -137,6 +163,7 @@ export default class HomeScreen extends React.Component {
 
   render() {
     var that = this;
+    console.log('We are rendering again. Nearby Events are:', this.state.nearbyEvents);
     // console.log('that.state.myEvents is: ', that.state.myEvents);
     var toRender = that.state[that.state.currentlyViewing];
     if(this.state.tokenRender) {
@@ -150,7 +177,7 @@ export default class HomeScreen extends React.Component {
               <EventTypeFilterBar action = {this.hotRefresh}/>
             </View>
             <View style={{height: 38}}>
-              <FilterBar />
+              <FilterBar parent={this} navigator={this.props.navigator}/>
             </View>
             <View>
               <ScrollView

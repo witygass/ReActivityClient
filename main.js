@@ -58,7 +58,7 @@ class AppContainer extends React.Component {
           </NavigationProvider>
 
           {Platform.OS === 'ios' && <StatusBar barStyle="default" hidden={true}/>}
-          {Platform.OS === 'android' && <View style={styles.statusBarUnderlay} />}
+          {Platform.OS === 'android' && <StatusBar barStyle='default' hidden={true}/>}
         </View>
       );
     } else {

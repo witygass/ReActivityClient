@@ -38,7 +38,9 @@ export default class MapScreen extends React.Component {
     var context = this;
     async function getLocationAsync() {
       const { Location, Permissions } = Exponent;
-      const { status } = await Permissions.askAsync(Permissions.LOCATION);
+      const { status }  = await Permissions.askAsync(Permissions.LOCATION);
+
+      console.log('STATUS IS:', status)
 
       if (status === 'granted') {
         navigator.geolocation.getCurrentPosition((position) => {
