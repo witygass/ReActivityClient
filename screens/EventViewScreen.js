@@ -25,6 +25,8 @@ export default class EventViewScreen extends React.Component {
       event: store.getState().currentlyViewedEvent
     }
 
+    console.log('THE EVENT ON EVENT VIEW IS:', this.state.event);
+
     // Update the currently viewed event with a more detailed/recent one. 
     api.getEventById(that.state.event.id, function(event) {
       store.dispatch({

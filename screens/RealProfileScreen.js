@@ -107,14 +107,14 @@ export default class RealProfileScreen extends React.Component {
                 Interests:
               </Text>
               <Text style={styles.interests}>
-              {this.state.user.interests.map((interest) => <Text> -{interest.sport} </Text>)}
+              {this.state.user.interests.map((interest) => <Text key={interest.sport}> -{interest.sport} </Text>)}
               </Text> 
             </View>
           </View>
           <View style={styles.eventList}>
             {this.state.user.activities.map((event) => {
               return (
-                <EventListEntry navigator={that.props.navigator} event={event} />
+                <EventListEntry navigator={that.props.navigator} event={event} key={event.id} />
               )
             })}
           </View>
