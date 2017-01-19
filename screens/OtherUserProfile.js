@@ -108,7 +108,7 @@ export default class OtherUserProfileScreen extends React.Component {
       
             <Image source = {{uri: this.state.user.profileUrl}} style={styles.profileImage}>
             </Image>
-            <Text style={{fontFamily: 'rubik', fontSize: 25, marginLeft: 3}}>
+            <Text style={{fontFamily: 'rubik', fontSize: 25, marginLeft:3}}>
               {this.state.user.firstName + ' ' + this.state.user.lastName}
             </Text>
 
