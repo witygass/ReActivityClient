@@ -30,13 +30,6 @@ export default class FilterOptions extends React.Component {
       'mountain-biking', 'running'],
       timeRange: null
 
-      // These are the ones that the user actually wants to see. This may be a point
-      // of confusion. The action 'selectionButton' element mutates the input array,
-      // which is this. 
-      //
-      // Any selected activities here are passed to options. (They must first be converted
-      // to ids.)
-    
     }
 
     // Bind functions
