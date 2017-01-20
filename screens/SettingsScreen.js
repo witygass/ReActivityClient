@@ -12,14 +12,10 @@ import {
 } from '@exponent/samples';
 
 import { store } from '../lib/reduxStore'
+import Backbar from '../components/Backbar';
+
 
 export default class SettingsScreen extends React.Component {
-  static route = {
-    navigationBar: {
-      title: 'Settings'
-    },
-  }
-
   constructor() {
     super();
     this.state = {
@@ -59,6 +55,13 @@ export default class SettingsScreen extends React.Component {
 
   render() {
     return (
+      <View style={styles.container}>
+    <View style={styles.headerBar}>
+      <Text style={styles.headerSpacer}></Text>
+      <Text style={styles.headerTitle}>
+        Settings
+      </Text>
+    </View>
       <ScrollView
         style={styles.container}
         contentContainerStyle={this.props.route.getContentContainerStyle()}>
@@ -69,15 +72,11 @@ export default class SettingsScreen extends React.Component {
           <Button
             onPress={this.logout}
             title="Logout"
-            color="coral"
-          />
-          <Button
-            onPress={this.goToSignup}
-            title="Signup"
-            color="coral"
+            color="black"
           />
         </View>
       </ScrollView>
+        </View>
     );
   }
 }
@@ -86,6 +85,21 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#eee'
+  },
+  headerBar: {
+    flex: 1,
+    maxHeight: 40,
+    backgroundColor: 'coral',
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+  },
+  headerTitle: {
+    flex: 10,
+    fontSize: 18,
+    alignSelf: 'center',
+    color: 'black',
+    fontFamily: 'rubik',
+    textAlign: 'center'
   },
   text: {
     fontSize: 18
