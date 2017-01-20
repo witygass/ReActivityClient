@@ -124,11 +124,12 @@ export default class ImageUpload extends React.Component {
         this.setState({image: uploadResult.location});
       }
     }
-    // catch(e) {
-    //   alert('Upload failed. Sorry about that. Error:', e);
-    // }
+    catch(e) {
+      // alert('Upload failed. Sorry about that. Error:', e);
+    }
     finally {
-      this.setState({uploading: false});
+      store.getState().profileRefreshState.setState({refresh: new Date() / 1});
+      this.props.navigator.pop();
     }
   }
 }

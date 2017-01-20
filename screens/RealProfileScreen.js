@@ -25,9 +25,13 @@ export default class RealProfileScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: store.getState().userProfileInformation
-    }
-
+      user: store.getState().userProfileInformation,
+      refresh: false
+    };
+    store.dispatch({
+      type: 'UPDATE_PROFILE_REFRESH_STATE',
+      refresh: this.state.refresh
+    });
     console.log('profile state is:', this.state.user);
 
     // Bind this to functions
