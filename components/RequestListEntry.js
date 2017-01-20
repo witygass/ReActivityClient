@@ -43,7 +43,6 @@ export default class RequestListEntry extends React.Component {
     api.acceptFriendRequests(user.id, () => {
       this.setState({requestHandled: true, requestAction: 'Friend request accepted'});
     })
-    this.props.updateList();
   }
 
   reject(user) {
