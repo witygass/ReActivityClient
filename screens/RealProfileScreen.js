@@ -10,6 +10,9 @@ import {
   StyleSheet,
   Platform
 } from 'react-native';
+import {
+  FontAwesome,
+} from '@exponent/vector-icons';
 
 import ProfileAvatar from '../components/ProfileAvatar';
 import EventListEntry from '../components/EventListEntry';
@@ -43,7 +46,7 @@ export default class RealProfileScreen extends React.Component {
       that.setState({user: user});
     })
   }
-  
+
 
   renderFeed(feed) {
     var that = this;
@@ -94,9 +97,14 @@ export default class RealProfileScreen extends React.Component {
 
       <View style={styles.container}>
       <View style={styles.headerBar}>
+        <Text style={styles.headerSpacer}></Text>
         <Text style={styles.headerTitle}>
           My Profile
         </Text>
+        <FontAwesome name='edit' size={32} color='black'
+          style={styles.editIcon}
+          onPress={() => { this.props.navigator.push('editprofile'); }}
+        />
       </View>
         <ScrollView style={styles.container}
           contentContainer={styles.contentContainer}>
@@ -126,7 +134,7 @@ export default class RealProfileScreen extends React.Component {
             <View style={styles.shadowView}>
               <View style={styles.activityContainer}>
                 <Text style={{marginRight: 3, fontFamily: 'rubik', fontSize: 16, marginLeft: 3}}>
-                  Interests:  
+                  Interests:
                 </Text>
                   {this.state.user.interests.map((interest) => {
                     return (
@@ -152,7 +160,7 @@ export default class RealProfileScreen extends React.Component {
           </View>
         </ScrollView>
       </View>
-    
+
     )
   }
 
@@ -212,13 +220,22 @@ const styles = StyleSheet.create({
       flex: 1,
       maxHeight: 40,
       backgroundColor: 'coral',
-      justifyContent: 'center'
+      flexWrap: 'wrap',
+      flexDirection: 'row',
+    },
+    headerSpacer: {
+      flex: 1,
     },
     headerTitle: {
+      flex: 8,
       fontSize: 18,
       alignSelf: 'center',
       color: 'black',
-      fontFamily: 'rubik'
+      fontFamily: 'rubik',
+      textAlign: 'center'
+    },
+    editIcon: {
+      flex: 1,
     },
     feed: {
       fontFamily: 'rubik'
@@ -227,7 +244,7 @@ const styles = StyleSheet.create({
       fontFamily: 'rubik'
     },
     activityContainer: {
-      flex: 1, 
+      flex: 1,
       flexWrap: 'wrap',
       flexDirection: 'row'
     },
@@ -274,8 +291,4 @@ const styles = StyleSheet.create({
     },
     eventList: {
     }
-    
 })
-
-
-
