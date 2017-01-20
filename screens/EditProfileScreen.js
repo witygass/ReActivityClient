@@ -10,20 +10,17 @@ import {
 
 import { baseUrl } from '../lib/localvars.js';
 import { store } from '../lib/reduxStore.js';
-import SignupForm from '../components/SignupForm.js';
+import EditProfileForm from '../components/EditProfileForm.js';
 
 
-export default class SignupScreen extends React.Component {
-
+export default class EditProfileScreen extends React.Component {
+  static route = {
+    navigationBar: {
+      title: 'Edit Profile',
+    },
+  }
   state = {
-    username: '',
-    firstName: '',
-    lastName: '',
-    bioText: '',
-    profileUrl: '',
-    interests: [],
-    email: '',
-    password: '',
+
   }
 
   render() {
@@ -31,7 +28,7 @@ export default class SignupScreen extends React.Component {
       <ScrollView
         style={styles.container}
         contentContainerStyle={this.props.route.getContentContainerStyle()}>
-        <SignupForm navigator={this.props.navigator} />
+        <EditProfileForm navigator={this.props.navigator} />
       </ScrollView>
     );
   }
