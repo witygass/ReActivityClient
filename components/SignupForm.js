@@ -14,7 +14,7 @@ import GooglePlacesWidget from '../components/GooglePlacesWidget';
 // import LocationDropDown from '../components/LocationDropDown';
 import SelectMultiple from 'react-native-select-multiple'
 import { api } from '../lib/ajaxCalls.js';
-import { store } from '../lib/reduxStore'
+import { store } from '../lib/reduxStore';
 
 
 export default class SignupForm extends React.Component {
@@ -283,7 +283,7 @@ export default class SignupForm extends React.Component {
           title='Sign up'
           widgetStyles={{
             submitButton: {
-              backgroundColor: "tomato",
+              backgroundColor: "coral",
             }
           }}
           onSubmit={(isValid, values, validationResults, postSubmit = null, modalNavigator = null) => {

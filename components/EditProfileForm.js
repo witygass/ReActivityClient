@@ -165,7 +165,7 @@ export default class EditProfileForm extends React.Component {
         <Button
           onPress={() => { this.setState({modalInterests: true}); }}
           title="Change interests"
-          color="blue"
+          color="black"
         />
 
       <Text style={{color: 'red'}}>{this.state.submitWarning}</Text>
@@ -173,7 +173,7 @@ export default class EditProfileForm extends React.Component {
           title='Confirm changes'
           widgetStyles={{
             submitButton: {
-              backgroundColor: "green",
+              backgroundColor: "coral",
             }
           }}
           onSubmit={(isValid, values, validationResults, postSubmit = null, modalNavigator = null) => {

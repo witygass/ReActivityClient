@@ -19,6 +19,7 @@ import Exponent, {
 } from 'exponent';
 
 import { api } from '../lib/ajaxCalls.js';
+import Backbar from '../components/Backbar';
 
 export default class ImageUpload extends React.Component {
 
@@ -34,24 +35,32 @@ export default class ImageUpload extends React.Component {
 
     return (
       <View style={styles.container}>
-        <Text style={styles.text1}>
-          Upload an Image
-        </Text>
+        <View style={styles.headerBar}>
+            <Backbar navigator={this.props.navigator} />
+          <Text style={styles.headerSpacer}></Text>
+          <Text style={styles.headerTitle}>
+            Upload an Image
+          </Text>
+        </View>
 
+        <View style={styles.buttons}>
         <Button
           onPress={this._pickImage}
           title='Choose Image...'
+          color="black"
         />
 
         <Button
           onPress={this._takePhoto}
           title='Take Photo'
+          color="black"
         />
 
         { this._maybeRenderImage() }
         { this._maybeRenderUploadingOverlay() }
 
         <StatusBar barStyle='default' />
+      </View>
       </View>
     );
   }
@@ -163,6 +172,24 @@ const styles = StyleSheet.create({
 
   container: {
     flex: 1,
+    backgroundColor: '#eee',
+  },
+  headerBar: {
+    flex: 1,
+    maxHeight: 40,
+    backgroundColor: 'coral',
+    flexWrap: 'wrap',
+    flexDirection: 'row',
+  },
+  headerTitle: {
+    flex: 10,
+    fontSize: 18,
+    alignSelf: 'center',
+    color: 'black',
+    fontFamily: 'rubik',
+    textAlign: 'center'
+  },
+  buttons: {
     alignItems: 'center',
     justifyContent: 'center'
   },
