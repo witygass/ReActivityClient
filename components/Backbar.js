@@ -32,7 +32,7 @@ export default class Backbar extends React.Component {
       <View style={styles.container} onPress={this.clicked}>
         <TouchableOpacity onPress={this.clicked} style={styles.button}>
         <Image
-          source={{uri: 'https://cdn4.iconfinder.com/data/icons/pictype-free-vector-icons/16/back-512.png'}}
+          source={{uri: 'https://cdn.pixabay.com/photo/2016/09/05/10/50/app-1646213_960_720.png'}}
           style={styles.image}
           onPress={this.clicked}
         >
