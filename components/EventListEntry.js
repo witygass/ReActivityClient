@@ -67,8 +67,8 @@ export default class EventListEntry extends React.Component {
 
         <View style={styles.details}>
           <Text style={styles.title} numberOfLines={1}>{this.props.event.title}</Text>
-          <Text style={styles.actType}> {this.props.event.sport ? this.props.event.sport.sport.charAt(0).toUpperCase()+this.props.event.sport.sport.slice(1) : 'Join soon!'} </Text>
-          <Text style={styles.description}>Starts in {moment(this.props.event.startTime).fromNow('hour')}</Text>
+          <Text style={styles.actType}> {this.props.event.sport !== undefined ? this.props.event.sport.sport : 'Join soon!'} </Text>
+          <Text style={styles.description}>{moment().format('MMMM Do YYYY') === moment(this.props.event.startTime).format('MMMM Do YYYY') ? 'Today at ' + moment(this.props.event.startTime).format('h:mm A') : moment(this.props.event.startTime).format('MMMM Do YYYY')}</Text>
         </View>
 
     </View>
