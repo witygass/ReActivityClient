@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import { Components } from 'exponent';
 
 import { store } from '../lib/reduxStore';
 import { api } from '../lib/ajaxCalls';
@@ -36,19 +37,21 @@ export default class FriendListEntry extends React.Component {
     var that = this;
     var user = this.props.friend;
     return (
-      <TouchableOpacity onPress = {this.goToProfilePage.bind(this, user)}>
-        <View style={styles.container}>
-          <View style={styles.creator}>
-            <Image
-              style={styles.creatorPhoto}
-              source={{uri: this.props.friend.profileUrl || 'https://s3.amazonaws.com/uifaces/faces/twitter/aaronkwhite/128.jpg'}}
-              />
-          </View >
-          <View style={styles.details}>
-            <Text style={{fontFamily: 'rubik'}}>{this.props.friend.firstName} {this.props.friend.lastName}</Text>
-            <Text></Text>
-          </View>
-      </View>
+      <TouchableOpacity
+        style={styles.container}
+        onPress = {this.goToProfilePage.bind(this, user)}
+      >
+        <Image
+          style={styles.creatorPhoto}
+          source={{uri: this.props.friend.profileUrl || 'https://s3.amazonaws.com/uifaces/faces/twitter/aaronkwhite/128.jpg'}}
+        >
+          <Components.LinearGradient
+            colors={['transparent', 'rgba(0,0,0,1)']}
+            style={styles.creatorNameGradient}
+          >
+            <Text style={styles.creatorName}>{this.props.friend.firstName} {this.props.friend.lastName}</Text>
+          </Components.LinearGradient>
+        </Image>
     </TouchableOpacity>
     );
   }
@@ -58,24 +61,8 @@ var {height, width} = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'stretch',
-    backgroundColor: '#fbfbfb',
-    paddingVertical: 6,
-    minHeight: 95,
-    marginBottom: 0,
-    ...Platform.select({
-      ios: {
-        shadowColor: 'black',
-        shadowOffset: {height: -3},
-        shadowOpacity: 0.1,
-        shadowRadius: 3,
-      },
-      android: {
-        elevation: 20,
-      },
-    }),
+    height: width * .245,
+    width: width * .245,
   },
   creator: {
     flex: 1,
@@ -83,29 +70,24 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     width: width * .22,
-    borderRightColor: '#D3D3D3',
-    borderStyle: 'solid',
-    borderRightWidth: 1,
   },
   creatorPhoto: {
-    width: 100,
-    height: 100,
+    width: width * .22,
+    height: width * .22,
+    borderRadius: 5,
+  },
+  creatorNameGradient: {
+    position: 'absolute',
+    bottom: 0,
+    width: width * .22,
+    alignItems: 'center'
   },
   creatorName: {
     textAlign: 'center',
     fontSize: 14,
     fontWeight: '300',
-  },
-  details: {
-    marginLeft: width * .05,
-    width: width * .76,
-  },
-  title: {
-    fontSize: 17
-  },
-  description: {
-    color: 'darkslategray',
-    fontSize: 13,
-    fontWeight: '100'
+    color: 'azure',
+    backgroundColor: 'transparent',
+    fontFamily: 'rubik'
   },
 });

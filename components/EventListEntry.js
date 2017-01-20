@@ -33,7 +33,7 @@ export default class EventListEntry extends React.Component {
 
     this.setCurrentEventView = this.setCurrentEventView.bind(this);
   }
-  
+
   // In the case that someone clicks on an event, we need to change out 'currently viewed event'
   // to said event, then add the 'view event' screen to the navigation stack.
   setCurrentEventView() {
