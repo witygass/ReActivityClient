@@ -17,7 +17,10 @@ import {
 import { Components } from 'exponent';
 import { withNavigation } from '@exponent/ex-navigation';
 import { store } from '../lib/reduxStore';
+import { api } from '../lib/ajaxCalls';
 import Router from '../navigation/Router';
+
+import moment from 'moment'
 
 export default class EventListEntry extends React.Component {
   constructor(props) {
@@ -44,6 +47,7 @@ export default class EventListEntry extends React.Component {
 
   render() {
 
+
   return (
     <TouchableOpacity onPress={this.setCurrentEventView}>
       <View style={styles.container}>
@@ -60,19 +64,13 @@ export default class EventListEntry extends React.Component {
           </Components.LinearGradient>
           </Image>
         </View >
+
         <View style={styles.details}>
-          <Text
-            style={styles.title}
-            numberOfLines={1}
-          >{this.props.event.title}
-
-
-          </Text>
-          <Text
-            style={styles.description}
-            numberOfLines={3}
-          >Place: {this.props.event.description}</Text>
+          <Text style={styles.title} numberOfLines={1}>{this.props.event.title}</Text>
+          <Text style={styles.actType}> {this.props.event.sport ? this.props.event.sport.sport.charAt(0).toUpperCase()+this.props.event.sport.sport.slice(1) : 'Join soon!'} </Text>
+          <Text style={styles.description}>Starts in {moment(this.props.event.startTime).fromNow('hour')}</Text>
         </View>
+
     </View>
   </TouchableOpacity>
   );}
@@ -87,12 +85,12 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
     backgroundColor: '#fbfbfb',
     // marginVertical: 5,
-    height: 95,
-    marginBottom: 3,
+    height: 80,
+    marginBottom: 0,
     ...Platform.select({
       ios: {
         shadowColor: 'black',
-        shadowOffset: {height: -3},
+        shadowOffset: {height: -1},
         shadowOpacity: 0.1,
         shadowRadius: 3,
       },
@@ -131,18 +129,24 @@ const styles = StyleSheet.create({
     paddingTop: 6,
     paddingHorizontal: width * .02,
     width: width * .76,
-    marginBottom: 8,
   },
   title: {
     fontSize: 17,
     fontFamily: 'rubik'
   },
-  description: {
-    color: 'darkslategray',
+  actType: {
+    color: 'black',
     marginTop: 5,
     marginRight: 5,
     fontSize: 13,
-    fontWeight: '100',
     fontFamily: 'rubik'
+  },
+  description: {
+    color: 'black',
+    marginTop: 5,
+    marginRight: 5,
+    fontSize: 13,
+    fontFamily: 'rubik',
+    marginLeft: 3
   },
 });

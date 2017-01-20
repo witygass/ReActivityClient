@@ -16,11 +16,6 @@ import { baseUrl } from '../lib/localvars.js';
 import { store } from '../lib/reduxStore.js';
 
 export default class SigninScreen extends React.Component {
-  static route = {
-    navigationBar: {
-      title: 'Signin',
-    },
-  }
   state = {
     email: '',
     password: ''
@@ -117,7 +112,7 @@ export default class SigninScreen extends React.Component {
           title="Submit"
           color="#841584"
         />
-      <Text onPress={this.goToSignup}>Signup</Text>
+      <Text>Don't have an Account?<Text style={styles.signup}onPress={this.goToSignup}>  Signup Here</Text></Text>
       </ScrollView>
     );
   }
@@ -126,11 +121,11 @@ export default class SigninScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#eee'
+    backgroundColor: 'peachpuff'
   },
   inputBox: {
     height: 40,
-    backgroundColor: 'white',
+    backgroundColor: '#eee',
     borderRadius: 5,
     marginVertical: 10,
     marginHorizontal: 10
@@ -142,7 +137,7 @@ const styles = StyleSheet.create({
   },
   helloBox: {
     flex: 1,
-    backgroundColor: 'peachpuff',
+    backgroundColor: 'coral',
     paddingVertical: 20
   },
   fieldText: {
@@ -151,5 +146,9 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     marginTop: 5
+  },
+  signup: {
+    color: 'coral',
+    marginLeft: 10
   }
 });
