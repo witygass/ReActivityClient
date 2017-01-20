@@ -47,47 +47,48 @@ export default class EventListEntry extends React.Component {
   }
 
   render() {
-
-
-  return (
-    <TouchableOpacity onPress={this.setCurrentEventView}>
-      <View style={styles.container}>
-        <View style={styles.creator}>
-          <Image
-            style={styles.creatorPhoto}
-            source={{uri: this.props.event.creator.profileUrl || 'http://lorempixel.com/400/400/'}}
-          >
-          <Components.LinearGradient
-            colors={['transparent', 'rgba(0,0,0,1)']}
-            style={styles.creatorNameGradient}
-          >
-            <Text style={styles.creatorName}>{this.props.event.creator.firstName}</Text>
-          </Components.LinearGradient>
-          </Image>
-        </View >
-
-        <View style={styles.details}>
-          <Text style={styles.title} numberOfLines={1}>{this.props.event.title}</Text>
-          <Text style={styles.actType}> {this.props.event.sport !== undefined ? this.props.event.sport.sport : ''} </Text>
-          <Text style={styles.description}>{moment().format('MMMM Do YYYY') === moment(this.props.event.startTime).format('MMMM Do YYYY') ? 'Today at ' + moment(this.props.event.startTime).format('h:mm A') : moment(this.props.event.startTime).format('MMMM Do, h:mm A')} </Text>
-
-        </View>
-
-    </View>
-  </TouchableOpacity>
-  );}
+    return (
+      <TouchableOpacity
+        onPress={this.setCurrentEventView}
+        style={styles.outterContainer}
+        >
+        <View style={styles.container}>
+          <View style={styles.creator}>
+            <Image
+              style={styles.creatorPhoto}
+              source={{uri: this.props.event.creator.profileUrl || 'http://lorempixel.com/400/400/'}}
+            >
+            <Components.LinearGradient
+              colors={['transparent', 'rgba(0,0,0,1)']}
+              style={styles.creatorNameGradient}
+            >
+              <Text style={styles.creatorName}>{this.props.event.creator.firstName}</Text>
+            </Components.LinearGradient>
+            </Image>
+          </View >
+          <View style={styles.details}>
+            <Text style={styles.title} numberOfLines={1}>{this.props.event.title}</Text>
+            <Text style={styles.actType}> {this.props.event.sport !== undefined ? this.props.event.sport.sport : ''} </Text>
+            <Text style={styles.description}>{moment().format('MMMM Do YYYY') === moment(this.props.event.startTime).format('MMMM Do YYYY') ? 'Today at ' + moment(this.props.event.startTime).format('h:mm A') : moment(this.props.event.startTime).format('MMMM Do, h:mm A')} </Text>
+          </View>
+      </View>
+    </TouchableOpacity>
+    );
+  }
 }
 
 var {height, width} = Dimensions.get('window');
 
 const styles = StyleSheet.create({
+  outterContainer: {
+    marginVertical: height * .002
+  },
   container: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'stretch',
     backgroundColor: '#fbfbfb',
-    // marginVertical: 5,
-    height: 80,
+    height: width * .22,
     marginBottom: 0,
     ...Platform.select({
       ios: {
@@ -107,6 +108,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     width: width * .22,
+    height: width * .22,
   },
   creatorPhoto: {
     width: width * .22,
@@ -127,6 +129,7 @@ const styles = StyleSheet.create({
     fontFamily: 'rubik'
   },
   details: {
+    flex: 3,
     overflow: 'hidden',
     paddingTop: 6,
     paddingHorizontal: width * .02,
