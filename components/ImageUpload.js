@@ -128,8 +128,9 @@ export default class ImageUpload extends React.Component {
       // alert('Upload failed. Sorry about that. Error:', e);
     }
     finally {
-      store.getState().profileRefreshState.setState({refresh: new Date() / 1});
       this.props.navigator.pop();
+      store.getState().profileRefreshState.setState({refresh: new Date() / 1});
+      // this.setState({uploading: false});
     }
   }
 }
