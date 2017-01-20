@@ -275,7 +275,7 @@ export default class SignupForm extends React.Component {
         <Button
           onPress={() => { this.setState({modalInterests: true}); }}
           title="Choose interests"
-          color="blue"
+          color="black"
         />
 
       <Text style={{color: 'red'}}>{this.state.submitWarning}</Text>
@@ -283,7 +283,7 @@ export default class SignupForm extends React.Component {
           title='Sign up'
           widgetStyles={{
             submitButton: {
-              backgroundColor: "green",
+              backgroundColor: "tomato",
             }
           }}
           onSubmit={(isValid, values, validationResults, postSubmit = null, modalNavigator = null) => {
