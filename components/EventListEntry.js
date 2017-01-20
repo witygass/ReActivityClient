@@ -70,7 +70,9 @@ export default class EventListEntry extends React.Component {
           <Text style={styles.title} numberOfLines={1}>{this.props.event.title}</Text>
           <Text style={styles.actType}> {this.props.event.sport !== undefined ? this.props.event.sport.sport : ''} </Text>
           <Text style={styles.description}>{moment().format('MMMM Do YYYY') === moment(this.props.event.startTime).format('MMMM Do YYYY') ? 'Today at ' + moment(this.props.event.startTime).format('h:mm A') : moment(this.props.event.startTime).format('MMMM Do, h:mm A')} </Text>
+
         </View>
+
     </View>
   </TouchableOpacity>
   );}

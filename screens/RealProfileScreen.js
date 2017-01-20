@@ -10,7 +10,10 @@ import {
   StyleSheet,
   Platform
 } from 'react-native';
-
+import {
+  SimpleLineIcons,
+} from '@exponent/vector-icons';
+import { Components } from 'exponent';
 import ProfileAvatar from '../components/ProfileAvatar';
 import EventListEntry from '../components/EventListEntry';
 
@@ -43,7 +46,7 @@ export default class RealProfileScreen extends React.Component {
       that.setState({user: user});
     })
   }
-  
+
 
   renderFeed(feed) {
     var that = this;
@@ -94,9 +97,14 @@ export default class RealProfileScreen extends React.Component {
 
       <View style={styles.container}>
       <View style={styles.headerBar}>
+        <Text style={styles.headerSpacer}></Text>
         <Text style={styles.headerTitle}>
           My Profile
         </Text>
+        <SimpleLineIcons name='note' size={24} color='black'
+          style={styles.editIcon}
+          onPress={() => { this.props.navigator.push('editprofile'); }}
+        />
       </View>
         <ScrollView style={styles.container}
           contentContainer={styles.contentContainer}>
@@ -106,7 +114,20 @@ export default class RealProfileScreen extends React.Component {
             <View style={styles.profileInfo}>
 
             <View style={styles.imageBox}>
-              <Image style={styles.profileImage} source = {{uri: this.state.user.profileUrl}} />
+              <Image style={styles.profileImage} source = {{uri: this.state.user.profileUrl}}>
+                <Components.LinearGradient
+                  colors={['transparent','transparent', 'rgba(0,0,0,1)']}
+                  style={styles.editPictureGradient}
+                  end={[1, 1]}
+                >
+                  <Text style={styles.editPicture}>
+                    <SimpleLineIcons name='note' size={24} color='white'
+                    style={styles.edit}
+                    onPress={() => { this.props.navigator.push('imageUpload'); }}
+                    />
+                  </Text>
+                </Components.LinearGradient>
+              </Image>
             </View>
               <View>
                 <Text style={styles.name}>
@@ -126,7 +147,7 @@ export default class RealProfileScreen extends React.Component {
             <View style={styles.shadowView}>
               <View style={styles.activityContainer}>
                 <Text style={{marginRight: 3, fontFamily: 'rubik', fontSize: 16, marginLeft: 3}}>
-                  Interests:  
+                  Interests:
                 </Text>
                   {this.state.user.interests.map((interest) => {
                     return (
@@ -152,7 +173,7 @@ export default class RealProfileScreen extends React.Component {
           </View>
         </ScrollView>
       </View>
-    
+
     )
   }
 
@@ -212,13 +233,35 @@ const styles = StyleSheet.create({
       flex: 1,
       maxHeight: 40,
       backgroundColor: 'coral',
-      justifyContent: 'center'
+      flexWrap: 'wrap',
+      flexDirection: 'row',
+    },
+    headerSpacer: {
+      flex: 1,
     },
     headerTitle: {
+      flex: 10,
       fontSize: 18,
       alignSelf: 'center',
       color: 'black',
-      fontFamily: 'rubik'
+      fontFamily: 'rubik',
+      textAlign: 'center'
+    },
+    editIcon: {
+      flex: 1,
+    },
+    editPictureGradient: {
+      position: 'absolute',
+      bottom: 0,
+      width: width/2,
+      height: width/2,
+      right: 0,
+      alignItems: 'flex-end'
+    },
+    editPicture: {
+      position: 'absolute',
+      bottom: 2,
+      right: 2
     },
     feed: {
       fontFamily: 'rubik'
@@ -227,7 +270,7 @@ const styles = StyleSheet.create({
       fontFamily: 'rubik'
     },
     activityContainer: {
-      flex: 1, 
+      flex: 1,
       flexWrap: 'wrap',
       flexDirection: 'row'
     },
@@ -274,8 +317,4 @@ const styles = StyleSheet.create({
     },
     eventList: {
     }
-    
 })
-
-
-
