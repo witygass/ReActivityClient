@@ -11,9 +11,9 @@ import {
   Platform
 } from 'react-native';
 import {
-  FontAwesome,
+  SimpleLineIcons,
 } from '@exponent/vector-icons';
-
+import { Components } from 'exponent';
 import ProfileAvatar from '../components/ProfileAvatar';
 import EventListEntry from '../components/EventListEntry';
 
@@ -101,7 +101,7 @@ export default class RealProfileScreen extends React.Component {
         <Text style={styles.headerTitle}>
           My Profile
         </Text>
-        <FontAwesome name='edit' size={32} color='black'
+        <SimpleLineIcons name='note' size={24} color='black'
           style={styles.editIcon}
           onPress={() => { this.props.navigator.push('editprofile'); }}
         />
@@ -114,7 +114,20 @@ export default class RealProfileScreen extends React.Component {
             <View style={styles.profileInfo}>
 
             <View style={styles.imageBox}>
-              <Image style={styles.profileImage} source = {{uri: this.state.user.profileUrl}} />
+              <Image style={styles.profileImage} source = {{uri: this.state.user.profileUrl}}>
+                <Components.LinearGradient
+                  colors={['transparent','transparent', 'rgba(0,0,0,1)']}
+                  style={styles.editPictureGradient}
+                  end={[1, 1]}
+                >
+                  <Text style={styles.editPicture}>
+                    <SimpleLineIcons name='note' size={24} color='white'
+                    style={styles.edit}
+                    onPress={() => { this.props.navigator.push('imageUpload'); }}
+                    />
+                  </Text>
+                </Components.LinearGradient>
+              </Image>
             </View>
               <View>
                 <Text style={styles.name}>
@@ -227,7 +240,7 @@ const styles = StyleSheet.create({
       flex: 1,
     },
     headerTitle: {
-      flex: 8,
+      flex: 10,
       fontSize: 18,
       alignSelf: 'center',
       color: 'black',
@@ -236,6 +249,19 @@ const styles = StyleSheet.create({
     },
     editIcon: {
       flex: 1,
+    },
+    editPictureGradient: {
+      position: 'absolute',
+      bottom: 0,
+      width: width/2,
+      height: width/2,
+      right: 0,
+      alignItems: 'flex-end'
+    },
+    editPicture: {
+      position: 'absolute',
+      bottom: 2,
+      right: 2
     },
     feed: {
       fontFamily: 'rubik'

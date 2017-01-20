@@ -197,7 +197,6 @@ export default class EditProfileForm extends React.Component {
                 } else if (response.status === 200) {
                   console.log('Profile change successul');
                   postSubmit();
-                  this.props.navigator.push('settings');
                 }
               }, JSON.stringify(data));
 
@@ -209,7 +208,7 @@ export default class EditProfileForm extends React.Component {
                 } else if (response.status === 200) {
                   console.log('Interests change successul');
                   postSubmit();
-                  this.props.navigator.push('settings');
+                  this.props.navigator.push('realProfile');
                 }
               }, JSON.stringify({interests: interestsToSend}));
 
