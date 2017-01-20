@@ -51,6 +51,24 @@ export default class FriendsScreen extends React.Component {
     })
   }
 
+  updateList() {
+    api.getFriendListById(store.getState().userProfileInformation.id, (friendList) => {
+      store.dispatch({
+        type: 'UPDATE_USER_FRIEND_LIST',
+        friendList: friendList
+      });
+      this.setState({friendList: friendList});
+    });
+
+    api.getFriendRequests((requestList) => {
+      store.dispatch({
+        type: 'UPDATE_FRIENDS_REQUESTS',
+        requestList: requestList
+      });
+      this.setState({requestList: requestList});
+    })
+  }
+
   handleChangeTab = (index) => {
     this.setState({ index });
   };
@@ -66,7 +84,9 @@ export default class FriendsScreen extends React.Component {
         <View style={styles.container}>
           <View style={styles.contentContainer}>
               <ScrollView style={styles.scrollView}>
-                {this.state.friendList.map((friend) => <FriendListEntry friend={friend} key={friend.id} navigator={this.props.navigator}/>)}
+                <View style={styles.friendContainer}>
+                  {this.state.friendList.map((friend) => <FriendListEntry friend={friend} key={friend.id} navigator={this.props.navigator}/>)}
+                </View>
               </ScrollView>
           </View>
         </View>
@@ -76,7 +96,7 @@ export default class FriendsScreen extends React.Component {
         <View style={styles.container}>
           <View style={styles.contentContainer}>
             <ScrollView style={styles.scrollView}>
-              {this.state.requestList.map((request) => <RequestListEntry request={request} key={request.id} navigator={this.props.navigator}/>)}
+              {this.state.requestList.map((request) => <RequestListEntry request={request} key={request.id} navigator={this.props.navigator} updateList={this.updateList}/>)}
             </ScrollView>
           </View>
         </View>
@@ -116,5 +136,14 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  friendContainer: {
+    paddingTop: height * .01,
+    paddingLeft: width * .02,
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+    backgroundColor: 'white',
   }
 });

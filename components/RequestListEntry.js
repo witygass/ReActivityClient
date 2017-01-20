@@ -11,7 +11,7 @@ import {
   View,
 } from 'react-native';
 import {
-  FontAwesome,
+  Ionicons,
 } from '@exponent/vector-icons';
 
 import { store } from '../lib/reduxStore';
@@ -64,23 +64,42 @@ export default class RequestListEntry extends React.Component {
               />
           </View >
         </TouchableOpacity>
-          <View style={styles.details}>
-            <Text>{this.props.request.firstName} {this.props.request.lastName}</Text>
-            <Text>
-              {this.state.requestHandled ? this.state.requestAction :
-                <Text>
-                  <FontAwesome name='check' size={32} color='green' onPress={this.accept.bind(this, user)} />
-                  <Text>   </Text>
-                  <FontAwesome name='times' size={32} color='red'  onPress={this.reject.bind(this, user)} />
-                </Text>
-              }
-            </Text>
+        <View style={styles.details}>
+          <Text style={styles.title}>{this.props.request.firstName} {this.props.request.lastName}</Text>
+            <View style={styles.optionBox}>
+              <Text>
+                {this.state.requestHandled ? this.state.requestAction :
+                  <Text>
+                      <View style={{height: 0, width: width * .0}}/>
+                      <TouchableOpacity
+                        style={{flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', width: width * .25, height: width * .065, backgroundColor: 'tomato', borderRadius: 7}}
+                        onPress={this.accept.bind(this, user)}
+                        >
+                        <Text style={{textAlign: 'center', alignSelf: 'center', color: 'white'}}>
+                          Confirm
+                        </Text>
+                      </TouchableOpacity>
+                      <View style={{height: 0, width: width * .05}}/>
+                      <TouchableOpacity
+                        style={{flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', width: width * .25, height: width * .065, backgroundColor: 'black', borderRadius: 7}}
+                        onPress={this.reject.bind(this, user)}
+                        >
+                        <Text style={{textAlign: 'center', alignSelf: 'center', color: 'white'}}>
+                          Deny
+                        </Text>
+                      </TouchableOpacity>
+                  </Text>
+                }
+              </Text>
+            </View>
           </View>
       </View>
     );
   }
 }
 
+// <Ionicons name='md-checkbox-outline' size={50} color='coral' onPress={this.accept.bind(this, user)} />
+// <Ionicons name='md-close' size={50} color='black'  onPress={this.reject.bind(this, user)} />
 var {height, width} = Dimensions.get('window');
 
 const styles = StyleSheet.create({
@@ -115,8 +134,8 @@ const styles = StyleSheet.create({
     borderRightWidth: 1,
   },
   creatorPhoto: {
-    width: 50,
-    height: 50,
+    width: 90,
+    height: 90,
   },
   creatorName: {
     textAlign: 'center',
@@ -127,8 +146,16 @@ const styles = StyleSheet.create({
     marginLeft: width * .02,
     width: width * .76,
   },
+  optionBox: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: width * .8,
+  },
   title: {
-    fontSize: 17
+    fontSize: 20,
+    fontWeight: '300',
   },
   description: {
     color: 'darkslategray',

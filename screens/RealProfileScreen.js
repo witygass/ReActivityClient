@@ -122,7 +122,7 @@ export default class RealProfileScreen extends React.Component {
                 >
                   <Text style={styles.editPicture}>
                     <SimpleLineIcons name='note' size={24} color='white'
-                    style={styles.edit}
+                    style={styles.editIcon}
                     onPress={() => { this.props.navigator.push('imageUpload'); }}
                     />
                   </Text>
@@ -249,6 +249,7 @@ const styles = StyleSheet.create({
     },
     editIcon: {
       flex: 1,
+      backgroundColor: 'transparent'
     },
     editPictureGradient: {
       position: 'absolute',
@@ -261,7 +262,8 @@ const styles = StyleSheet.create({
     editPicture: {
       position: 'absolute',
       bottom: 2,
-      right: 2
+      right: 2,
+      backgroundColor: 'transparent'
     },
     feed: {
       fontFamily: 'rubik'

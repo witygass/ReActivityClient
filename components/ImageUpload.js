@@ -22,14 +22,14 @@ import { api } from '../lib/ajaxCalls.js';
 
 export default class ImageUpload extends React.Component {
 
-  
+
   state = {
     image: null,
     uploading: false
   }
 
 
-  render() { 
+  render() {
     let { image } = this.state;
 
     return (
@@ -114,9 +114,11 @@ export default class ImageUpload extends React.Component {
         uploadResult = await uploadResponse.json();
         this.setState({image: uploadResult.location});
       }
-    } catch(e) {
-      alert('Upload failed. Sorry about that. Error:', e);
-    } finally {
+    }
+    // catch(e) {
+    //   alert('Upload failed. Sorry about that. Error:', e);
+    // }
+    finally {
       this.setState({uploading: false});
     }
   }
@@ -169,7 +171,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     textAlign: 'center',
     marginHorizontal: 15
-  }, 
+  },
   imgRender: {
     marginTop: 30,
     width: 250,
@@ -192,17 +194,3 @@ const styles = StyleSheet.create({
 
 
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
